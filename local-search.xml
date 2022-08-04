@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>再看STL标准模板库</title>
+    <link href="/2022/08/04/%E5%86%8D%E7%9C%8BSTL%E6%A0%87%E5%87%86%E6%A8%A1%E6%9D%BF%E5%BA%93/"/>
+    <url>/2022/08/04/%E5%86%8D%E7%9C%8BSTL%E6%A0%87%E5%87%86%E6%A8%A1%E6%9D%BF%E5%BA%93/</url>
+    
+    <content type="html"><![CDATA[<p>根据 Acwing 算法基础课整理。</p><span id="more"></span><h1 id="再看STL标准模板库"><a href="#再看STL标准模板库" class="headerlink" title="再看STL标准模板库"></a>再看STL标准模板库</h1><p>参考：<a href="https://cplusplus.com/reference">https://cplusplus.com/reference</a></p><h3 id="pre：pair"><a href="#pre：pair" class="headerlink" title="pre：pair"></a>pre：pair</h3><p>定义：<br><code>pair&lt;int,string&gt; p;</code></p><p>初始化：<br>第一种：<code>p=make_pair(10,&quot;abc&quot;);</code><br>第二种：<code>p=&#123;10,&quot;abc&quot;&#125;;</code></p><p>重要字段：<br>第一个元素：<code>p.first</code><br>第二个元素：<code>p.second</code></p><p>其他特性：<br>支持比较运算（以 first 为第一关键字，second 为第二关键字，按字典序）<br>拓展到三个值 <code>pair&lt;int,pair&lt;int,int&gt;&gt;</code></p><h3 id="string-字符串"><a href="#string-字符串" class="headerlink" title="string 字符串"></a>string 字符串</h3><p>常用函数：<br><code>size()</code> <code>length()</code> 返回字符个数<br><code>empty()</code> 返回是否为空<br><code>clear()</code> 清空<br><code>substr()</code> 返回字串（第一个参数：index；第二个参数：length）<br><code>c_str()</code> 返回字符串对应的字符数组头指针（转换为字符数组）</p><p>其他特性：<br>字符串拼接 +&#x3D;赋值操作</p><h3 id="vector-变长数组"><a href="#vector-变长数组" class="headerlink" title="vector 变长数组"></a>vector 变长数组</h3><p>倍增的思想：<br>系统为 vector 分配空间所需时间，与空间大小无关，与申请次数有关<br>vector 变长后复制<br>故向 vector 插入数据时，申请空间时间复杂度总共 O(logn)，复制时间复杂度平均 O(1)</p><p>定义：<br><code>vector&lt;int&gt; a</code> 变长数组 a<br><code>vector&lt;int&gt; a(10)</code> 长度为10的变长数组 a<br><code>vector&lt;int&gt; a(10,3)</code> 长度为10的变长数组 a，并且所有元素都为 3</p><p>常用函数：<br><code>size()</code> 返回元素个数<br><code>empty()</code> 返回是否为空<br><code>clear()</code> 清空<br><code>begin()</code> 头迭代器<br><code>end()</code> 尾迭代器<br><code>front()</code> 返回第一个数<br><code>back()</code> 返回最后一个数<br><code>push_back()</code> 向尾插入<br><code>pop_back()</code> 从尾弹出</p><p>其他特性：<br>支持 [] 随机寻址<br>支持比较运算（按字典序）</p><p>遍历方法：<br><code>vector&lt;int&gt; a;</code><br>第一种：<code>for (int i=0;i&lt;a.size();i++) cout &lt;&lt; a[i] &lt;&lt; &#39; &#39;;</code><br>第二种：<code>for (vector&lt;int&gt;::iterator i=a.begin();i!=a.end();i++) cout &lt;&lt; *i &lt;&lt; &#39; &#39;;</code><br><code>for (auto i=a.begin();i!=a.end();i++) cout &lt;&lt; *i &lt;&lt; &#39; &#39;;</code><br>第三种：<code>for (auto x : a) cout &lt;&lt; x &lt;&lt; &#39; &#39;;</code></p><h3 id="stack-栈"><a href="#stack-栈" class="headerlink" title="stack 栈"></a>stack 栈</h3><p>定义：<br><code>stack&lt;类型&gt; 变量名;</code></p><p>常用函数：<br><code>size()</code> 返回元素个数<br><code>empty()</code> 返回是否为空<br><del>无 clear</del><br><code>top()</code> 返回栈顶元素<br><code>push()</code> 向栈顶插入<br><code>pop()</code> 从栈顶弹出</p><h3 id="queue-队列"><a href="#queue-队列" class="headerlink" title="queue 队列"></a>queue 队列</h3><p>定义：<br><code>queue&lt;类型&gt; 变量名;</code></p><p>常用函数：<br><code>size()</code> 返回元素个数<br><code>empty()</code> 返回是否为空<br><del>无 clear</del> 替代方案：<code>变量名 = queue&lt;int&gt;();</code><br><code>front()</code> 返回队头元素<br><code>back()</code> 返回队尾元素<br><code>push()</code> 向队尾插入<br><code>pop()</code> 从队头弹出</p><p>遍历方法：<br><code>queue&lt;int&gt; myqueue;</code></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;myqueue.<span class="hljs-built_in">size</span>();i++) &#123; <span class="hljs-comment">// myqueue.size()必须是固定值</span><br>cout &lt;&lt; myqueue.<span class="hljs-built_in">front</span>() &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span>;<br>myqueue.<span class="hljs-built_in">push</span>(myqueue.<span class="hljs-built_in">front</span>());<br>myqueue.<span class="hljs-built_in">pop</span>();<br>&#125;<br></code></pre></td></tr></table></figure><h3 id="priority-queue-优先队列（堆）"><a href="#priority-queue-优先队列（堆）" class="headerlink" title="priority_queue 优先队列（堆）"></a>priority_queue 优先队列（堆）</h3><p>定义：<br>默认是大根堆<br>大根堆：<code>priority_queue&lt;类型&gt; 变量名;</code><br>小根堆：<code>priority_queue&lt;类型,vector&lt;类型&gt;,greater&lt;类型&gt;&gt; 变量名</code></p><p>常用函数：<br><code>size()</code> 返回元素个数<br><code>empty()</code> 返回是否为空<br><del>无 clear</del><br><code>top()</code> 返回堆顶元素<br><code>push()</code> 向堆里插入<br><code>pop()</code> 从堆顶弹出</p><h3 id="deque-双端队列（升级版的-vector）"><a href="#deque-双端队列（升级版的-vector）" class="headerlink" title="deque 双端队列（升级版的 vector）"></a>deque 双端队列（升级版的 vector）</h3><p>缺点：较慢</p><p>定义：<br><code>deque&lt;类型&gt; 变量名;</code></p><p>常用函数：<br><code>size()</code> 返回元素个数<br><code>empty()</code> 返回是否为空<br><code>clear()</code> 清空<br><code>begin()</code> 头迭代器<br><code>end()</code> 尾迭代器<br><code>front()</code> 返回第一个数<br><code>back()</code> 返回最后一个数<br><code>push_back()</code> 向尾插入<br><code>pop_back()</code> 从尾弹出<br>-<br><code>push_front()</code> 向头插入<br><code>pop_front()</code> 从头弹出</p><p>其他特性：<br>支持 [] 随机寻址</p><h3 id="set-multiset-map-multimap-基于平衡二叉树（红黑树）"><a href="#set-multiset-map-multimap-基于平衡二叉树（红黑树）" class="headerlink" title="set, multiset, map, multimap 基于平衡二叉树（红黑树）"></a>set, multiset, map, multimap 基于平衡二叉树（红黑树）</h3><p>功能：动态维护有序序列</p><p>定义：<br>set, map 无重复元素，multiset, multimap 可以有重复元素<br><code>set&lt;类型&gt; 变量名;</code><br><code>multiset&lt;类型&gt; 变量名;</code><br><code>map&lt;类型,类型&gt; 变量名;</code><br><code>multimap&lt;类型,类型&gt; 变量名;</code></p><p>常用函数：<br><code>size()</code> 返回元素个数<br><code>empty()</code> 返回是否为空<br><code>clear()</code> 清空<br><code>begin()</code> 头迭代器<br><code>end()</code> 尾迭代器</p><p>-set, multiset-<br><code>insert()</code> 插入一个元素<br><code>count()</code> 返回某个元素出现的次数<br><code>find()</code> 查找一个元素（返回迭代器）<br><code>lower_bound(x)</code> 返回大于等于 x 的最小的数的迭代器<br><code>upper_bound(x)</code> 返回大于 x 的最小的数的迭代器<br><code>erase()</code> (1) 输入是一个数 x，删除所有 x；(2) 输入是迭代器，删除这个迭代器对应的值</p><p>-map, multimap-<br><code>insert()</code> 插入一个元素 - pair<br><code>count()</code> 返回某个元素出现的次数 - key<br><code>find()</code> 查找一个元素 - key（返回迭代器）<br><code>lower_bound(x)</code> 返回大于等于 x 的最小的数的迭代器 - key<br><code>upper_bound(x)</code> 返回大于 x 的最小的数的迭代器 - key<br><code>erase()</code> (1) 输入是 pair，删除所有此键值对；(2) 输入是迭代器，删除这个迭代器对应的值</p><p>其他特性：<br>支持迭代器的 ++ 和 –，返回前驱和后继<br>对于 map 和 multimap，有<code>map[键]=值</code>，时间复杂度O(logn)</p><h3 id="unordered-set-unordered-multiset-unordered-map-unordered-multimap-基于哈希表"><a href="#unordered-set-unordered-multiset-unordered-map-unordered-multimap-基于哈希表" class="headerlink" title="unordered_set, unordered_multiset, unordered_map, unordered_multimap 基于哈希表"></a>unordered_set, unordered_multiset, unordered_map, unordered_multimap 基于哈希表</h3><p>与set, multiset, map, multimap类似，但增删改查的时间复杂度为O(1)<br>因为无序，不支持<code>lower_bound(x)</code> <code>upper_bound(x)</code>和迭代器的 ++ 和 –</p><h3 id="bitset-压位"><a href="#bitset-压位" class="headerlink" title="bitset 压位"></a>bitset 压位</h3><p>bitset 是位操作的对象，值只有 0 或 1</p><p>定义：<br><code>bitset&lt;个数&gt; 变量名</code></p><p>支持：<br>~ 取反，&amp; 逻辑与，| 逻辑或，^ 逻辑异或<br>&lt;&lt; 左移，&gt;&gt; 右移<br>&#x3D;&#x3D;，!&#x3D;<br>[]</p><p>常用函数：<br><code>count()</code> 返回某一个数的个数<br><code>any()</code> 判断是否至少有一个 1<br><code>none()</code> 判断是否全为 0<br><code>set()</code> 把所有位赋为 1<br><code>reset()</code> 把所有位赋为 0<br><code>set(k,v)</code> 把第 k 位赋为 v<br><code>flip()</code> 把所有位取反<br><code>flip(k)</code> 把第 k 位取反</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>数据结构与算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C++STL</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>浙大-陈越、何钦铭-数据结构-0.起步能力自测题</title>
     <link href="/2022/07/05/%E6%B5%99%E5%A4%A7-%E9%99%88%E8%B6%8A%E3%80%81%E4%BD%95%E9%92%A6%E9%93%AD-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-0-%E8%B5%B7%E6%AD%A5%E8%83%BD%E5%8A%9B%E8%87%AA%E6%B5%8B%E9%A2%98/"/>
     <url>/2022/07/05/%E6%B5%99%E5%A4%A7-%E9%99%88%E8%B6%8A%E3%80%81%E4%BD%95%E9%92%A6%E9%93%AD-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-0-%E8%B5%B7%E6%AD%A5%E8%83%BD%E5%8A%9B%E8%87%AA%E6%B5%8B%E9%A2%98/</url>
@@ -20,7 +45,7 @@
     
     <tags>
       
-      <tag>数据结构</tag>
+      <tag>题解</tag>
       
     </tags>
     
@@ -45,7 +70,7 @@
     
     <tags>
       
-      <tag>OJ</tag>
+      <tag>C++STL</tag>
       
     </tags>
     
