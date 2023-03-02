@@ -23,11 +23,26 @@
 <meta property="og:site_name" content="Louisxxr">
 <meta property="og:description" content="数据结构课程笔记 ep5">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20221124141647348.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20221124153241399.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111134959493.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111174224504.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111182729865.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111182803189.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111182836511.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111182909880.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111205131819.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111211428323.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111211641331.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111211732220.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111211802537.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111211825606.png">
 <meta property="article:published_time" content="2023-03-02T08:38:27.000Z">
-<meta property="article:modified_time" content="2023-03-02T08:50:13.790Z">
+<meta property="article:modified_time" content="2023-03-02T14:59:33.759Z">
 <meta property="article:author" content="Xianrui Xie">
 <meta property="article:tag" content="数据结构课程笔记">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20221124141647348.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -233,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          11 字
+          7.3k 字
         
       </span>
     
@@ -244,7 +259,7 @@
         
         
         
-          1 分钟
+          41 分钟
         
       </span>
     
@@ -289,6 +304,222 @@
                 
                 <p>数据结构课程笔记 ep5</p>
 <span id="more"></span>
+
+
+
+<h2 id="数组和广义表"><a href="#数组和广义表" class="headerlink" title="数组和广义表"></a>数组和广义表</h2><h3 id="1-数组"><a href="#1-数组" class="headerlink" title="1 - 数组"></a>1 - 数组</h3><h4 id="抽象数据类型"><a href="#抽象数据类型" class="headerlink" title="抽象数据类型"></a>抽象数据类型</h4><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">ADT Array &#123;<br>    数据对象：<br>        D=&#123;a[j_1][j_2]<span class="hljs-string">...</span>[j_i]<span class="hljs-string">...</span>[j_n]|j_i=0,<span class="hljs-string">...</span>,<span class="hljs-params">(b_i)</span>-1, i=1,2,<span class="hljs-string">...</span>,n, j_i是第i维索引值, b_i是第i维长度&#125;<br>	数据关系：<br>		R=&#123;R_1,R_2,<span class="hljs-string">...</span>,R_i,<span class="hljs-string">...</span>,R_n&#125;<br>    	R_k=&#123;&lt;a[j_1][j_2]<span class="hljs-string">...</span>[j_k]<span class="hljs-string">...</span>[j_i]<span class="hljs-string">...</span>[j_n], a[j_1][j_2]<span class="hljs-string">...</span>[<span class="hljs-params">(j_k)</span>+1]<span class="hljs-string">...</span>[k_i]<span class="hljs-string">...</span>[jn]&gt;|j_k=0,<span class="hljs-string">...</span>,<span class="hljs-params">(b_k)</span>-2, j_i=0,<span class="hljs-string">...</span>,<span class="hljs-params">(b_i)</span>-1, i=1,2,<span class="hljs-string">...</span>,k-1,k+1,<span class="hljs-string">...</span>,n, j_i是第i维索引值, b_i是第i维长度, k是特定的i&#125;<br>    基本操作：<br>    	InitArray<span class="hljs-params">(&amp;A,n,bound1,...,boundn)</span> <span class="hljs-string">//</span> 初始化，n是维数，boundi是维界<br>    	DestroyArray<span class="hljs-params">(&amp;A)</span>                  <span class="hljs-string">//</span> 销毁<br>    	Value<span class="hljs-params">(A,&amp;e,index1,...,indexn)</span>     <span class="hljs-string">//</span> 读值<br>    	Assign<span class="hljs-params">(&amp;A,e,index1,...,indexn)</span>    <span class="hljs-string">//</span> 赋值<br>&#125; ADT Array<br></code></pre></td></tr></table></figure>
+
+<h4 id="顺序存储表示"><a href="#顺序存储表示" class="headerlink" title="顺序存储表示"></a>顺序存储表示</h4><h5 id="类型特点"><a href="#类型特点" class="headerlink" title="类型特点"></a>类型特点</h5><ol>
+<li>没有增删操作，只有改查操作；数组建立后，元素个数与元素之间的关系不会发生变动。故可以用顺序存储表示数组；</li>
+<li>数组是多维结构，而存储空间是一维结构。故用一组连续存储单元存放数组元素存在<strong>次序约定</strong>的问题。</li>
+</ol>
+<h5 id="两种次序约定"><a href="#两种次序约定" class="headerlink" title="两种次序约定"></a>两种次序约定</h5><ol>
+<li><p>以行序为主序（低下标优先），C 语言采用该次序约定</p>
+<img src="..\img\ep5\image-20221124141647348.png" srcset="/img/loading.gif" lazyload alt="image-20221124141647348" style="zoom:25%;" />
+
+<ul>
+<li><p>二维数组 a[b1][b2] 中任一元素 a[i][j] 的存储位置 LOC(i, j) &#x3D; LOC(0, 0) + (b2 * i + j) * L</p>
+</li>
+<li><p>三维数组 a[b1][b2][b3] 中任一元素 a[j1][j2][j3] 的存储位置 LOC(j1, j2, j3) &#x3D; LOC(0, 0, 0) + (b2 * b3 * j1 + b3 * j2 + j3) * L</p>
+</li>
+<li><p>LOC(j1, j2, …, jn) &#x3D; LOC(0, 0, …, 0) + (b2 * b3 * … * bn * j1 + b3 * … * bn * j2 + … + j3) * L</p>
+</li>
+</ul>
+</li>
+<li><p>以列序为主序（高下标优先）</p>
+<p>计算顺序由自左向右转换为自右向左即可，意义不大</p>
+</li>
+</ol>
+<h4 id="矩阵的压缩存储"><a href="#矩阵的压缩存储" class="headerlink" title="矩阵的压缩存储"></a>矩阵的压缩存储</h4><p>当阶数很高的矩阵中有许多值相同的元素或零元素时，为了节省空间，要对矩阵进行压缩，即把二维数组的数据元素压缩到一维数组上。这里<strong>压缩</strong>的含义是：<strong>对多个值相同的元素只分配一个存储空间</strong>；<strong>零元素不分配存储空间</strong>。</p>
+<h5 id="特殊矩阵"><a href="#特殊矩阵" class="headerlink" title="特殊矩阵"></a>特殊矩阵</h5><p>特点：值相同的元素或零元素在矩阵中的分布有一定规则</p>
+<ol>
+<li><p><strong>对称矩阵</strong></p>
+<ul>
+<li><p>特点：n 阶方阵满足 a[i][j] &#x3D; a[j][i] (0 ≤ i, j ≤ n-1)</p>
+</li>
+<li><p>方法：对每一对对称元素只分配一个存储空间，将 $$n^2$$ 个元素压缩存储到 $$n*(n+1)&#x2F;2$$ 个元素的空间中</p>
+</li>
+<li><p>图示：</p>
+<img src="..\img\ep5\image-20221124153241399.png" srcset="/img/loading.gif" lazyload alt="image-20221124153241399" style="zoom:25%;" />
+</li>
+<li><p>公式：</p>
+<p>存下三角：LOC(i, j) &#x3D; LOC(0, 0) + [i * (i + 1) &#x2F; 2 + j] * L</p>
+<p>存上三角：LOC(i, j) &#x3D; LOC(0, 0) + [i * (2 * n - i + 1) &#x2F; 2] * L</p>
+</li>
+</ul>
+</li>
+<li><p><strong>三角矩阵</strong></p>
+<ul>
+<li>特点：n 阶方阵满足下（上）三角矩阵的上（下）三角（不包括对角线）中的元均为常数</li>
+<li>方法：除了和对称矩阵一样，只存储其下（上）三角中的元之外，再加一个存储常数 C 的存储空间即可</li>
+</ul>
+</li>
+<li><p><strong>对角矩阵</strong></p>
+<ul>
+<li>特点：n 阶方阵满足所有的非零元都集中在以主对角线为中心的带状区域中，即除了主对角线上和其上下方紧邻的若干条对角线上的元之外，所有其它的元皆为零</li>
+<li>方法：以行的顺序或以对角线的顺序将其压缩存储到一维数组上，并找出每个非零元在一维数组中的对应关系</li>
+</ul>
+</li>
+</ol>
+<h5 id="稀疏矩阵"><a href="#稀疏矩阵" class="headerlink" title="稀疏矩阵"></a>稀疏矩阵</h5><p>基本操作：</p>
+<ul>
+<li><code>CreateSMatrix(&amp;M)</code></li>
+<li><code>DestroySMatrix(&amp;M)</code></li>
+<li><code>PrintSMatrix(M)</code></li>
+<li><code>CopySMatrix(M,&amp;T)</code></li>
+<li><code>AddSMatrix(M,N,&amp;Q)</code>（若稀疏矩阵 M 和 N 的行数与列数对应相等，求稀疏矩阵的和）</li>
+<li><code>SubSMatrix(M,N,&amp;Q)</code>（若稀疏矩阵 M 和 N 的行数与列数对应相等，求稀疏矩阵的差）</li>
+<li><code>MultSMatrix(M,N,&amp;Q)</code>（若稀疏矩阵 M 的列数等于 N 的行数，求稀疏矩阵的乘积）</li>
+<li><code>TransSMatrix(M,&amp;T)</code>（求稀疏矩阵的转置）</li>
+</ul>
+<p>用二维数组存储稀疏矩阵存在的问题：</p>
+<ul>
+<li>零值元素占了很大空间 → 期望尽可能少存或不存零值元素</li>
+<li>将进行很多和零值的运算 → 期望尽可能减少没有实际意义的运算</li>
+<li>还期望操作方便，即：尽可能快地找到对应下标值 i, j 的元素，尽可能快地找到同一行或同一列的非零元素</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p><strong>用三元组表示</strong>：用一个线性表来表示稀疏矩阵，表中结点对应非零元素（包括三个域：行下标、列下标和值），结点间的先后顺序按矩阵的行优先顺序排列（跳过零元素）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXSIZE 100 <span class="hljs-comment">// 非零元素个数上限</span></span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    <span class="hljs-type">int</span> i,j;<br>    T v;<br>&#125; Triple;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    Triple data[MAXSIZE]; <span class="hljs-comment">// 非零元素三元组表</span><br>	<span class="hljs-type">int</span> mu,nu,tu; <span class="hljs-comment">// 矩阵的行数、列数和非零元素个数</span><br>&#125; TSMatrix;<br></code></pre></td></tr></table></figure>
+
+<p><strong>矩阵转置算法</strong>：</p>
+<p>用二维数组表示稀疏矩阵时转置算法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> row=<span class="hljs-number">1</span>;row&lt;=mu;++row)<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> col=<span class="hljs-number">1</span>;col&lt;=nu;++col)<br>		N[col][row]=M[row][col];<br><span class="hljs-comment">// 时间复杂度：O(mu*nu)</span><br></code></pre></td></tr></table></figure>
+
+<p>用三元组表示稀疏矩阵时转置算法：</p>
+<p>交换矩阵的行数和列数→交换每个三元组的 i 和 j →<strong>重排三元组之间的次序（以行序为主序）</strong>，实现重排有两种方法：</p>
+<ul>
+<li><p>方法1：按矩阵 M 的列序进行转置，即按对应三元组表中三元组的第二个字段值（列下标）由小到大的顺序进行转置</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">TransSMatrix</span><span class="hljs-params">(TSMatrix M,TSMatrix &amp;T)</span> </span>&#123;<br>	T.mu=M.nu,T.nu=M.mu,T.tu=M.tu;<br>    <span class="hljs-keyword">if</span> (M.tu) &#123;<br>        <span class="hljs-type">int</span> q=<span class="hljs-number">0</span>; <span class="hljs-comment">// 目标矩阵T三元组表的索引</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> col=<span class="hljs-number">1</span>;col&lt;=M.nu;col++) <span class="hljs-comment">// 按矩阵M的列序进行转置</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> p=<span class="hljs-number">0</span>;p&lt;M.tu;p++) <span class="hljs-comment">// 扫描矩阵M三元组表</span><br>                <span class="hljs-keyword">if</span> (M.data[p].j==col) &#123;<br>                    T.data[q].i=M.data[p].j;<br>                    T.data[q].j=M.data[p].i;<br>                    T.data[q].v=M.data[p].v;<br>                    q++;<br>                &#125;<br>    &#125;<br>&#125;<br><span class="hljs-comment">// 时间复杂度：O(tu*nu)</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>方法2：按矩阵 M 的行序进行转置，即按对应三元组表的本身次序进行转置，然后按三元组表中三元组的第一个字段值（行下标）由小到大的顺序将三元组置入矩阵 T 对应三元组表中恰当的位置</p>
+<p>预处理：如果能够预先确定矩阵 M 中每一列（即 T 中每一行）的第一个非零元素在矩阵 T 对应三元组表中应有的位置，那么在对矩阵 M 对应三元组表中的三元组进行转置时，便可直接将其放到矩阵 T 对应三元组表中恰当的位置；附设两个向量：</p>
+<ul>
+<li><p><code>num[col]</code> 表示矩阵 M 中第 col 列非零元素的个数</p>
+</li>
+<li><p><code>cpot[col]</code> 表示矩阵 M 中第 col 列第一个非零元素在矩阵 T 对应三元组表中恰当的位置（column position）</p>
+</li>
+<li><p>&#96;&#96;&#96;c++<br>cpot[1]&#x3D;0;<br>for (int col&#x3D;2;col&lt;&#x3D;M.nu;++col)<br>cpot[col]&#x3D;cpot[col-1]+num[col-1];</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><br>```c++<br>void <span class="hljs-constructor">TransSMatrix(TSMatrix M,TSMatrix &amp;T)</span> &#123;<br>    <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">T</span>.</span></span>mu=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">M</span>.</span></span>nu,<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">T</span>.</span></span>nu=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">M</span>.</span></span>mu,<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">T</span>.</span></span>tu=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">M</span>.</span></span>tu;<br>	<span class="hljs-keyword">if</span> (<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">M</span>.</span></span>tu) &#123;<br>        <span class="hljs-comment">// 预处理</span><br>        <span class="hljs-built_in">int</span> num<span class="hljs-literal">[MAXCOL]</span>;<br>        <span class="hljs-built_in">int</span> cpot<span class="hljs-literal">[MAXCOL]</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> col=<span class="hljs-number">1</span>;col&lt;=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">M</span>.</span></span>nu;++col)<br>            num<span class="hljs-literal">[<span class="hljs-identifier">col</span>]</span>=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> t=<span class="hljs-number">0</span>;t&lt;<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">M</span>.</span></span>tu;++t)<br>            num<span class="hljs-literal">[M.<span class="hljs-identifier">data</span>[<span class="hljs-identifier">t</span>]</span>.j]++;<br>        cpot<span class="hljs-literal">[<span class="hljs-number">1</span>]</span>=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> col=<span class="hljs-number">2</span>;col&lt;=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">M</span>.</span></span>nu;++col)<br>            cpot<span class="hljs-literal">[<span class="hljs-identifier">col</span>]</span>=cpot<span class="hljs-literal">[<span class="hljs-identifier">col</span>-<span class="hljs-number">1</span>]</span>+num<span class="hljs-literal">[<span class="hljs-identifier">col</span>-<span class="hljs-number">1</span>]</span>;<br>        <br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> p=<span class="hljs-number">0</span>;p&lt;<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">M</span>.</span></span>tu;p++) &#123;<br>            <span class="hljs-built_in">int</span> col=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">M</span>.</span></span>data<span class="hljs-literal">[<span class="hljs-identifier">p</span>]</span>.j;<br>            <span class="hljs-built_in">int</span> q=cpot<span class="hljs-literal">[<span class="hljs-identifier">col</span>]</span>;<br>            <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">T</span>.</span></span>data<span class="hljs-literal">[<span class="hljs-identifier">q</span>]</span>.i=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">M</span>.</span></span>data<span class="hljs-literal">[<span class="hljs-identifier">p</span>]</span>.j;<br>            <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">T</span>.</span></span>data<span class="hljs-literal">[<span class="hljs-identifier">q</span>]</span>.j=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">M</span>.</span></span>data<span class="hljs-literal">[<span class="hljs-identifier">p</span>]</span>.i;<br>            <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">T</span>.</span></span>data<span class="hljs-literal">[<span class="hljs-identifier">q</span>]</span>.v=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">M</span>.</span></span>data<span class="hljs-literal">[<span class="hljs-identifier">p</span>]</span>.v;<br>            cpot<span class="hljs-literal">[<span class="hljs-identifier">col</span>]</span>++;<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-comment">// 时间复杂度：O(tu+nu)</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>用三元组附加行指针表示</strong>：相比用三元组表示，在稀疏矩阵的结构定义中增加指示矩阵 M 中每一行的第一个非零元素在对应三元组表中的位置的向量 rpot（row position）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    <span class="hljs-type">int</span> i,j;<br>    T v;<br>&#125; Triple;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    Triple data[MAXSIZE];<br>    <span class="hljs-type">int</span> rpot[MAXROW]; <span class="hljs-comment">// 若某行无非零元素，则该行行指针照样在其本应在的位置，即该行之前的所有行的非零元素在data中的最大下标加1</span><br>	<span class="hljs-type">int</span> mu,nu,tu;<br>&#125; TSMatrix;<br></code></pre></td></tr></table></figure>
+
+<p><strong>矩阵相乘算法</strong>：</p>
+<p>用二维数组表示稀疏矩阵时相乘算法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// Q=M*N，M是m1×n1矩阵，N是m2×n2矩阵，n1=m2</span><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m1;++i)<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=n2;++j) &#123;<br>        Q[i][j]=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">1</span>;k&lt;=n1;++k)<br>            Q[i][j]+=M[i][k]*N[k][j];<br>    &#125;<br><span class="hljs-comment">// 时间复杂度：O(m1*n1*n2)</span><br></code></pre></td></tr></table></figure>
+
+<p>用三元组附加行指针表示稀疏矩阵时相乘算法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 若稀疏矩阵M的列数等于N的行数，则用Q返回稀疏矩阵的乘积，并返回true；否则返回false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">MultSMatrix</span><span class="hljs-params">(TSMatrix M,TSMatrix N,TSMatrix &amp;Q)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (M.nu!=N.mu)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    Q.mu=M.mu,Q.nu=N.nu,Q.tu=<span class="hljs-number">0</span>; <span class="hljs-comment">// Q.tu初值为0</span><br>    <span class="hljs-keyword">if</span> (M.tu*N.tu!=<span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-type">int</span> sum[MAXROW],top;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> row_M=<span class="hljs-number">1</span>;row_M&lt;=M.mu;++row_M) &#123;<br>            Q.rpot[row_M]=Q.tu+<span class="hljs-number">1</span>;<br>            <br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> col=<span class="hljs-number">1</span>;col&lt;=N.nu;++col)<br>                sum[col]=<span class="hljs-number">0</span>;<br>            <br>            <span class="hljs-keyword">if</span> (row_M&lt;M.mu) <span class="hljs-comment">// 顶部</span><br>                top=M.rpot[row_M+<span class="hljs-number">1</span>]<span class="hljs-number">-1</span>;<br>            <span class="hljs-keyword">else</span><br>                top=M.tu<span class="hljs-number">-1</span>;<br>            <br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=M.rpot[row_M];j&lt;=top;++j) &#123;<br>                <span class="hljs-type">int</span> row_N=M.data[j].j,t;<br>                <span class="hljs-keyword">if</span> (row_N&lt;N.mu) <span class="hljs-comment">// 顶部</span><br>                    t=N.rpot[row_N+<span class="hljs-number">1</span>]<span class="hljs-number">-1</span>;<br>                <span class="hljs-keyword">else</span><br>                    t=N.tu<span class="hljs-number">-1</span>;<br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=N.rpot[row_N];k&lt;=t;++k) &#123;<br>                    <span class="hljs-comment">/*</span><br><span class="hljs-comment">                     * 示意图：</span><br><span class="hljs-comment">                     *         col </span><br><span class="hljs-comment">                     * O O O O	- - -</span><br><span class="hljs-comment">                     * - O O O	O O O</span><br><span class="hljs-comment">                     * O O O O	O O O</span><br><span class="hljs-comment">                     *          O O O</span><br><span class="hljs-comment">                     *    M       N</span><br><span class="hljs-comment">                     * 由此可见，完全避免了与0有关的乘法</span><br><span class="hljs-comment">                     */</span><br>                    <span class="hljs-type">int</span> col=N.data[k].j;<br>					sum[col]+=M.data[j].v*N.data[k].v;<br>                &#125;<br>            &#125;<br>            <br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> col=<span class="hljs-number">1</span>;col&lt;=N.nu;++col) <span class="hljs-comment">// 抄答案</span><br>                <span class="hljs-keyword">if</span> (sum[col]) &#123;<br>                    Q.data[Q.tu].i=row_M;<br>					Q.data[Q.tu].j=col;<br>					Q.data[Q.tu].v=sum[col];<br>                    ++Q.tu;<br>				&#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>用带行指针向量的单链表表示</strong>：将稀疏矩阵中每一行的非零元素分别链接成一个单链表，表中结点对应该行非零元素（包括三个域：列下标、值和指针），附设一个作为各单链表头指针的行指针向量</p>
+<p>类似地，也可以用带列指针向量的单链表表示</p>
+</li>
+<li><p><strong>用带行指针向量和列指针向量的十字链表表示</strong>：结合了带行指针向量的单链表表示法和带列指针向量的单链表表示法，表中结点可以包括五个域：行下标、列下标、值、行指针和列指针</p>
+<img src="..\img\ep5\image-20230111134959493.png" srcset="/img/loading.gif" lazyload alt="image-20230111134959493" style="zoom: 33%;" /></li>
+</ol>
+<h3 id="2-广义表"><a href="#2-广义表" class="headerlink" title="2 - 广义表"></a>2 - 广义表</h3><h4 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h4><ol>
+<li><strong>广义表（Generalized list）</strong>是 n 个单元素（或称<strong>原子</strong>）或<strong>子广义表</strong> α1, α2, …, αn 的有限序列，记作 LS &#x3D; (α1, α2, …, αn)，约定用小写字母表示原子、用大写字母表示广义表</li>
+<li>广义表是线性表的推广，线性表是广义表的特例；广义表是递归定义，其运算通常也用递归函数完成</li>
+<li>广义表的<strong>长度</strong>为最外层的元素个数，<strong>深度</strong>为层数即所含括弧的最大重数</li>
+<li>当广义表非空时，称第一个元素 α1 为<strong>表头（Head）</strong>，其余元素组成的广义表 (α2, α3, …, αn) 为<strong>表尾（Tail）</strong></li>
+</ol>
+<p>例子：</p>
+<ul>
+<li><p>A &#x3D; ()</p>
+<p>A 是空表，长度为 0，深度为 1</p>
+</li>
+<li><p>B &#x3D; (a, b, c, d)</p>
+<p>B 是由四个原子组成的广义表，长度为 4，深度为 1</p>
+<p>Head(B) &#x3D; a，Tail(B) &#x3D; (b, c, d)</p>
+</li>
+<li><p>C &#x3D; (a, (b, c, d))</p>
+<p>C 是由一个原子和一个子表组成的广义表，长度为 2，深度为 2</p>
+<p>Head(C) &#x3D; a，Tail(C) &#x3D; ((b, c, d))</p>
+</li>
+<li><p>D &#x3D; (A, B, C) &#x3D; ((), (a, b, c, d), (a, (b, c, d)))</p>
+<p>D 是由三个子表组成的广义表，长度为 3，深度为 3</p>
+<p>Head(D) &#x3D; A，Tail(D) &#x3D; (B, C)</p>
+</li>
+<li><p>E &#x3D; (a, E) &#x3D; (a, (a, (a, (…))))</p>
+<p>E 是由一个原子和一个子表组成的广义表，长度为 2，深度为无穷，它是一个无限递归的广义表</p>
+<p>Head(E) &#x3D; a，Tail(E) &#x3D; (E)</p>
+</li>
+</ul>
+<h4 id="抽象数据类型-1"><a href="#抽象数据类型-1" class="headerlink" title="抽象数据类型"></a>抽象数据类型</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">ADT Generalized <span class="hljs-built_in">list</span> &#123;<br>	数据对象：<br>		D=&#123;e_i<span class="hljs-pattern-match">|e<span class="hljs-constructor">_i</span>为原子且e<span class="hljs-constructor">_i</span>∈<span class="hljs-constructor">AtomSet</span>,或e<span class="hljs-constructor">_i</span>为广义表,i=1,2,<span class="hljs-operator">...</span>,n&#125;</span><br><span class="hljs-pattern-match">	数据关系：</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">R</span>=&#123;&lt;e<span class="hljs-constructor">_i</span>-1,e<span class="hljs-constructor">_i</span>&gt;|e<span class="hljs-constructor">_i</span>-1,e<span class="hljs-constructor">_i</span>∈<span class="hljs-constructor">D</span>,i=2,<span class="hljs-operator">...</span>,n&#125;</span><br><span class="hljs-pattern-match">	基本操作：</span><br><span class="hljs-pattern-match">		创建和销毁操作</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">InitGList(&amp;L)</span></span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">DestroyGList(&amp;L)</span></span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">CopyGList(&amp;T,L)</span></span><br><span class="hljs-pattern-match">		</span><br><span class="hljs-pattern-match">		插入和删除操作</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">InsertFirst(&amp;L,<span class="hljs-params">e</span>)</span> <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 插入e，作为第一个元素</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">DeleteFirst(&amp;L,&amp;<span class="hljs-params">e</span>)</span> <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 删除第一个元素，用e返回</span><br><span class="hljs-pattern-match">		</span><br><span class="hljs-pattern-match">		查询函数</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">GListEmpty(L)</span></span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">GListLength(L)</span></span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">GListDepth(L)</span></span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">GListHead(L)</span></span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">GListTail(L)</span></span><br><span class="hljs-pattern-match">		</span><br><span class="hljs-pattern-match">		遍历函数</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">TraverseGList(L,<span class="hljs-params">visit</span>()</span>)</span><br><span class="hljs-pattern-match">&#125; <span class="hljs-constructor">ADT</span> <span class="hljs-constructor">Generalized</span> <span class="hljs-built_in">list</span></span><br></code></pre></td></tr></table></figure>
+
+<h4 id="广义表的链式存储表示"><a href="#广义表的链式存储表示" class="headerlink" title="广义表的链式存储表示"></a>广义表的链式存储表示</h4><p>由于广义表中数据元素可以是原子或广义表，因此难以用顺序存储结构表示；通常采用链式存储结构，并设置<strong>表结点</strong>和<strong>原子结点</strong>两类结点，每个数据元素用一个结点表示；广义表的链式存储结构常见的两种表示方法为：</p>
+<h5 id="表头表尾表示法"><a href="#表头表尾表示法" class="headerlink" title="表头表尾表示法"></a>表头表尾表示法</h5><ul>
+<li><p><strong>表结点</strong>包括三个域：结点类型标记 tag（为 1）、指向表头的指针 hp 和指向表尾的指针 tp</p>
+<p><strong>原子结点</strong>包括三个域：结点类型标记 tag（为 0）和值 value</p>
+</li>
+<li><p>除空表的表指针为空外，表指针均指向一个表结点，该结点的 hp 域指示该表表头、tp 域指示该表表尾（除非表尾为空，否则必为表结点）</p>
+<img src="..\img\ep5\image-20230111174224504.png" srcset="/img/loading.gif" lazyload alt="image-20230111174224504" style="zoom:25%;" />
+</li>
+<li><p><strong>例子</strong>：</p>
+<ul>
+<li><p>A &#x3D; ()</p>
+<p>表示为：A &#x3D; NULL</p>
+</li>
+<li><p>B &#x3D; (a, b, c, d)</p>
+<p>表示为：</p>
+<img src="..\img\ep5\image-20230111182729865.png" srcset="/img/loading.gif" lazyload alt="image-20230111182729865" style="zoom:25%;" />
+</li>
+<li><p>C &#x3D; (a, (b, c, d))</p>
+<p>表示为：</p>
+<img src="..\img\ep5\image-20230111182803189.png" srcset="/img/loading.gif" lazyload alt="image-20230111182803189" style="zoom:25%;" />
+</li>
+<li><p>D &#x3D; (A, B, C) &#x3D; ((), (a, b, c, d), (a, (b, c, d)))</p>
+<p>表示为：</p>
+<img src="..\img\ep5\image-20230111182836511.png" srcset="/img/loading.gif" lazyload alt="image-20230111182836511" style="zoom:25%;" />
+</li>
+<li><p>E &#x3D; (a, E)</p>
+<p>表示为：</p>
+<img src="..\img\ep5\image-20230111182909880.png" srcset="/img/loading.gif" lazyload alt="image-20230111182909880" style="zoom:25%;" /></li>
+</ul>
+</li>
+<li><p><strong>优点</strong>：容易分清层次；广义表的长度为最高层中表结点的个数，深度为最大层次数减 1；因此，对于求长度、求深度、求表头、求表尾等相关操作很方便</p>
+<p><strong>缺点</strong>：表结点个数多，空间效率低；表结点个数和括号对数不匹配</p>
+</li>
+</ul>
+<h5 id="子表表示法"><a href="#子表表示法" class="headerlink" title="子表表示法"></a>子表表示法</h5><ul>
+<li><p><strong>表结点</strong>包括三个域：结点类型标记 tag（为 1）、指向子表中第一个元素的指针 head 和指向下一个元素的指针 next</p>
+<p><strong>原子结点</strong>包括三个域：结点类型标记 tag（为 0）、值 value 和指向下一个元素的指针 next</p>
+</li>
+<li><p>一个表结点对应一个括号</p>
+<img src="..\img\ep5\image-20230111205131819.png" srcset="/img/loading.gif" lazyload alt="image-20230111205131819" style="zoom:25%;" />
+</li>
+<li><p><strong>例子</strong>：</p>
+<ul>
+<li><p>A &#x3D; ()</p>
+<p>表示为：</p>
+<img src="..\img\ep5\image-20230111211428323.png" srcset="/img/loading.gif" lazyload alt="image-20230111211428323" style="zoom:25%;" />
+</li>
+<li><p>B &#x3D; (a, b, c, d)</p>
+<p>表示为：</p>
+<img src="..\img\ep5\image-20230111211641331.png" srcset="/img/loading.gif" lazyload alt="image-20230111211641331" style="zoom:25%;" />
+</li>
+<li><p>C &#x3D; (a, (b, c, d))</p>
+<p>表示为：</p>
+<img src="..\img\ep5\image-20230111211732220.png" srcset="/img/loading.gif" lazyload alt="image-20230111211732220" style="zoom:25%;" />
+</li>
+<li><p>D &#x3D; (A, B, C) &#x3D; ((), (a, b, c, d), (a, (b, c, d)))</p>
+<p>表示为：</p>
+<img src="..\img\ep5\image-20230111211802537.png" srcset="/img/loading.gif" lazyload alt="image-20230111211802537" style="zoom:25%;" />
+</li>
+<li><p>E &#x3D; (a, E)</p>
+<p>表示为：</p>
+<img src="..\img\ep5\image-20230111211825606.png" srcset="/img/loading.gif" lazyload alt="image-20230111211825606" style="zoom:25%;" /></li>
+</ul>
+</li>
+<li><p><strong>优点</strong>：表结点个数少；表结点个数和括号对数一致</p>
+<p><strong>缺点</strong>：写递归算法不方便，例如求深度：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">GListDepth</span><span class="hljs-params">(GList L)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (!L)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> max=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (GList p=L;p;p=p-&gt;next) &#123;<br>        <span class="hljs-type">int</span> dep=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">if</span> (L-&gt;tag==<span class="hljs-number">1</span>)<br>            dep=<span class="hljs-built_in">GListDepth</span>(p-&gt;head);<br>        <span class="hljs-keyword">if</span> (dep&gt;max)<br>            max=dep;<br>    &#125;<br>    <span class="hljs-keyword">return</span> max+<span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
 
                 
               </div>

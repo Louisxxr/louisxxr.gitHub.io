@@ -23,11 +23,23 @@
 <meta property="og:site_name" content="Louisxxr">
 <meta property="og:description" content="数据结构课程笔记 ep8">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep8/image-20221207232612762.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep8/image-20221210230543929.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep8/image-20221217124819377.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep8/image-20221217124924333.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep8/image-20221217133539798.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep8/image-20221217133647339.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep8/image-20221222124509587.png">
+<meta property="og:image" content="https://louisxxr.github.io/..%5Cimg%5Cep8%5Cimage-20221225201650635.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep8/image-20221226111002849.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep8/image-20221218104531861.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep8/image-20221226145050544.png">
 <meta property="article:published_time" content="2023-03-02T08:40:55.000Z">
-<meta property="article:modified_time" content="2023-03-02T08:50:42.707Z">
+<meta property="article:modified_time" content="2023-03-02T15:36:55.051Z">
 <meta property="article:author" content="Xianrui Xie">
 <meta property="article:tag" content="数据结构课程笔记">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://louisxxr.github.io/2023/03/02/img/ep8/image-20221207232612762.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -233,7 +245,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          11 字
+          18k 字
         
       </span>
     
@@ -244,7 +256,7 @@
         
         
         
-          1 分钟
+          100 分钟
         
       </span>
     
@@ -289,6 +301,412 @@
                 
                 <p>数据结构课程笔记 ep8</p>
 <span id="more"></span>
+
+
+
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1 - 概述"></a>1 - 概述</h3><h4 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h4><ol>
+<li><strong>查找表</strong>是由同一类型的记录构成的集合（松散）</li>
+<li><strong>关键字</strong>是用来标识一个记录的某个数据项的值</li>
+<li>若此关键字可唯一地标识一个记录，则称此关键字为<strong>主关键字</strong></li>
+<li><strong>查找</strong>是指根据给定值，在查找表中确定一个其关键字等于给定值的记录</li>
+</ol>
+<h4 id="相关操作"><a href="#相关操作" class="headerlink" title="相关操作"></a>相关操作</h4><ol>
+<li><strong>查询</strong>某个特定记录是否在查找表中</li>
+<li><strong>检索</strong>某个特定记录的各种属性</li>
+<li>向查找表中<strong>插入</strong>一个数据元素</li>
+<li>从查找表中<strong>删除</strong>某个数据元素</li>
+</ol>
+<p>根据上述操作，查找表可分为：</p>
+<ul>
+<li><strong>静态查找表</strong>：仅作查询和检索操作</li>
+<li><strong>动态查找表</strong>：表结构在查找过程中动态生成（若查询结果为在查找表中，则成功返回，否则插入该记录）</li>
+</ul>
+<p>由于查找表中的记录之间是较松散的集合关系，因此不便于查找。所以，为了提高查找效率，需要在查找表中的数据元素之间人为地附加某种确定的关系。</p>
+<h3 id="2-静态查找表"><a href="#2-静态查找表" class="headerlink" title="2 - 静态查找表"></a>2 - 静态查找表</h3><h4 id="抽象数据类型"><a href="#抽象数据类型" class="headerlink" title="抽象数据类型"></a>抽象数据类型</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs scss">ADT StaticSearchTable &#123;<br>	数据对象：<br>		D是由同一类型的数据元素构成的集合，每个数据元素含有类型相同的关键字，可唯一标识该数据元素。<br>	数据关系：<br>		数据元素同属一个集合。<br>	基本操作：<br>		<span class="hljs-built_in">Create</span>(&amp;ST,n)        <span class="hljs-comment">// 构造静态查找表ST（含有n个数据元素）</span><br>		<span class="hljs-built_in">Destroy</span>(&amp;ST)         <span class="hljs-comment">// 销毁静态查找表ST</span><br>		<span class="hljs-built_in">Search</span>(ST,key)       <span class="hljs-comment">// 在静态查找表ST中查询是否存在其关键字等于key的数据元素</span><br>		<span class="hljs-built_in">Traverse</span>(ST,visit()) <span class="hljs-comment">// 遍历静态查找表ST</span><br>&#125; ADT StaticSearchTable<br></code></pre></td></tr></table></figure>
+
+<h4 id="顺序存储表示"><a href="#顺序存储表示" class="headerlink" title="顺序存储表示"></a>顺序存储表示</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    keyType key;<br>    <span class="hljs-comment">// 其它数据项</span><br>&#125; ElemType;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    ElemType* elem; <span class="hljs-comment">// 从1开始</span><br>    <span class="hljs-type">int</span> length;<br>&#125; SSTable;<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-顺序查找"><a href="#1-顺序查找" class="headerlink" title="(1) 顺序查找"></a>(1) 顺序查找</h4><p>给定值与数据元素的关键字逐一比较</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 从前往后查</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Search</span><span class="hljs-params">(SSTable ST,keyType key)</span> </span>&#123;<br>    <span class="hljs-type">int</span> i;<br>    <span class="hljs-keyword">for</span> (i=<span class="hljs-number">1</span>;i&lt;=ST.length;i++)<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">compare</span>(ST.elem[i].key,key))<br>            <span class="hljs-keyword">break</span>;<br>    <span class="hljs-keyword">if</span> (i==ST.length+<span class="hljs-number">1</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">return</span> i;<br>&#125;<br><br><span class="hljs-comment">// 从后往前查</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Search</span><span class="hljs-params">(SSTable ST,keyType key)</span> </span>&#123;<br>    ST.elem[<span class="hljs-number">0</span>].key=key; <span class="hljs-comment">// 监视哨</span><br>    <span class="hljs-type">int</span> i;<br>	<span class="hljs-keyword">for</span> (i=ST.length;!<span class="hljs-built_in">compare</span>(ST.elem[i].key,key);i--);<br>    <span class="hljs-keyword">return</span> i;<br>&#125;<br><span class="hljs-comment">// ST.elem[0]起到了监视哨的作用，避免在查找过程中每一步都要判断整个表是否查找完毕</span><br><span class="hljs-comment">// 这样改进使得在查找表的长度大于1000时，查找所需的平均时间减少一半</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="时间性能分析"><a href="#时间性能分析" class="headerlink" title="时间性能分析"></a>时间性能分析</h5><p>查找不成功时的比较次数：n（若表中数据元素有序，则查找不成功时不用与整张表比较）</p>
+<p>查找成功时的比较次数：取决于查找结果在表中的位置，利用<strong>平均查找长度</strong>（Average Search Length）分析：</p>
+<p>$$ASL&#x3D;\sum_{i&#x3D;1}^nP_iC_i&#x3D;\frac1n\sum_{i&#x3D;1}^n(n-i+1)&#x3D;\frac{n+1}2$$（$$P_i$$ 为结果是第 i 个数据元素的概率，$$C_i$$ 为查到第 i 个数据元素时需要比较的次数，在等概率查找的情况下 $$P_i&#x3D;\frac1n$$）</p>
+<h5 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h5><ul>
+<li>优点：算法简单，适用面广，不要求有序，如果要插入可插在表尾</li>
+<li>缺点：平均查找长度较大，表长很大时效率较低</li>
+</ul>
+<h4 id="2-二分查找"><a href="#2-二分查找" class="headerlink" title="(2) 二分查找"></a>(2) 二分查找</h4><p><strong>在表中数据元素按关键字有序的前提下</strong>，给定值不必与数据元素逐一比较，而采用二分查找（折半查找）</p>
+<p>算法描述：设待查元素所在区域的下界为 low，上界为 high，则中间位置 mid &#x3D; (low + high) &#x2F; 2，先与中间位置数据元素的关键字比较</p>
+<ul>
+<li>若中间位置数据元素的关键字等于给定值，则查找成功</li>
+<li>若中间位置数据元素的关键字大于给定值，则在区域 [low, mid-1] 内进行二分查找</li>
+<li>若中间位置数据元素的关键字小于给定值，则在区域 [mid+1, high] 内进行二分查找</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Search</span><span class="hljs-params">(SSTable ST,keyType key)</span> </span>&#123;<br>    <span class="hljs-type">int</span> low=<span class="hljs-number">1</span>,high=ST.length;<br>    <span class="hljs-keyword">while</span> (low&lt;=high) &#123;<br>        <span class="hljs-type">int</span> mid=(low+high)/<span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">if</span> (ST.elem[mid].key==key)<br>            <span class="hljs-keyword">return</span> mid;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (ST.elem[mid].key&gt;key)<br>            high=mid<span class="hljs-number">-1</span>;<br>        <span class="hljs-keyword">else</span><br>            low=mid+<span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="时间性能分析-1"><a href="#时间性能分析-1" class="headerlink" title="时间性能分析"></a>时间性能分析</h5><p>举例：</p>
+<table>
+<thead>
+<tr>
+<th align="left">$$i$$</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">$$C_i$$</td>
+<td>3</td>
+<td>4</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>1</td>
+<td>3</td>
+<td>4</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<p>上述查找过程可用二叉树（判定树）来描述：</p>
+<img src="..\img\ep8\image-20221207232612762.png" srcset="/img/loading.gif" lazyload alt="image-20221207232612762" style="zoom:25%;" />
+
+<p>查找不成功时的比较次数：$$⌊log_2n⌋$$ 或 $$⌊log_2n⌋+1$$（判定树的深度）</p>
+<p>查找成功时的比较次数：取决于从根结点到查找成功处结点的路径上结点的个数，不超过 $$⌊log_2n⌋+1$$ （判定树的深度），具体分析如下：</p>
+<p>假设 $$n&#x3D;2^h-1$$，则判定树为深度为 h 的满二叉树，层次为 k 的结点有 $$2^k-1$$ 个，则在等概率查找 $$P_i&#x3D;\frac1n$$ 的情况下：$$ASL&#x3D;\frac1n\sum_{i&#x3D;1}^nC_i&#x3D;\frac1n[\sum_{k&#x3D;1}^hk*2^{k-1}]&#x3D;\frac{n+1}nlog_2(n+1)-1$$，当 n 较大时，$$ASL&#x3D;log_2(n+1)-1$$</p>
+<h5 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h5><ul>
+<li>优点：效率高</li>
+<li>缺点：需要预先排序，只适合有序的顺序表，不能是链表</li>
+</ul>
+<h4 id="3-分块查找"><a href="#3-分块查找" class="headerlink" title="(3) 分块查找"></a>(3) 分块查找</h4><p>n 个数据元素被分成 m 块，第一块中任一元素的关键字都小于第二块中任一元素的关键字，第二块中任一元素的关键字都小于第三块中任一元素的关键字，以此类推，而每一块中元素的关键字不一定是有序的，此时采用分块查找</p>
+<p>算法描述：“缩小区间”的思想</p>
+<ol>
+<li>抽出各块所含数据元素的最大关键字构成一个索引表</li>
+<li>查找分两步进行：<ul>
+<li>对索引表进行二分查找或顺序查找，确定待查记录在哪一块</li>
+<li>对已确定的那一块进行顺序查找</li>
+</ul>
+</li>
+</ol>
+<p>索引表按关键字有序，包含：</p>
+<ol>
+<li>该块所含数据元素的最大关键字</li>
+<li>指示该块第一个数据元素在静态查找表中位置的指针</li>
+</ol>
+<h5 id="时间性能分析-2"><a href="#时间性能分析-2" class="headerlink" title="时间性能分析"></a>时间性能分析</h5><p>ASL &#x3D; 查找索引表的平均查找长度 + 查找一个记录块的平均查找长度</p>
+<p>关注最优性能：</p>
+<p>假设长度为 n 的表平均分成 b 块，每块含有 s 个记录，即 b &#x3D; ⌈n&#x2F;s⌉，每条记录的查找概率相等，则每块的查找概率为 1&#x2F;b，块中每个记录的查找概率为 1&#x2F;s，采用<strong>顺序查找索引表和顺序查找被确定的块</strong>的方法，平均查找长度为：$$ASL&#x3D;\frac{b+1}2+\frac{s+1}2&#x3D;\frac{\frac{n}s+s}2+1$$，当 s 取 $$\sqrt{n}$$ 时，ASL 取最小值 $$\sqrt{n}+1$$</p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><h5 id="三种查找方法比较"><a href="#三种查找方法比较" class="headerlink" title="三种查找方法比较"></a>三种查找方法比较</h5><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">顺序查找</th>
+<th align="center">二分查找</th>
+<th align="center">分块查找</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">等概率下ASL</td>
+<td align="center">最大</td>
+<td align="center">最小</td>
+<td align="center">适中</td>
+</tr>
+<tr>
+<td align="center">记录是否有序</td>
+<td align="center">有序无序均可</td>
+<td align="center"><strong>仅适用于有序</strong></td>
+<td align="center">记录逐段有序</td>
+</tr>
+<tr>
+<td align="center">表的存储结构</td>
+<td align="center">顺序链式均可</td>
+<td align="center"><strong>仅适用于顺序</strong></td>
+<td align="center">顺序链式均可</td>
+</tr>
+</tbody></table>
+<h5 id="四种查找表增删查操作时间性能比较"><a href="#四种查找表增删查操作时间性能比较" class="headerlink" title="四种查找表增删查操作时间性能比较"></a>四种查找表增删查操作时间性能比较</h5><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">查找</th>
+<th align="center">插入</th>
+<th align="center">删除</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">无序顺序表</td>
+<td align="center">O(n)</td>
+<td align="center">O(1)（无需查找）</td>
+<td align="center">O(n)</td>
+</tr>
+<tr>
+<td align="center">无序链表</td>
+<td align="center">O(n)</td>
+<td align="center"><strong>O(1)（无需查找）</strong></td>
+<td align="center"><strong>O(1)</strong></td>
+</tr>
+<tr>
+<td align="center">有序顺序表</td>
+<td align="center"><strong>O(logn)</strong></td>
+<td align="center">O(n)（需查找）</td>
+<td align="center">O(n)</td>
+</tr>
+<tr>
+<td align="center">有序链表</td>
+<td align="center">O(n)</td>
+<td align="center">O(1)（需查找）</td>
+<td align="center">O(1)</td>
+</tr>
+</tbody></table>
+<p>从时间性能上看：频繁查找，使用有序顺序表；频繁增删，使用无序链表</p>
+<h3 id="3-动态查找表"><a href="#3-动态查找表" class="headerlink" title="3 - 动态查找表"></a>3 - 动态查找表</h3><h4 id="抽象数据类型-1"><a href="#抽象数据类型-1" class="headerlink" title="抽象数据类型"></a>抽象数据类型</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs scss">ADT DynamicSearchTable &#123;<br>	数据对象：<br>		D是由同一类型的数据元素构成的集合，每个数据元素含有类型相同的关键字，可唯一标识该数据元素。<br>	数据关系：<br>		数据元素同属一个集合。<br>	基本操作：<br>		<span class="hljs-built_in">Create</span>(&amp;DT)          <span class="hljs-comment">// 构造空的动态查找表DT</span><br>		<span class="hljs-built_in">Destroy</span>(&amp;DT)         <span class="hljs-comment">// 销毁动态查找表DT</span><br>		<span class="hljs-built_in">Search</span>(DT,key)       <span class="hljs-comment">// 在动态查找表DT中查询是否存在其关键字等于key的数据元素</span><br>		<span class="hljs-built_in">Insert</span>(&amp;DT,e)        <span class="hljs-comment">// 若DT中不存在其关键字等于e.key的数据元素，则插入e到DT</span><br>		<span class="hljs-built_in">Delete</span>(&amp;DT,key)      <span class="hljs-comment">// 若DT中存在其关键字等于key的数据元素，则删除之</span><br>		<span class="hljs-built_in">Traverse</span>(DT,visit()) <span class="hljs-comment">// 遍历动态查找表DT</span><br>&#125; ADT DynamicSearchTable<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-二叉搜索树（BST）"><a href="#1-二叉搜索树（BST）" class="headerlink" title="(1) 二叉搜索树（BST）"></a>(1) 二叉搜索树（BST）</h4><h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><ol>
+<li>二叉搜索树或是一棵空树，或是具有如下特性的二叉树：<ul>
+<li>若左子树不空，则左子树上所有结点的值均小于根结点的值</li>
+<li>若右子树不空，则右子树上所有结点的值均大于根结点的值</li>
+<li>它的左、右子树也都分别是二叉搜索树（递归定义）</li>
+</ul>
+</li>
+<li>中根序遍历二叉搜索树，可以得到递增序列，所以，一个无序序列可以通过构造一棵二叉搜索树变成一个有序序列，构造过程即为排序过程，故<strong>二叉搜索树又称二叉排序树</strong></li>
+<li>相应地，可以构造递减序列的二叉搜索树</li>
+</ol>
+<h5 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h5><p>二叉链表</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">BiTNode</span> &#123;<br>    T data;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">BiTNode</span> *lchild,*rchild;<br>&#125; BiTNode,*BiTree;<br></code></pre></td></tr></table></figure>
+
+<h5 id="查找算法"><a href="#查找算法" class="headerlink" title="查找算法"></a>查找算法</h5><p>若二叉搜索树为空，则查找失败；否则</p>
+<ul>
+<li>若给定值等于根结点的关键字，则查找成功</li>
+<li>若给定值小于根结点的关键字，则继续在左子树上进行查找</li>
+<li>若给定值大于根结点的关键字，则继续在右子树上进行查找</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 在根结点指针T所指二叉搜索树中递归地查找其关键字等于key的数据元素。若查找成功，则返</span><br><span class="hljs-comment"> * 回指向该数据元素结点的指针p，并返回函数值true；若查找失败，则返回指向查找路径上访</span><br><span class="hljs-comment"> * 问的最后一个结点的指针p，并返回函数值false。指针f指向当前访问结点的双亲。</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * 三个参数：T（初始值指向根结点），key，f（初始值为NULL）</span><br><span class="hljs-comment"> * 两个返回值：状态值，p</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Search</span><span class="hljs-params">(BiTree T,keyType key,BiTree f,BiTree &amp;p)</span> </span>&#123;<br>    <span class="hljs-comment">// 查找失败</span><br>    <span class="hljs-keyword">if</span> (!T) &#123;<br>        p=f;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>	<span class="hljs-comment">// 查找成功</span><br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (key==T-&gt;data.key) &#123;<br>        p=T;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-comment">// 继续在左子树上进行查找</span><br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (key&lt;T-&gt;data.key) &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Search</span>(T-&gt;lchild,key,T,p))<br>    		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    	<span class="hljs-keyword">else</span><br>    		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>    <span class="hljs-comment">// 继续在右子树上进行查找</span><br>    <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Search</span>(T-&gt;rchild,key,T,p))<br>    		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    	<span class="hljs-keyword">else</span><br>    		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="插入算法"><a href="#插入算法" class="headerlink" title="插入算法"></a>插入算法</h5><p>插入操作在查找不成功时才进行，新插入的结点必为一个新的叶子结点（若二叉搜索树为空树，则新插入的结点为根结点），显然插入操作后的二叉树仍然保持二叉搜索树的特性</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 若二叉搜索树T中不存在其关键字等于e.key的数据元素，则插入数据域为e的结点，并返回</span><br><span class="hljs-comment"> * true，否则返回false。</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Insert</span><span class="hljs-params">(BiTree &amp;T,T e)</span> </span>&#123;<br>    BiTree p;<br>    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">Search</span>(T,e.key,<span class="hljs-literal">NULL</span>,p)) &#123;<br>        BiTree s=(BiTree)<span class="hljs-built_in">malloc</span>(<span class="hljs-built_in">sizeof</span>(BiTNode));<br>        s-&gt;data=e;<br>        s-&gt;lchild=s-&gt;rchild=<span class="hljs-literal">NULL</span>;<br>        <span class="hljs-keyword">if</span> (!p)<br>            T=s; <span class="hljs-comment">// 根结点</span><br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (e.key&lt;p-&gt;data.key)<br>            p-&gt;lchild=s; <span class="hljs-comment">// p-&gt;lchild必定为空，此时插入*s</span><br>        <span class="hljs-keyword">else</span><br>            p-&gt;rchild=s; <span class="hljs-comment">// p-&gt;rchild必定为空，此时插入*s</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="删除算法"><a href="#删除算法" class="headerlink" title="删除算法"></a>删除算法</h5><p>和插入相反，删除操作在查找成功时进行，并且要求删除操作后的二叉树仍然保持二叉搜索树的特性，被删除的结点有三种情况：</p>
+<ul>
+<li>为叶子结点，则将其双亲结点中相应指针域改为空</li>
+<li>为只有左子树或只有右子树的结点，则将其双亲结点中相应指针域改为“指向被删除结点的左子树或右子树”</li>
+<li>为既有左子树又有右子树的结点，则先将其数据域改为其<strong>中序前驱结点</strong>数据域，再删除其中序前驱结点</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 若二叉搜索树T中存在其关键字等于key的数据元素，则删除该数据元素结点，并返回true，</span><br><span class="hljs-comment"> * 否则返回false。</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Search</span><span class="hljs-params">(BiTree T,<span class="hljs-type">int</span> key,BiTree &amp;f,BiTree &amp;p)</span> </span>&#123; <span class="hljs-comment">// f需要引用传递，要为Delete修改原先的Search</span><br>    <span class="hljs-keyword">if</span> (!T) &#123;<br>        p=f;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (key==T-&gt;data) &#123;<br>        p=T;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (key&lt;T-&gt;data) &#123;<br>    	f=T; <span class="hljs-comment">// 更新f</span><br>    	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">Search</span>(T-&gt;lchild,key,f,p))<br>    		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    	<span class="hljs-keyword">else</span><br>    		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>	&#125;<br>    <span class="hljs-keyword">else</span> &#123;<br>    	f=T; <span class="hljs-comment">// 更新f</span><br>    	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">Search</span>(T-&gt;rchild,key,f,p))<br>    		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    	<span class="hljs-keyword">else</span><br>    		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>	&#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Delete</span><span class="hljs-params">(BiTree &amp;T,keyType key)</span> </span>&#123;<br>    BiTree f=<span class="hljs-literal">NULL</span>,p;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Search</span>(T,key,f,p)) &#123;<br>        <span class="hljs-keyword">if</span> (!p-&gt;lchild&amp;&amp;!p-&gt;rchild) &#123;<br>            (f-&gt;lchild==p?f-&gt;lchild:f-&gt;rchild)=<span class="hljs-literal">NULL</span>;<br>            <span class="hljs-built_in">free</span>(p);<br>        &#125;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (p-&gt;lchild&amp;&amp;!p-&gt;rchild) &#123;<br>            (f-&gt;lchild==p?f-&gt;lchild:f-&gt;rchild)=p-&gt;lchild;<br>            <span class="hljs-built_in">free</span>(p);<br>        &#125;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!p-&gt;lchild&amp;&amp;p-&gt;rchild) &#123;<br>            (f-&gt;lchild==p?f-&gt;lchild:f-&gt;rchild)=p-&gt;rchild;<br>            <span class="hljs-built_in">free</span>(p);<br>        &#125;<br>        <span class="hljs-keyword">else</span> &#123;<br>            BiTree q=p,s=p-&gt;lchild;<br>            <span class="hljs-keyword">while</span> (s-&gt;rchild) &#123; <span class="hljs-comment">// 先转左，再一路向右</span><br>                q=s;<br>                s=s-&gt;rchild;<br>            &#125;<br>            p-&gt;data=s-&gt;data;<br>            <span class="hljs-keyword">if</span> (q!=p)<br>                q-&gt;rchild=s-&gt;lchild;<br>            <span class="hljs-keyword">else</span><br>                q-&gt;lchild=s-&gt;lchild; <span class="hljs-comment">// q==p表明p的左孩子s没有右孩子，s就是p的中序前驱</span><br>            <span class="hljs-built_in">free</span>(s);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="时间性能分析-3"><a href="#时间性能分析-3" class="headerlink" title="时间性能分析"></a>时间性能分析</h5><p>由相同的 n 个数据元素按照不同顺序构造所得的二叉搜索树不同，其平均查找长度也不同，例如：左图 ASL &#x3D; (1+2+3+4+5)&#x2F;5 &#x3D; 3，右图 ASL &#x3D; (1+2+2+3+3)&#x2F;5 &#x3D; 2.2</p>
+<img src="..\img\ep8\image-20221210230543929.png" srcset="/img/loading.gif" lazyload alt="image-20221210230543929" style="zoom:25%;" />
+
+<p>结论：$$ASL&#x3D;2\frac{n+1}nlogn+C$$</p>
+<p>在进行插入和删除操作时，无需移动其它结点，仅需修改某个结点的指针，因此，对于需要经常插入和删除记录的有序表，采用二叉搜索树的数据结构更为合适</p>
+<h4 id="2-平衡二叉树（AVL-树）"><a href="#2-平衡二叉树（AVL-树）" class="headerlink" title="(2) 平衡二叉树（AVL 树）"></a>(2) 平衡二叉树（AVL 树）</h4><h5 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h5><ol>
+<li>平衡二叉树或是一棵空树，或是具有如下特性的<strong>二叉搜索树</strong>：<ul>
+<li>左子树和右子树的高度之差（平衡因子）的绝对值不超过 1</li>
+<li>它的左、右子树也都分别是平衡二叉树（递归定义）</li>
+</ul>
+</li>
+<li>平衡二叉树的作用是：避免二叉搜索树退化为链表，提高其查找时间性能</li>
+</ol>
+<h5 id="插入算法-1"><a href="#插入算法-1" class="headerlink" title="插入算法"></a>插入算法</h5><p>先插入，再对<strong>最小不平衡子树</strong>进行调整</p>
+<p>最小不平衡子树有四种类型，对应四种操作：</p>
+<ul>
+<li><p>类型 1：（LL 型）新结点插入在根结点<strong>左子树的左子树</strong>上，导致根结点的平衡因子由 1 变为 2</p>
+<p>操作 1：对根结点左子树的根结点进行“右旋”</p>
+<img src="..\img\ep8\image-20221217124819377.png" srcset="/img/loading.gif" lazyload alt="image-20221217124819377" style="zoom: 25%;" />
+</li>
+<li><p>类型 2：（RR 型）新结点插入在根结点<strong>右子树的右子树</strong>上，导致根结点的平衡因子由 -1 变为 -2</p>
+<p>操作 2：对根结点右子树的根结点进行“左旋”</p>
+<img src="..\img\ep8\image-20221217124924333.png" srcset="/img/loading.gif" lazyload alt="image-20221217124924333" style="zoom:25%;" />
+</li>
+<li><p>类型 3：（LR 型）新结点插入在根结点<strong>左子树的右子树</strong>上，导致根结点的平衡因子由 1 变为 2</p>
+<p>操作 3：先对根结点左子树的右子树的根结点进行“左旋”，再（同操作 1）对根结点左子树的根结点进行“右旋”</p>
+<img src="..\img\ep8\image-20221217133539798.png" srcset="/img/loading.gif" lazyload alt="image-20221217133539798" style="zoom: 33%;" />
+</li>
+<li><p>类型 4：（RL 型）新结点插入在根结点<strong>右子树的左子树</strong>上，导致根结点的平衡因子由 -1 变为 -2</p>
+<p>操作 4：先对根结点右子树的左子树的根结点进行“右旋”，再（同操作 2）对根结点右子树的根结点进行“左旋”</p>
+<img src="..\img\ep8\image-20221217133647339.png" srcset="/img/loading.gif" lazyload alt="image-20221217133647339" style="zoom:33%;" /></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// source: https://github.com/imxtx/algorithms</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-comment">// 树结点定义</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Node</span><br>&#123;<br>    <span class="hljs-type">int</span> key;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Node</span> *left;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Node</span> *right;<br>    <span class="hljs-type">int</span> height;<br>&#125; Node;<br><br><span class="hljs-comment">// 辅助函数：比大小</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">max</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> a &gt; b ? a : b;<br>&#125;<br><br><span class="hljs-comment">// 辅助函数：计算树的高度</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">height</span><span class="hljs-params">(Node *root)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">NULL</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> + <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(root-&gt;left), <span class="hljs-built_in">height</span>(root-&gt;right));<br>&#125;<br><br><span class="hljs-comment">// 辅助函数：创建新结点</span><br><span class="hljs-function">Node *<span class="hljs-title">newNode</span><span class="hljs-params">(<span class="hljs-type">int</span> key)</span></span><br><span class="hljs-function"></span>&#123;<br>    Node *node = (Node *)<span class="hljs-built_in">malloc</span>(<span class="hljs-built_in">sizeof</span>(Node));<br>    node-&gt;key = key;<br>    node-&gt;left = <span class="hljs-literal">NULL</span>;<br>    node-&gt;right = <span class="hljs-literal">NULL</span>;<br>    node-&gt;height = <span class="hljs-number">0</span>; <span class="hljs-comment">// 这里node-&gt;height可以定义为任意值</span><br>    <span class="hljs-keyword">return</span> node;<br>&#125;<br><br><span class="hljs-comment">// 辅助函数：获得结点的平衡因子</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getBalanceFactor</span><span class="hljs-params">(Node *node)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (node == <span class="hljs-literal">NULL</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">height</span>(node-&gt;left) - <span class="hljs-built_in">height</span>(node-&gt;right);<br>&#125;<br><br><span class="hljs-comment">// 右旋</span><br><span class="hljs-function">Node *<span class="hljs-title">rightRotate</span><span class="hljs-params">(Node *y)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">/* 树结构示意图：</span><br><span class="hljs-comment">                y</span><br><span class="hljs-comment">               / \</span><br><span class="hljs-comment">              x   O</span><br><span class="hljs-comment">             / \</span><br><span class="hljs-comment">            O   O</span><br><span class="hljs-comment">    */</span><br>    Node *x = y-&gt;left;<br>    Node *xr = x-&gt;right;<br>    <span class="hljs-comment">// 旋转</span><br>    x-&gt;right = y;<br>    y-&gt;left = xr;<br>    <span class="hljs-comment">// 更新结点的高度</span><br>    x-&gt;height = <span class="hljs-built_in">height</span>(x);<br>    y-&gt;height = <span class="hljs-built_in">height</span>(y);<br>    <span class="hljs-comment">// 返回旋转后的根结点</span><br>    <span class="hljs-keyword">return</span> x;<br>&#125;<br><br><span class="hljs-comment">// 左旋</span><br><span class="hljs-function">Node *<span class="hljs-title">leftRotate</span><span class="hljs-params">(Node *y)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">/* 树结构示意图：</span><br><span class="hljs-comment">                y</span><br><span class="hljs-comment">               / \</span><br><span class="hljs-comment">              O   x</span><br><span class="hljs-comment">                 / \</span><br><span class="hljs-comment">                O   O</span><br><span class="hljs-comment">    */</span><br>    Node *x = y-&gt;right;<br>    Node *xl = x-&gt;left;<br>    <span class="hljs-comment">// 旋转</span><br>    x-&gt;left = y;<br>    y-&gt;right = xl;<br>    <span class="hljs-comment">// 更新结点的高度</span><br>    x-&gt;height = <span class="hljs-built_in">height</span>(x);<br>    y-&gt;height = <span class="hljs-built_in">height</span>(y);<br>    <span class="hljs-comment">// 返回旋转后的根结点</span><br>    <span class="hljs-keyword">return</span> x;<br>&#125;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * @brief 向以node为根结点的树中插入key</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * @param node 根结点</span><br><span class="hljs-comment"> * @param key 插入值</span><br><span class="hljs-comment"> * @return Node* 插入后该树的新的根结点</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function">Node *<span class="hljs-title">insert</span><span class="hljs-params">(Node *node, <span class="hljs-type">int</span> key)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// 1. 按照BST的方法在叶结点上插入新值</span><br>    <span class="hljs-keyword">if</span> (node == <span class="hljs-literal">NULL</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">newNode</span>(key);<br>    <span class="hljs-keyword">if</span> (key &lt; node-&gt;key)<br>        node-&gt;left = <span class="hljs-built_in">insert</span>(node-&gt;left, key);<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (key &gt; node-&gt;key)<br>        node-&gt;right = <span class="hljs-built_in">insert</span>(node-&gt;right, key);<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> node;<br><br>    <span class="hljs-comment">// 2. 更新插入路径上每棵子树的高度</span><br>    node-&gt;height = <span class="hljs-built_in">height</span>(node);<br><br>    <span class="hljs-comment">// 3. 计算平衡因子，不平衡则需要调整</span><br>    <span class="hljs-type">int</span> bf = <span class="hljs-built_in">getBalanceFactor</span>(node);<br><br>    <span class="hljs-comment">// LL型不平衡</span><br>    <span class="hljs-keyword">if</span> (bf &gt; <span class="hljs-number">1</span> &amp;&amp; key &lt; node-&gt;left-&gt;key)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">rightRotate</span>(node);<br>    <span class="hljs-comment">// RR型不平衡</span><br>    <span class="hljs-keyword">if</span> (bf &lt; <span class="hljs-number">-1</span> &amp;&amp; key &gt; node-&gt;right-&gt;key)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">leftRotate</span>(node);<br>    <span class="hljs-comment">// LR型不平衡</span><br>    <span class="hljs-keyword">if</span> (bf &gt; <span class="hljs-number">1</span> &amp;&amp; key &gt; node-&gt;left-&gt;key)<br>    &#123;<br>        node-&gt;left = <span class="hljs-built_in">leftRotate</span>(node-&gt;left);<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">rightRotate</span>(node);<br>    &#125;<br>    <span class="hljs-comment">// RL型不平衡</span><br>    <span class="hljs-keyword">if</span> (bf &lt; <span class="hljs-number">-1</span> &amp;&amp; key &lt; node-&gt;right-&gt;key)<br>    &#123;<br>        node-&gt;right = <span class="hljs-built_in">rightRotate</span>(node-&gt;right);<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">leftRotate</span>(node);<br>    &#125;<br><br>    <span class="hljs-comment">// 如果是平衡的直接返回根结点</span><br>    <span class="hljs-keyword">return</span> node;<br>&#125;<br><br><span class="hljs-comment">// 辅助函数：输出树的先序遍历</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">preOrder</span><span class="hljs-params">(Node *root)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (root != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, root-&gt;key);<br>        <span class="hljs-built_in">preOrder</span>(root-&gt;left);<br>        <span class="hljs-built_in">preOrder</span>(root-&gt;right);<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> <span class="hljs-type">const</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    Node *root = <span class="hljs-literal">NULL</span>;<br><br>    <span class="hljs-comment">/* 测试，最终树结构应该如下图所示：</span><br><span class="hljs-comment">            30</span><br><span class="hljs-comment">           /  \</span><br><span class="hljs-comment">         20   40</span><br><span class="hljs-comment">        /  \     \</span><br><span class="hljs-comment">       10  25    50</span><br><span class="hljs-comment">    */</span><br>    root = <span class="hljs-built_in">insert</span>(root, <span class="hljs-number">10</span>);<br>    root = <span class="hljs-built_in">insert</span>(root, <span class="hljs-number">20</span>);<br>    root = <span class="hljs-built_in">insert</span>(root, <span class="hljs-number">30</span>);<br>    root = <span class="hljs-built_in">insert</span>(root, <span class="hljs-number">40</span>);<br>    root = <span class="hljs-built_in">insert</span>(root, <span class="hljs-number">50</span>);<br>    root = <span class="hljs-built_in">insert</span>(root, <span class="hljs-number">25</span>);<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Preorder traversal of the constructed AVL tree is \n&quot;</span>);<br>    <span class="hljs-built_in">preOrder</span>(root);<br>    <span class="hljs-built_in">putchar</span>(<span class="hljs-string">&#x27;\n&#x27;</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="时间性能分析-4"><a href="#时间性能分析-4" class="headerlink" title="时间性能分析"></a>时间性能分析</h5><p>平衡二叉树优化了二叉搜索树的查找时间性能：与二叉搜索树相同，在平衡二叉树上进行查找时，和给定值进行比较的关键字的个数不超过平衡二叉树的深度；经过优化，含有 n 个结点的平衡二叉树能达到的最大深度约为 log n，因此最坏情况下查找长度也仅仅约为 log n</p>
+<p>平衡二叉树虽然查找时间性能能够始终保持 O(log n)，但是为了保持平衡，在插入和删除时导致太多调整树结构的操作</p>
+<h4 id="3-B-树"><a href="#3-B-树" class="headerlink" title="(3) B 树"></a>(3) B 树</h4><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=aZjYr87r1b8">B Trees and B+ Trees. How they are useful in Databases - YouTube</a></p>
+<h5 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h5><ol>
+<li><p>一棵 m 阶 B 树是具有如下特性的 m 叉树：</p>
+<ul>
+<li>每个结点<strong>至多</strong>有 m 棵子树（<strong>至多</strong>有 m-1 个关键字）</li>
+<li>根结点<strong>至少</strong>有 2 棵子树（<strong>至少</strong>有 1 个关键字）或根结点为叶子结点（此时为空树）</li>
+<li>其他结点<strong>至少</strong>有 ⌈m&#x2F;2⌉ 棵子树（<strong>至少</strong>有 ⌈m&#x2F;2⌉-1 个关键字）或其为叶子结点</li>
+<li>所有的非叶子结点包含以下信息：(n, A0, K1, A1, K2, A2, …, Kn, An)，其中：<ul>
+<li>n 为关键字个数：⌈m&#x2F;2⌉-1 ≤ n ≤ m-1（根结点：1 ≤ n ≤ m-1）</li>
+<li>Ki (i &#x3D; 1, 2, …, n) 为关键字：K1 &lt; K2 &lt; … &lt; Kn</li>
+<li>Ai (i &#x3D; 0, 1, …, n) 为指向子树根结点的指针：指针 Ai-1 所指子树中所有结点的关键字均小于 Ki (i &#x3D; 1, 2, …, n)，指针 An 所指子树中所有结点的关键字均大于 Kn</li>
+<li>可能还有指向记录的指针 Di (i &#x3D; 1, 2, …, n)</li>
+</ul>
+</li>
+<li>所有的叶子结点出现在同一层次上，并且不带信息（可以看作是查找失败的结点）</li>
+</ul>
+<p>例如：下图为一棵 4 阶 B 树，深度为 3（不包括失败结点），根结点 1 ≤ n ≤ 3，其他结点 1 ≤ n ≤ 3</p>
+<img src="..\img\ep8\image-20221222124509587.png" srcset="/img/loading.gif" lazyload alt="image-20221222124509587" style="zoom:25%;" />
+</li>
+<li><p>B 树是一种平衡的多路查找树</p>
+</li>
+</ol>
+<h5 id="存储结构-1"><a href="#存储结构-1" class="headerlink" title="存储结构"></a>存储结构</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> M 10 <span class="hljs-comment">// B树的阶</span></span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">BTNode</span> &#123;<br>    <span class="hljs-type">int</span> keynum;              <span class="hljs-comment">// 关键字个数</span><br>	keyType key[M+<span class="hljs-number">1</span>];        <span class="hljs-comment">// 关键字向量（0号单元不用，开多一个单元插入用）</span><br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">BTNode</span>* ptr[M+<span class="hljs-number">1</span>]; <span class="hljs-comment">// 指向子树根结点的指针向量</span><br>    T* recptr[M+<span class="hljs-number">1</span>];          <span class="hljs-comment">// 指向记录的指针向量（0号单元不用）</span><br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">BTNode</span>* parent;   <span class="hljs-comment">// 指向双亲结点的指针（插入用）</span><br>&#125; BTNode,*BTree;<br></code></pre></td></tr></table></figure>
+
+<h5 id="查找算法-1"><a href="#查找算法-1" class="headerlink" title="查找算法"></a>查找算法</h5><p>两个操作交叉进行：</p>
+<ul>
+<li>从根结点出发，沿指针查找结点</li>
+<li>在结点内顺序（或折半）查找关键字</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 在m阶B树T中查找关键字key，返回查找结果(tag,p,i)。若查找成功，则特征值tag为1，指</span><br><span class="hljs-comment"> * 针p所指结点中第i个关键字等于key；否则特征值tag为0，关键字key应插入在指针p所指结</span><br><span class="hljs-comment"> * 点中第i个关键字和第i+1个关键字之间。</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Result</span> &#123;<br>    <span class="hljs-type">int</span> tag;<br>    BTree p;<br>	<span class="hljs-type">int</span> i;<br>    <br>    <span class="hljs-built_in">Result</span>(<span class="hljs-type">int</span> tmp_tag,BTree tmp_p,<span class="hljs-type">int</span> tmp_i):<br>    	<span class="hljs-built_in">tag</span>(tmp_tag),<span class="hljs-built_in">p</span>(tmp_p),<span class="hljs-built_in">i</span>(tmp_i) &#123;&#125;<br>    <span class="hljs-built_in">Result</span>(<span class="hljs-type">const</span> Result &amp;result):<br>    	<span class="hljs-built_in">tag</span>(result.tag),<span class="hljs-built_in">p</span>(result.p),<span class="hljs-built_in">i</span>(result.i) &#123;&#125;<br>&#125; Result;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Search</span><span class="hljs-params">(BTree p,keyType key)</span> </span>&#123;<br>    <span class="hljs-type">int</span> low=<span class="hljs-number">1</span>,high=p-&gt;keynum,mid;<br>    <span class="hljs-keyword">while</span> (low&lt;=high) &#123;<br>        mid=(low+high)/<span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">if</span> (p-&gt;key[mid]==key)<br>            <span class="hljs-keyword">return</span> mid;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (p-&gt;key[mid]&gt;key)<br>            high=mid<span class="hljs-number">-1</span>;<br>        <span class="hljs-keyword">else</span><br>            low=mid+<span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> (p-&gt;key[mid]&lt;key?mid:mid<span class="hljs-number">-1</span>);<br>&#125;<br><br><span class="hljs-function">Result <span class="hljs-title">SearchBTree</span><span class="hljs-params">(BTree T,keyType key)</span> </span>&#123;<br>    BTree p=T,q=<span class="hljs-literal">NULL</span>;<br>    <span class="hljs-type">int</span> found=<span class="hljs-number">0</span>,i=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span> (p&amp;&amp;!found) &#123;<br>        i=<span class="hljs-built_in">Search</span>(p,key);<br>        <span class="hljs-keyword">if</span> (p-&gt;key[i]==key)<br>            found=<span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">else</span> &#123;<br>            q=p;<br>            p=p-&gt;ptr[i];<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (found)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Result</span>(<span class="hljs-number">1</span>,p,i);<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Result</span>(<span class="hljs-number">0</span>,q,i);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="插入算法-2"><a href="#插入算法-2" class="headerlink" title="插入算法"></a>插入算法</h5><p>插入操作在查找不成功时才进行，关键字插入的位置必定在最下层的非叶子结点（若 B 树为空树，则用新插入的关键字创建根结点），插入后有两种情况：</p>
+<ul>
+<li>若该结点的关键字个数 n&lt;m，则不修改指针</li>
+<li>若该结点的关键字个数 n&#x3D;m，则进行“分裂”：（令 s &#x3D; ⌈m&#x2F;2⌉）<ol>
+<li>原结点保留有：(A0, K1, …, Ks-1, As-1)，建新结点：(As, Ks+1, …, Kn, An)</li>
+<li>将 Ks 递归地插入到双亲结点中，若双亲为空，则创建新的根结点</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 若m阶B树T中不存在关键字key，则插入key，并返回true，否则返回false。</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function">BTree <span class="hljs-title">Insert</span><span class="hljs-params">(BTree &amp;p,<span class="hljs-type">int</span> i,keyType key,T* record,BTree child,BTree new_child,BTree &amp;T)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (!p) &#123; <span class="hljs-comment">// 创建新的根结点</span><br>        p=(BTree)<span class="hljs-built_in">malloc</span>(<span class="hljs-built_in">sizeof</span>(BTNode));<br>        p-&gt;keynum=<span class="hljs-number">1</span>;<br>        p-&gt;key[<span class="hljs-number">1</span>]=key;<br>        p-&gt;ptr[<span class="hljs-number">0</span>]=child,p-&gt;ptr[<span class="hljs-number">1</span>]=new_child;<br>        p-&gt;recptr[<span class="hljs-number">1</span>]=record;<br>        p-&gt;parent=<span class="hljs-literal">NULL</span>;<br>        T=p; <span class="hljs-comment">// 标识新的根结点</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>    &#125;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=p-&gt;keynum;j&gt;=i+<span class="hljs-number">1</span>;--j) &#123;<br>        p-&gt;key[j+<span class="hljs-number">1</span>]=p-&gt;key[j];<br>        p-&gt;ptr[j+<span class="hljs-number">1</span>]=p-&gt;ptr[j];<br>        p-&gt;recptr[j+<span class="hljs-number">1</span>]=p-&gt;recptr[j+<span class="hljs-number">1</span>];<br>    &#125;<br>    ++p-&gt;keynum;<br>    p-&gt;key[i+<span class="hljs-number">1</span>]=key;<br>    p-&gt;ptr[i+<span class="hljs-number">1</span>]=new_child;<br>    p-&gt;recptr[i+<span class="hljs-number">1</span>]=record;<br>    <span class="hljs-keyword">if</span> (p-&gt;keynum==M) &#123; <span class="hljs-comment">// 分裂</span><br>        <span class="hljs-type">int</span> s=M%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>?M/<span class="hljs-number">2</span>:M/<span class="hljs-number">2</span>+<span class="hljs-number">1</span>;<br>        BTree q=(BTree)<span class="hljs-built_in">malloc</span>(<span class="hljs-built_in">sizeof</span>(BTNode));<br>        p-&gt;keynum=s<span class="hljs-number">-1</span>;<br>        q-&gt;keynum=M<span class="hljs-number">-1</span>-p-&gt;keynum;<br>        q-&gt;ptr[<span class="hljs-number">0</span>]=p-&gt;ptr[s];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=q-&gt;keynum;++j) &#123;<br>            q-&gt;key[j]=p-&gt;key[s+j];<br>        	q-&gt;ptr[j]=p-&gt;ptr[s+j];<br>        	q-&gt;recptr[j]=p-&gt;recptr[s+j];<br>        &#125;<br>        <span class="hljs-keyword">if</span> (p-&gt;parent)<br>        	i=<span class="hljs-built_in">Search</span>(p-&gt;parent,p-&gt;key[s]);<br>        BTree t=<span class="hljs-built_in">Insert</span>(p-&gt;parent,i,p-&gt;key[s],p-&gt;recptr[s],p,q,T); <span class="hljs-comment">// 函数Insert第一个参数p为引用，目的是给p-&gt;parent赋值</span><br>        q-&gt;parent=t?t:p-&gt;parent;<br>        <span class="hljs-keyword">return</span> q;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">InsertBTree</span><span class="hljs-params">(BTree &amp;T,keyType key,T* record)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (!T) &#123; <span class="hljs-comment">// 创建根结点</span><br>        T=(BTree)<span class="hljs-built_in">malloc</span>(<span class="hljs-built_in">sizeof</span>(BTNode));<br>        T-&gt;keynum=<span class="hljs-number">1</span>;<br>        T-&gt;key[<span class="hljs-number">1</span>]=key;<br>        T-&gt;ptr[<span class="hljs-number">0</span>]=<span class="hljs-literal">NULL</span>,T-&gt;ptr[<span class="hljs-number">1</span>]=<span class="hljs-literal">NULL</span>;<br>        T-&gt;recptr[<span class="hljs-number">1</span>]=record;<br>        T-&gt;parent=<span class="hljs-literal">NULL</span>;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    Result res=<span class="hljs-built_in">SearchBTree</span>(T,key);<br>    <span class="hljs-keyword">if</span> (res.tag)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    <span class="hljs-built_in">Insert</span>(res.p,res.i,key,record,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,T);<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="删除算法-1"><a href="#删除算法-1" class="headerlink" title="删除算法"></a>删除算法</h5><p>和插入相反，删除操作在查找成功时进行，被删除的关键字可以在最下层的非叶子结点或其上的结点：</p>
+<ul>
+<li><p>若被删除的关键字在最下层的非叶子结点之上，则该关键字的位置由其中序后继（先向右，再一路向左）填充，相当于被删除的关键字转换为在最下层的非叶子结点的该中序后继</p>
+</li>
+<li><p>删除后：</p>
+<p><img src="/..%5Cimg%5Cep8%5Cimage-20221225201650635.png" srcset="/img/loading.gif" lazyload alt="image-20221225201650635"></p>
+</li>
+</ul>
+<h5 id="时间性能分析-5"><a href="#时间性能分析-5" class="headerlink" title="时间性能分析"></a>时间性能分析</h5><p>B 树常用于对外存数据或数据库组织索引，对数据进行查找时，查找时间花费在<strong>搜索结点（访问外存）</strong>和<strong>在结点内找关键字（访问内存）</strong>上，而访问外存比访问内存慢非常多，所以查找时间主要取决于访问外存的次数即在磁盘上搜索结点的次数，故查找时间主要取决于查找树的深度</p>
+<p>推导含有 N 个关键字的 m 阶 B 树可能达到的最大深度 H（不包括失败结点）：</p>
+<p>​	先推导深度为 H（不包括失败结点）的 m 阶 B 树最少含有的结点数</p>
+<p>​	推导每一层最少含有的结点数：</p>
+<p>​	第 1 层：1 个</p>
+<p>​	第 2 层：2 个</p>
+<p>​	第 3 层：$$2*⌈m&#x2F;2⌉$$ 个</p>
+<p>​	第 4 层：$$2*⌈m&#x2F;2⌉^2$$ 个</p>
+<p>​	第 H+1 层：$$2*⌈m&#x2F;2⌉^{H-1}$$ 个</p>
+<p>​	第 H+1 层为叶子结点，而<strong>由 B 树中含有 N 个关键字可知叶子结点必为 N+1 个</strong>，故：</p>
+<p>​	$$N+1≥2*⌈m&#x2F;2⌉^{H-1}$$</p>
+<p>​	$$H-1≤log_{⌈m&#x2F;2⌉}\frac{N+1}2$$</p>
+<p>​	$$H≤log_{⌈m&#x2F;2⌉}\frac{N+1}2+1$$</p>
+<p>所以，**在含有 N 个关键字的 m 阶 B 树上进行一次查找，需访问结点个数（访问外存次数）小于等于 $$H≤log_{⌈m&#x2F;2⌉}\frac{N+1}2+1$$**，在对外存数据或数据库组织索引方面，B 树的时间性能远高于二叉搜索树和平衡二叉树</p>
+<h4 id="4-B-树"><a href="#4-B-树" class="headerlink" title="(4) B+ 树"></a>(4) B+ 树</h4><p>B+ 树结合了分块查找和 B 树，常用于对数据库组织索引，具有如下特性：</p>
+<ol>
+<li>所有的<strong>叶子结点</strong>出现在同一层次上，结点之间指针连接，所有叶子结点包含全部关键字和相应记录指针，结点内关键字增序排列，结点也增序排列，使得从第一个结点的第一个关键字到最后一个结点的最后一个关键字总体递增</li>
+<li>所有的<strong>非叶子节点</strong>是所有叶子结点构成的递增序列的多层索引，其中关键字 Ki 为其相应指针 Ai 所指子树中关键字的最大值</li>
+<li>设置两个头指针：一个指向根结点，一个指向含有最小关键字的叶子结点，对应地支持分块查找和顺序查找两种查找方式</li>
+<li>每个<strong>叶子结点</strong>中关键字个数均介于 ⌈m&#x2F;2⌉ 和 m 之间；每个<strong>非叶子结点</strong>至多含有 m 个关键字和 m 棵子树；除根结点外，每个非叶子结点至少含有 ⌈m&#x2F;2⌉ 个关键字和 ⌈m&#x2F;2⌉ 棵子树（根结点可以没有子树，若有子树，那么至少有 2 棵子树和 2 个关键字）</li>
+</ol>
+<p>例如：下图为一棵 4 阶 B+ 树</p>
+<img src="..\img\ep8\image-20221226111002849.png" srcset="/img/loading.gif" lazyload alt="image-20221226111002849" style="zoom:25%;" />
+
+<h3 id="4-哈希表（散列表）"><a href="#4-哈希表（散列表）" class="headerlink" title="4 - 哈希表（散列表）"></a>4 - 哈希表（散列表）</h3><h4 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h4><h5 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h5><p>以上介绍的查找表的共同点：查找过程为给定值依次与记录集合中各数据元素的关键字进行比较；查找性能取决于比较次数</p>
+<p>对于需要频繁使用的查找表，希望 ASL &#x3D; 0，办法是：预先知道所查记录在表中的位置，避免比较</p>
+<h5 id="“哈希函数”“哈希表”"><a href="#“哈希函数”“哈希表”" class="headerlink" title="“哈希函数”“哈希表”"></a>“哈希函数”“哈希表”</h5><p>在<strong>关键字</strong>与记录在表中的<strong>存储位置</strong>之间建立函数关系，即 h(key) 为关键字为 key 的记录在表中的位置，h(key) 称为哈希函数，该表称为哈希表</p>
+<h5 id="“冲突”"><a href="#“冲突”" class="headerlink" title="“冲突”"></a>“冲突”</h5><p>有效的哈希函数应该是单射，但一般情况下，容易产生“冲突”现象，即 key1 ≠ key2，而 h(key1) &#x3D; h(key2)</p>
+<p>很难找到一个不产生冲突的哈希函数，所以在构造哈希表时，既要构造使冲突尽可能少产生的哈希函数，又要给出处理冲突的算法</p>
+<h4 id="构造哈希函数的方法"><a href="#构造哈希函数的方法" class="headerlink" title="构造哈希函数的方法"></a>构造哈希函数的方法</h4><p>对于非数字的关键字，需先将其数字化，可以用 ASCII 码等；对于数字的关键字，构造哈希函数的方法有：</p>
+<h5 id="1-直接定址法"><a href="#1-直接定址法" class="headerlink" title="(1) 直接定址法"></a>(1) 直接定址法</h5><p>哈希函数为关键字的线性函数</p>
+<h5 id="2-数字分析法"><a href="#2-数字分析法" class="headerlink" title="(2) 数字分析法"></a>(2) 数字分析法</h5><p>若每个关键字数字位数相同，则可分析关键字集合中的全体，并取各关键字值中分布近似随机的若干位组成哈希地址</p>
+<p>举例：有 1000 个记录，关键字为 10 位十进制整数 x1x2…x10，哈希表长度为 2000；假设经过分析，各关键字值中 x3, x5, x7 的取值分布近似随机，则可构造哈希函数：h(key) &#x3D; h(x1x2…x10) &#x3D; x3x5x7，例如，h(3778597189) &#x3D; 757，h(9166372560) &#x3D; 632</p>
+<p>适用场合：能够预先估计各关键字值中的每一位上各个数字出现的频度，某些位上各个数字频度均匀</p>
+<h5 id="3-平方取中法"><a href="#3-平方取中法" class="headerlink" title="(3) 平方取中法"></a>(3) 平方取中法</h5><p>数字分析法的拓展，取关键字平方值的中间几位组成哈希地址（目的是扩大差别）</p>
+<p>适用场合：能够预先估计各关键字值中的每一位上各个数字出现的频度，每一位上都有数字频度很高，或无法预先估计</p>
+<h5 id="4-折叠法"><a href="#4-折叠法" class="headerlink" title="(4) 折叠法"></a>(4) 折叠法</h5><p>数字分析法的拓展，将关键字分割成位数相同的几部分（最后一部分的位数可以不同），然后取这几部分的叠加和（舍去进位）组成哈希地址（目的是扩大差别），叠加的方法有移位叠加和边界叠加</p>
+<p>举例：若哈希表长度为 1000，关键字 key &#x3D; 110108331119891，则将关键字分割成位数都为 3 的几部分，如图进行叠加：</p>
+<img src="..\img\ep8\image-20221218104531861.png" srcset="/img/loading.gif" lazyload alt="image-20221218104531861" style="zoom:25%;" />
+
+<p>适用场合：关键字位数较多，且预先估计出各关键字值中的每一位上都有数字频度很高或无法预先估计</p>
+<h5 id="5-除留余数法"><a href="#5-除留余数法" class="headerlink" title="(5) 除留余数法"></a>(5) 除留余数法</h5><p>h(key) &#x3D; key mod p, p ≤ m(m 为表长)，不仅可以对关键字直接取模，也可以在平方取中、折叠等处理后取模；理论研究表明，为了减少冲突，p 取最接近 m 的素数或取 1.1n ~ 1.7n(n 为记录数) 之间的素数最好</p>
+<table>
+<thead>
+<tr>
+<th align="center">m</th>
+<th align="center">8</th>
+<th align="center">16</th>
+<th align="center">32</th>
+<th align="center">64</th>
+<th align="center">128</th>
+<th align="center">256</th>
+<th align="center">512</th>
+<th align="center">1000</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">p</td>
+<td align="center">7</td>
+<td align="center">13</td>
+<td align="center">31</td>
+<td align="center">61</td>
+<td align="center">127</td>
+<td align="center">251</td>
+<td align="center">503</td>
+<td align="center">997</td>
+</tr>
+</tbody></table>
+<h5 id="6-伪随机数法"><a href="#6-伪随机数法" class="headerlink" title="(6) 伪随机数法"></a>(6) 伪随机数法</h5><p>h(key) &#x3D; Random(key)，Random 为伪随机函数</p>
+<h4 id="处理冲突的方法"><a href="#处理冲突的方法" class="headerlink" title="处理冲突的方法"></a>处理冲突的方法</h4><p>处理冲突的含义是：h(key) 是关键字为 key 的记录本应该在表中的位置，但是该位置已经被关键字为 key1 的记录占据，此时需要更新 h(key)；方法有：</p>
+<h5 id="1-开放定址法"><a href="#1-开放定址法" class="headerlink" title="(1) 开放定址法"></a>(1) 开放定址法</h5><p>p &#x3D; (h(key) + di) mod m，m 为表长，di 为约定的增量序列的值，i 从 1 开始直至找到不发生冲突的位置（此时，更新后的 h(key) &#x3D; p）</p>
+<p>要求哈希表需要<strong>有能力包含</strong>所有关键字对应的记录，即表长至少等于关键字个数；p 需要<strong>有能力覆盖</strong>哈希表中除了关键字为 key 的记录本应该在的位置之外的 m-1 个位置；di 的取法有：</p>
+<ol>
+<li><p><strong>线性探测再散列</strong></p>
+<p>di &#x3D; c * i（需要自行检验覆盖能力）</p>
+<p>最简单的情况：c &#x3D; 1, di &#x3D; 1, 2, …, m-1</p>
+<p>优点：相比以下两种取法，限制较少且容易操作</p>
+<p>缺点：容易发生“堆积”现象，即哈希地址本不相同的关键字发生了冲突</p>
+</li>
+<li><p><strong>平方探测再散列</strong></p>
+<p>di &#x3D; $$1^2$$, $$-1^2$$, $$2^2$$, $$-2^2$$, …（为保证有能力覆盖，应满足表长 m 为<em>形如 4j + 3 的素数</em>，如 7, 11, 19, 23, …）</p>
+</li>
+<li><p><strong>随机探测再散列</strong></p>
+<p>di 是一组伪随机序列或 di &#x3D; i * h2(key)（为保证有能力覆盖，应满足表长 m 和增量 di 没有公因子）</p>
+</li>
+</ol>
+<p>哈希表中数据不经常变化时，常用开放定址法；而表中数据经常变化时，可用链地址法</p>
+<h5 id="2-链地址法"><a href="#2-链地址法" class="headerlink" title="(2) 链地址法"></a>(2) 链地址法</h5><p>将所有哈希地址相同的记录都链接在同一链表中，同一链表中按关键字有序</p>
+<p>若使用除留余数法构造哈希函数，则表长只需要等于 mod 值；例如，关键字为 19, 1, 23, 14, 55, 68, 11, 82, 36，哈希函数为 h(key) &#x3D; key mod 7，则哈希表如下图：</p>
+<img src="..\img\ep8\image-20221226145050544.png" srcset="/img/loading.gif" lazyload alt="image-20221226145050544" style="zoom:25%;" />
+
+<h5 id="3-再哈希法"><a href="#3-再哈希法" class="headerlink" title="(3) 再哈希法"></a>(3) 再哈希法</h5><p>构造多个不同的哈希函数，产生冲突时用另一个哈希函数得到哈希地址，直到冲突不再产生；这种方法不易发生“堆积”现象，但增加时间开销</p>
+<h5 id="4-建立公共溢出区法"><a href="#4-建立公共溢出区法" class="headerlink" title="(4) 建立公共溢出区法"></a>(4) 建立公共溢出区法</h5><p>设置 HashTable（基本表）和 OverTable（溢出表）两个向量，如果发生冲突，不论哈希地址是什么，都填入溢出表</p>
+<h4 id="查找算法及其时间性能分析"><a href="#查找算法及其时间性能分析" class="headerlink" title="查找算法及其时间性能分析"></a>查找算法及其时间性能分析</h4><p>查找过程和造表过程一致，算法描述如下：（以使用开放定址法处理冲突构造的哈希表为例，使用其他方法处理冲突构造的哈希表的查找同理）</p>
+<p>对于给定值 k，得到哈希地址 p &#x3D; h(k)</p>
+<ul>
+<li>若 HashTable[p] &#x3D; NULL，则查找不成功</li>
+<li>若 HashTable[p].key &#x3D; k，则查找成功</li>
+<li>否则根据约定求下一地址，直至 HashTable[p] &#x3D; NULL（查找不成功）或 HashTable[p].key &#x3D; k（查找成功）</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> KEYINIT 0x3f3f3f3f</span><br><br><span class="hljs-type">int</span> sizelist[]=&#123;<span class="hljs-number">997</span>&#125;; <span class="hljs-comment">// 哈希表容量表（一个合适的递增素数序列）</span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    T* elem; <span class="hljs-comment">// 记录存储基址</span><br>    <span class="hljs-type">int</span> count; <span class="hljs-comment">// 当前记录数</span><br>    <span class="hljs-type">int</span> sizeindex; <span class="hljs-comment">// sizelist[sizeindex]为当前容量</span><br>&#125; HashTable;<br><br><span class="hljs-comment">// 查找成功，返回true；查找失败，返回false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Search</span><span class="hljs-params">(HashTable H,<span class="hljs-type">int</span> k,<span class="hljs-type">int</span> &amp;p)</span> </span>&#123;<br>    <span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;<br>    p=<span class="hljs-built_in">h</span>(k);<br>    <span class="hljs-keyword">while</span> (H.elem[p].key!=KEYINIT&amp;&amp;H.elem[p].key!=k) &#123;<br>        ++i;<br>        p=(<span class="hljs-built_in">h</span>(k)+d[i])%sizelist[H.sizeindex];<br>    &#125;<br>    <span class="hljs-keyword">if</span> (H.elem[p].key==k)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br><br><span class="hljs-comment">// 插入成功，返回true；因哈希表中已有相同记录而插入失败，返回false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Insert</span><span class="hljs-params">(HashTable &amp;H,T e)</span> </span>&#123;<br>    <span class="hljs-type">int</span> p;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Search</span>(H,e.key,p))<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    H.elem[p]=e;<br>    ++H.count;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>由查找过程可知，实际上哈希表 ASL ≠ 0，决定比较次数的因素有：</p>
+<ul>
+<li>哈希函数</li>
+<li>处理冲突的方法</li>
+<li><strong>哈希表的饱和程度 α &#x3D; n&#x2F;m (n 为记录数，m 为表长)</strong></li>
+</ul>
+<p>理论研究表明：当 α &lt; 0.5 即哈希表将近半满时，大部分情况下 ASL &lt; 2；所以，用哈希表构造查找表时，可以规定一个阈值 α（通常为 0.5），使得平均查找长度限定在某个范围内</p>
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><ul>
+<li>操作系统中的可执行程序名</li>
+<li>编译系统中的符号表</li>
+<li>数据库中的索引</li>
+<li>搜索引擎中的关键字词典</li>
+<li>域名解析（域名与 IP 地址对应）</li>
+<li>压缩算法、加密算法</li>
+<li>C++ STL 中的 hash_map</li>
+</ul>
 
                 
               </div>

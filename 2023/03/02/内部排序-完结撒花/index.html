@@ -23,11 +23,24 @@
 <meta property="og:site_name" content="Louisxxr">
 <meta property="og:description" content="数据结构课程笔记 ep9">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-8fa032e195365f77fb6b980a4ed71958_1440w.webp">
+<meta property="og:image" content="https://louisxxr.github.io/..%5Cimg%5Cep9%5Cimage-20230203202943465.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230204144219110.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230204195659231.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230204211827144.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230226144250291.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230226144348677.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230227220224862.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230228235742495.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230228235812314.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230228235833655.png">
+<meta property="og:image" content="https://louisxxr.github.io/..%5Cimg%5Cep9%5Cimage-20230301151810289.png">
 <meta property="article:published_time" content="2023-03-02T08:41:51.000Z">
-<meta property="article:modified_time" content="2023-03-02T08:50:52.807Z">
+<meta property="article:modified_time" content="2023-03-02T15:33:43.574Z">
 <meta property="article:author" content="Xianrui Xie">
 <meta property="article:tag" content="数据结构课程笔记">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic1.zhimg.com/80/v2-8fa032e195365f77fb6b980a4ed71958_1440w.webp">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -233,7 +246,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          11 字
+          12k 字
         
       </span>
     
@@ -244,7 +257,7 @@
         
         
         
-          1 分钟
+          67 分钟
         
       </span>
     
@@ -290,6 +303,469 @@
                 <p>数据结构课程笔记 ep9</p>
 <span id="more"></span>
 
+
+
+<h2 id="内部排序"><a href="#内部排序" class="headerlink" title="内部排序"></a>内部排序</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1 - 概述"></a>1 - 概述</h3><h4 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h4><ol>
+<li>假设一个含有 n 个记录的序列 {R1, R2, …, Rn}，其相应关键字序列为 {K1, K2, …, Kn}，这些关键字可以相互比较，即存在关系：$$K_{p1}≤K_{p2}≤…≤K_{pn}$$；按照此关系将序列重新排列为 {Rp1, Rp2, …, Rpn} 的操作称为<strong>排序</strong></li>
+<li>如果待排序序列中存在多个具有相同关键字的记录，若经过排序这些记录的相对次序保持不变，则称这种排序算法是<strong>稳定</strong>的，否则称这种排序算法是<strong>不稳定</strong>的</li>
+<li>在内存（RAM）中进行的排序过程称为<strong>内部排序</strong>；若待排序序列中记录量大以至于内存不能一次性容纳全部记录，则在排序过程中需访问外存，该排序过程称为<strong>外部排序</strong>；以下“排序”特指内部排序</li>
+</ol>
+<h4 id="待排序序列的存储表示"><a href="#待排序序列的存储表示" class="headerlink" title="待排序序列的存储表示"></a>待排序序列的存储表示</h4><p>待排序序列采用顺序存储，其数据类型定义如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    <span class="hljs-type">int</span> key;<br>    <span class="hljs-comment">// 其它数据项</span><br>&#125; RcdType;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    RcdType R[MAXSIZE+<span class="hljs-number">1</span>]; <span class="hljs-comment">// R[0]闲置</span><br>    <span class="hljs-type">int</span> length;<br>&#125; SqList;<br></code></pre></td></tr></table></figure>
+
+<h4 id="评价排序算法的主要标准"><a href="#评价排序算法的主要标准" class="headerlink" title="评价排序算法的主要标准"></a>评价排序算法的主要标准</h4><ol>
+<li>时间性能<ul>
+<li>取决于两个基本操作的次数<ul>
+<li>比较关键字</li>
+<li>移动记录</li>
+</ul>
+</li>
+<li>具体表现与记录序列实例有关<ul>
+<li>最好</li>
+<li>最坏</li>
+<li>平均</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>空间性能<ul>
+<li>取决于所需的辅助空间</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-插入类排序"><a href="#2-插入类排序" class="headerlink" title="2 - 插入类排序"></a>2 - 插入类排序</h3><p>将序列划分为已排序部分和未排序部分，即在插入第 i 个记录 Ri 时，{R1, R2, …, Ri-1} 是已排序部分，{Ri, Ri+1, …, Rn} 是未排序部分，此时：</p>
+<ol>
+<li>在已排序部分中<strong>查找</strong> Ri 的插入位置：R[1…j].key ≤ R[i].key &lt; R[j+1…i-1].key（保持稳定性）</li>
+<li>将 {Rj+1, …, Ri-1} 中的所有记录均<strong>后移</strong>一位</li>
+<li>将 Ri <strong>插入</strong>到 Rj+1 的位置上</li>
+</ol>
+<h4 id="基于顺序查找的插入排序"><a href="#基于顺序查找的插入排序" class="headerlink" title="基于顺序查找的插入排序"></a>基于顺序查找的插入排序</h4><h5 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">InsertionSort</span><span class="hljs-params">(SqList &amp;L)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;=L.length;++i) &#123;<br>        L.R[<span class="hljs-number">0</span>]=L.R[i]; <span class="hljs-comment">// 设置监视哨</span><br>        <span class="hljs-type">int</span> j;<br>        <span class="hljs-keyword">for</span> (j=i<span class="hljs-number">-1</span>;L.R[<span class="hljs-number">0</span>].key&lt;L.R[j].key;--j) <span class="hljs-comment">// 查找</span><br>            L.R[j+<span class="hljs-number">1</span>]=L.R[j]; <span class="hljs-comment">// 后移</span><br>        L.R[j+<span class="hljs-number">1</span>]=L.R[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 插入</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="算法评价"><a href="#算法评价" class="headerlink" title="算法评价"></a>算法评价</h5><ol>
+<li><p>时间性能</p>
+<ul>
+<li><p>最好：序列中记录按关键字递增有序</p>
+<p>比较次数：$$\sum_{i&#x3D;2}^n1&#x3D;n-1$$</p>
+<p>移动次数：$$\sum_{i&#x3D;2}^n2&#x3D;2n-2$$</p>
+<p>时间复杂度：$$O(n)$$</p>
+</li>
+<li><p>最坏：序列中记录按关键字递减有序</p>
+<p>比较次数：$$\sum_{i&#x3D;2}^ni&#x3D;\frac{(n+2)(n-1)}2$$</p>
+<p>移动次数：$$\sum_{i&#x3D;2}^n(i+1)&#x3D;\frac{(n+4)(n-1)}2$$</p>
+<p>时间复杂度：$$O(n^2)$$</p>
+</li>
+<li><p>平均：序列中记录随机排列</p>
+<p>比较次数：取最好情况和最坏情况的平均值，约为 $$\frac{n^2}4$$</p>
+<p>移动次数：取最好情况和最坏情况的平均值，约为 $$\frac{n^2}4$$</p>
+<p>时间复杂度：$$O(n^2)$$</p>
+</li>
+</ul>
+</li>
+<li><p>空间性能</p>
+<ul>
+<li>空间复杂度：$$O(1)$$</li>
+</ul>
+</li>
+</ol>
+<p>适用于序列中记录数量很小的情况</p>
+<p><strong>稳定性</strong>：稳定</p>
+<h4 id="基于二分查找的插入排序"><a href="#基于二分查找的插入排序" class="headerlink" title="基于二分查找的插入排序"></a>基于二分查找的插入排序</h4><h5 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiInsertionSort</span><span class="hljs-params">(SqList &amp;L)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;=L.length;++i) &#123;<br>        L.R[<span class="hljs-number">0</span>]=L.R[i]; <span class="hljs-comment">// 将L.R[i]暂存到L.R[0]</span><br>        <span class="hljs-type">int</span> low=<span class="hljs-number">1</span>,high=i<span class="hljs-number">-1</span>;<br>        <span class="hljs-keyword">while</span> (low&lt;=high) &#123; <span class="hljs-comment">// 查找</span><br>            <span class="hljs-type">int</span> mid=(low+high)/<span class="hljs-number">2</span>;<br>            <span class="hljs-keyword">if</span> (L.R[<span class="hljs-number">0</span>].key&lt;L.R[mid].key)<br>                high=mid<span class="hljs-number">-1</span>;<br>            <span class="hljs-keyword">else</span><br>                low=mid+<span class="hljs-number">1</span>;<br>        &#125;<br>        <span class="hljs-comment">// 此时，low=high+1</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=i<span class="hljs-number">-1</span>;j&gt;=low;--j) <span class="hljs-comment">// 后移</span><br>            L.R[j+<span class="hljs-number">1</span>]=L.R[j];<br>        L.R[low]=L.R[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 插入</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="算法评价-1"><a href="#算法评价-1" class="headerlink" title="算法评价"></a>算法评价</h5><ol>
+<li>平均时间复杂度：$$O(n^2)$$</li>
+<li>空间复杂度：$$O(1)$$</li>
+</ol>
+<p>当序列中记录数量很大时，可大幅降低关键字的比较次数</p>
+<p><strong>稳定性</strong>：稳定</p>
+<h4 id="希尔排序（缩小增量排序）"><a href="#希尔排序（缩小增量排序）" class="headerlink" title="希尔排序（缩小增量排序）"></a>希尔排序（缩小增量排序）</h4><h5 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h5><ol>
+<li><p>将含有 n 个记录的待排序序列分成 d 个子序列：（d 称为<strong>增量</strong>）</p>
+<p>{R[1], R[d+1], R[2d+1], …, R[kd+1]}</p>
+<p>{R[2], R[d+2], R[2d+2], …, R[kd+2]}</p>
+<p>…</p>
+<p>{R[d], R[2d], R[3d], …, R[(k+1)d]}</p>
+</li>
+<li><p>分别对 d 个子序列进行 d 次插入排序，保持子序列之间的相对位置不变</p>
+</li>
+<li><p>增量 d 在排序过程中从大到小逐渐缩小，直至最后一趟排序减为 1</p>
+</li>
+</ol>
+<p>增量的取法：一般公认，增量没有公因子，最后一趟为 1</p>
+<p>示例：</p>
+<p>待排序序列关键字：{49, 38, 65, 97, 76, 13, 27, <em><strong>49</strong></em>, 55, 04}</p>
+<ul>
+<li><p>第一趟排序：d &#x3D; 5</p>
+<p>子序列：</p>
+<p>{49,                         13                        }，排序后：{13,                         49                        }</p>
+<p>{      38,                         27                  }，排序后：{      27,                         38                  }</p>
+<p>{            65,                         <em><strong>49</strong></em>            }，排序后：{            <em><strong>49</strong></em>,                         65            }</p>
+<p>{                  97,                         55      }，排序后：{                  55,                         97      }</p>
+<p>{                        76,                         04}，排序后：{                        04,                         76}</p>
+<p>整个序列排序后：{13, 27, <em><strong>49</strong></em>, 55, 04, 49, 38, 65, 97, 76}</p>
+</li>
+<li><p>第二趟排序：d &#x3D; 3</p>
+<p>子序列：</p>
+<p>{13,             55,             38,             76}，排序后：{13,             38,             55,             76}</p>
+<p>{      27,             04,             65            }，排序后：{      04,             27,             65            }</p>
+<p>{            <em><strong>49</strong></em>,             49,             97      }，排序后：{            <em><strong>49</strong></em>,             49,             97      }</p>
+<p>整个序列排序后：{13, 04, <em><strong>49</strong></em>, 38, 27, 49, 55, 65, 97, 76}</p>
+</li>
+<li><p>第三趟排序：d &#x3D; 1</p>
+<p>整个序列排序后：{04, 13, 27, 38, <em><strong>49</strong></em>, 49, 55, 65, 76, 97}</p>
+</li>
+</ul>
+<h5 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 一趟排序</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ShellInsertionSort</span><span class="hljs-params">(SqList &amp;L,<span class="hljs-type">int</span> d)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=d+<span class="hljs-number">1</span>;i&lt;=L.length;++i) &#123;<br>        L.R[<span class="hljs-number">0</span>]=L.R[i];<br>        <span class="hljs-type">int</span> j;<br>        <span class="hljs-keyword">for</span> (j=i-d;L.R[<span class="hljs-number">0</span>].key&lt;L.R[j].key&amp;&amp;j&gt;<span class="hljs-number">0</span>;j-=d)<br>            L.R[j+d]=L.R[j];<br>        L.R[j+d]=L.R[<span class="hljs-number">0</span>];<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ShellSort</span><span class="hljs-params">(SqList &amp;L,<span class="hljs-type">int</span> d[],<span class="hljs-type">int</span> t)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;t;++i)<br>        <span class="hljs-built_in">ShellInsertionSort</span>(L,d[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="算法评价-2"><a href="#算法评价-2" class="headerlink" title="算法评价"></a>算法评价</h5><p>希尔排序将相隔某个增量的记录组成一个子序列，关键字较小的记录跳跃式地往前移，在进行最后一趟增量为 1 的排序时，序列已基本有序，只需作少量的关键字比较和记录移动即可完成排序</p>
+<p>希尔排序的平均时间复杂度为 $$O(n^{1.3-2})$$，空间复杂度为 $$O(1)$$；它没有时间复杂度为 $$O(nlogn)$$ 的快速排序算法快，因此对中等规模的序列表现良好，但对大规模的序列不是最优选择，总之比时间复杂度为 $$O(n^2)$$ 的普通插入排序快得多</p>
+<p><strong>稳定性</strong>：不稳定</p>
+<h3 id="3-交换类排序"><a href="#3-交换类排序" class="headerlink" title="3 - 交换类排序"></a>3 - 交换类排序</h3><h4 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h4><h5 id="算法描述-1"><a href="#算法描述-1" class="headerlink" title="算法描述"></a>算法描述</h5><ol>
+<li>从 R[1] 开始，两两比较 R[i] 和 R[i+1] <strong>(i &#x3D; 1, 2, …, n-1)</strong> 的关键字大小，若 R[i].key &gt; R[i+1].key，则交换 R[i] 和 R[i+1] 的位置，第一趟完成后 <strong>R[n]</strong> 是序列中关键字<strong>最大</strong>的记录</li>
+<li>从 R[1] 开始，两两比较 R[i] 和 R[i+1] <strong>(i &#x3D; 1, 2, …, n-2)</strong> 的关键字大小，若 R[i].key &gt; R[i+1].key，则交换 R[i] 和 R[i+1] 的位置，第二趟完成后 <strong>R[n-1]</strong> 是序列中关键字<strong>次大</strong>的记录</li>
+<li>反复进行 n-1 趟上述过程</li>
+</ol>
+<p>示例：</p>
+<p>待排序序列关键字：{65, 97, 76, 13, 27, 49, 58}</p>
+<ul>
+<li>第一趟结果：{65, 76, 13, 27, 49, 58, <em><strong>97</strong></em>}</li>
+<li>第二趟结果：{65, 13, 27, 49, 58, <em><strong>76</strong></em>, <em><strong>97</strong></em>}</li>
+<li>第三趟结果：{13, 27, 49, 58, <em><strong>65</strong></em>, <em><strong>76</strong></em>, <em><strong>97</strong></em>}</li>
+<li>第四趟结果：{13, 27, 49, <em><strong>58</strong></em>, <em><strong>65</strong></em>, <em><strong>76</strong></em>, <em><strong>97</strong></em>}</li>
+<li>第五趟结果：{13, 27, <em><strong>49</strong></em>, <em><strong>58</strong></em>, <em><strong>65</strong></em>, <em><strong>76</strong></em>, <em><strong>97</strong></em>}</li>
+<li>第六趟结果：{13, <em><strong>27</strong></em>, <em><strong>49</strong></em>, <em><strong>58</strong></em>, <em><strong>65</strong></em>, <em><strong>76</strong></em>, <em><strong>97</strong></em>}</li>
+</ul>
+<h5 id="实现-3"><a href="#实现-3" class="headerlink" title="实现"></a>实现</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span><br><br><span class="hljs-comment">// 冒泡排序</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BubbleSort</span><span class="hljs-params">(SqList &amp;L)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;L.length<span class="hljs-number">-1</span>;++i) <span class="hljs-comment">// i记趟数</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=L.length-i<span class="hljs-number">-1</span>;++j)<br>            <span class="hljs-keyword">if</span> (L.R[j].key&gt;L.R[j+<span class="hljs-number">1</span>].key)<br>                <span class="hljs-built_in">swap</span>(L.R[j],L.R[j+<span class="hljs-number">1</span>]);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="算法改进"><a href="#算法改进" class="headerlink" title="算法改进"></a>算法改进</h5><p>对于示例，第三趟完成后序列已经有序，后面三趟没有发生交换，浪费时间</p>
+<p>改进：标记每趟是否有发生交换，若没有发生交换，则表示序列已经有序，结束排序</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span><br><br><span class="hljs-comment">// 改进的冒泡排序</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BubbleSort</span><span class="hljs-params">(SqList &amp;L)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>,flag=<span class="hljs-number">1</span>;i&lt;L.length<span class="hljs-number">-1</span>&amp;&amp;flag;++i) &#123; <span class="hljs-comment">// i记趟数，flag=1表示有发生交换</span><br>        flag=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=L.length-i<span class="hljs-number">-1</span>;++j)<br>            <span class="hljs-keyword">if</span> (L.R[j].key&gt;L.R[j+<span class="hljs-number">1</span>].key) &#123;<br>                <span class="hljs-built_in">swap</span>(L.R[j],L.R[j+<span class="hljs-number">1</span>]);<br>                flag=<span class="hljs-number">1</span>;<br>            &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>某一趟完成后序列不一定整体有序，但其无序部分末尾却有可能已经有序</p>
+<p>进一步改进：下一趟的比较到本趟最后一次发生交换的位置之前为止</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span><br><br><span class="hljs-comment">// 进一步改进的冒泡排序</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BubbleSort</span><span class="hljs-params">(SqList &amp;L)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=L.length;i&gt;<span class="hljs-number">1</span>;) &#123;<br>        <span class="hljs-type">int</span> lastidx=<span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;i;++j)<br>            <span class="hljs-keyword">if</span> (L.R[j].key&gt;L.R[j+<span class="hljs-number">1</span>].key) &#123;<br>                <span class="hljs-built_in">swap</span>(L.R[j],L.R[j+<span class="hljs-number">1</span>]);<br>                lastidx=j;<br>            &#125;<br>        i=lastidx;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="算法评价（对进一步改进的冒泡排序）"><a href="#算法评价（对进一步改进的冒泡排序）" class="headerlink" title="算法评价（对进一步改进的冒泡排序）"></a>算法评价（对进一步改进的冒泡排序）</h5><ol>
+<li><p>时间性能</p>
+<ul>
+<li><p>最好：序列中记录按关键字递增有序，只需一趟冒泡</p>
+<p>比较次数：n-1</p>
+<p>移动次数：0</p>
+<p>时间复杂度：$$O(n)$$</p>
+</li>
+<li><p>最坏：序列中记录按关键字递减有序，需要 n-1 趟冒泡</p>
+<p>比较次数：$$\sum_{i&#x3D;n}^2(i-1)&#x3D;\frac{n(n-1)}2$$</p>
+<p>移动次数：$$3\sum_{i&#x3D;n}^2(i-1)&#x3D;\frac{3n(n-1)}2$$</p>
+<p>时间复杂度：$$O(n^2)$$</p>
+</li>
+<li><p>平均：序列中记录随机排列</p>
+<p>时间复杂度：$$O(n^2)$$</p>
+</li>
+</ul>
+</li>
+<li><p>空间性能</p>
+<ul>
+<li>空间复杂度：$$O(1)$$</li>
+</ul>
+</li>
+</ol>
+<p><strong>稳定性</strong>：稳定</p>
+<h4 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h4><p>快速排序是基于分治的排序算法，既是受二叉搜索树启发，也是冒泡排序的改进，被评为 20 世纪十大算法之一</p>
+<h5 id="算法描述-2"><a href="#算法描述-2" class="headerlink" title="算法描述"></a>算法描述</h5><ol>
+<li>选定一个记录并以其关键字为<strong>枢轴（Pivot）</strong>，凡关键字小于枢轴的记录均移动至该记录之前，凡关键字大于枢轴的记录均移动至该记录之后；使得序列被划分成两部分：枢轴前的序列记录的关键字小于等于枢轴，枢轴后的序列记录的关键字大于等于枢轴，枢轴对应记录已经在合适的位置上</li>
+<li>分别对划分所得两部分子序列“递归”进行快速排序，直至序列只有一个记录</li>
+</ol>
+<p>“凡关键字小于枢轴的记录均移动至该记录之前，凡关键字大于枢轴的记录均移动至该记录之后”用<strong>双指针</strong>实现：</p>
+<ol>
+<li><p>设置 low 指针和 high 指针初始化为序列最小索引和序列最大索引</p>
+</li>
+<li><p>选定枢轴并将其对应记录复制到 R[0]，然后将其对应记录与 R[low] 交换或直接选定 R[low].key 为枢轴，先处理 R[high]（或：将其对应记录与 R[high] 交换或直接选定 R[high].key 为枢轴，先处理 R[low]）</p>
+</li>
+<li><p>处理 R[high]：若 R[high].key ≥ R[0].key，则 high 前移一位，继续处理 R[high]；否则将 R[high] 复制到 R[low]，处理 R[low]</p>
+<p>处理 R[low]：若 R[low].key ≤ R[0].key，则 low 后移一位，继续处理 R[low]；否则将 R[low] 复制到 R[high]，处理 R[high]</p>
+</li>
+<li><p>重复执行 3，直至 low &#x3D; high，此时将 R[0] 复制到 R[low]</p>
+</li>
+</ol>
+<h5 id="实现-4"><a href="#实现-4" class="headerlink" title="实现"></a>实现</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Partition</span><span class="hljs-params">(SqList &amp;L,<span class="hljs-type">int</span> low,<span class="hljs-type">int</span> high)</span> </span>&#123;<br>    <span class="hljs-type">int</span> pivot=L.R[low].key; <span class="hljs-comment">// 直接选定R[low].key为枢轴</span><br>    L.R[<span class="hljs-number">0</span>]=L.R[low];<br>    <span class="hljs-keyword">while</span> (low&lt;high) &#123;<br>        <span class="hljs-comment">// 先处理R[high]</span><br>        <span class="hljs-keyword">while</span> (low&lt;high&amp;&amp;L.R[high].key&gt;=pivot)<br>            --high;<br>        L.R[low]=L.R[high];<br>        <span class="hljs-keyword">while</span> (low&lt;high&amp;&amp;L.R[low].key&lt;=pivot)<br>            ++low;<br>        L.R[high]=L.R[low];<br>    &#125;<br>    L.R[low]=L.R[<span class="hljs-number">0</span>];<br>    <span class="hljs-keyword">return</span> low;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QuickSort</span><span class="hljs-params">(SqList &amp;L,<span class="hljs-type">int</span> s,<span class="hljs-type">int</span> t)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (s&lt;t) &#123;<br>        <span class="hljs-type">int</span> pivotloc=<span class="hljs-built_in">Partition</span>(L,s,t);<br>        <span class="hljs-built_in">QuickSort</span>(L,s,pivotloc<span class="hljs-number">-1</span>);<br>        <span class="hljs-built_in">QuickSort</span>(L,pivotloc+<span class="hljs-number">1</span>,t);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="算法评价-3"><a href="#算法评价-3" class="headerlink" title="算法评价"></a>算法评价</h5><p>快速排序涉及递归，需要使用栈保存函数状态，所以其空间复杂度取决于递归至最深处栈中元素数，而其时间复杂度取决于 Partition 函数的时间复杂度 $$O(n)$$ 与执行该函数的次数（与递归至最深处栈中元素数数量级相同）之积，因此 $$O_T(n)&#x3D;n*O_S(n)$$</p>
+<ul>
+<li><p>最好：每次划分后，枢轴恰好将序列<strong>均分</strong>成两部分，枢轴位置在中间</p>
+<p>空间复杂度：$$O(logn)$$</p>
+<p>时间复杂度：$$O(nlogn)$$</p>
+</li>
+<li><p>最坏：每次划分后，其他所有记录恰好都在枢轴对应记录的<strong>一侧</strong>，快速排序退化为冒泡排序（与二叉搜索树退化为链表类似）</p>
+<p>空间复杂度：$$O(n)$$</p>
+<p>时间复杂度：$$O(n^2)$$</p>
+</li>
+<li><p>平均：序列中记录按关键字随机分布</p>
+<p>结论：</p>
+<p>空间复杂度：$$O(logn)$$</p>
+<p>时间复杂度：$$O(nlogn)$$</p>
+</li>
+</ul>
+<p>尽可能远离最坏情况、接近最好情况的方法：</p>
+<ol>
+<li><p>选定合适的枢轴</p>
+<p>随机选定枢轴，或随机选取三个关键字并选定居中者为枢轴，一般选定 R[low].key, R[high].key, R[(low+high)&#x2F;2].key 中居中者为枢轴（“中值快排法”）</p>
+</li>
+<li><p>与插入排序、堆排序结合使用</p>
+<img src="https://pic1.zhimg.com/80/v2-8fa032e195365f77fb6b980a4ed71958_1440w.webp" srcset="/img/loading.gif" lazyload alt="img"  />
+
+<p>具体参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/36274119">C++一道深坑面试题：STL里sort算法用的是什么排序算法？ - 知乎</a></p>
+</li>
+</ol>
+<p>其他优化：三路快速排序</p>
+<p><strong>稳定性</strong>：不稳定</p>
+<h3 id="4-选择类排序"><a href="#4-选择类排序" class="headerlink" title="4 - 选择类排序"></a>4 - 选择类排序</h3><h4 id="简单选择排序"><a href="#简单选择排序" class="headerlink" title="简单选择排序"></a>简单选择排序</h4><h5 id="算法描述-3"><a href="#算法描述-3" class="headerlink" title="算法描述"></a>算法描述</h5><p>令 i 从 1 至 n-1，反复进行 n-1 趟以下过程：通过 n-i 次关键字间的比较，从 n-i+1 个记录中选择关键字最小的记录并与第 i 个记录交换</p>
+<h5 id="实现-5"><a href="#实现-5" class="headerlink" title="实现"></a>实现</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SelectSort</span><span class="hljs-params">(SqList &amp;L)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=L.length<span class="hljs-number">-1</span>;++i) &#123;<br>        <span class="hljs-type">int</span> minidx=i,min=L.R[i].key;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=i+<span class="hljs-number">1</span>;j&lt;=L.length;++j)<br>            <span class="hljs-keyword">if</span> (L.R[j].key&lt;min) &#123;<br>                minidx=j;<br>                min=L.R[j].key;<br>            &#125;<br>        <span class="hljs-keyword">if</span> (minidx!=i)<br>            <span class="hljs-built_in">swap</span>(L.R[minidx],L.R[i]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="算法评价-4"><a href="#算法评价-4" class="headerlink" title="算法评价"></a>算法评价</h5><ol>
+<li><p>时间性能</p>
+<ul>
+<li><p>比较次数：$$\sum_{i&#x3D;1}^{n-1}(n-1)&#x3D;\frac{n(n-1)}2$$</p>
+<p>移动次数：最好情况为 0，最坏情况为 3(n-1)</p>
+<p>最好、最坏、平均时间复杂度：$$O(n^2)$$（时间性能与记录序列实例无关）</p>
+</li>
+</ul>
+</li>
+<li><p>空间性能</p>
+<ul>
+<li>空间复杂度：$$O(1)$$</li>
+</ul>
+</li>
+</ol>
+<p><strong>稳定性</strong>：不稳定</p>
+<h4 id="树形选择排序"><a href="#树形选择排序" class="headerlink" title="树形选择排序"></a>树形选择排序</h4><h5 id="算法描述-4"><a href="#算法描述-4" class="headerlink" title="算法描述"></a>算法描述</h5><p>模拟锦标赛进行选择排序：（结合示例理解）</p>
+<ol>
+<li>先对 n 个记录的关键字进行两两比较得到 ⌈n&#x2F;2⌉ 个较小者，再对 ⌈n&#x2F;2⌉ 个较小者进行两两比较得到 ⌈⌈n&#x2F;2⌉&#x2F;2⌉ 个更小者，如此重复直至选出最小者，得到关键字最小的记录</li>
+<li>将所得记录在序列中的对应记录的关键字改为 ∞，并根据 1 中原则更新该记录的产生路径上的关键字值，得到此时关键字最小的记录</li>
+<li>重复执行 2，直至得到 n 个记录</li>
+</ol>
+<p>示例：</p>
+<p>待排序序列关键字：{49, 38, 65, 97, 76, 13, 27, 49}</p>
+<p><img src="/..%5Cimg%5Cep9%5Cimage-20230203202943465.png" srcset="/img/loading.gif" lazyload alt="image-20230203202943465"></p>
+<h5 id="算法评价-5"><a href="#算法评价-5" class="headerlink" title="算法评价"></a>算法评价</h5><ol>
+<li>平均时间复杂度：$$O(nlogn)$$（除关键字最小的记录外，每得到一个记录需进行 $$⌈log_2n⌉$$ 次比较）</li>
+<li>空间复杂度：$$O(n)$$</li>
+</ol>
+<p><strong>稳定性</strong>：稳定</p>
+<p>树形选择排序虽然有 $$O(nlogn)$$ 的时间复杂度，但是排序过程中频繁与 ∞ 进行多余的比较，且开辟的辅助空间较多，堆排序可以弥补这些缺点</p>
+<h4 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h4><p>数列 {$$r_1$$, $$r_2$$, …, $$r_n$$}：</p>
+<ul>
+<li>若满足 $$r_i≤r_{2i}$$ 且 $$r_i≤r_{2i+1}$$，则称为<strong>小顶堆（Max heap）</strong></li>
+<li>若满足 $$r_i≥r_{2i}$$ 且 $$r_i≥r_{2i+1}$$，则称为<strong>大顶堆（Min heap）</strong></li>
+</ul>
+<p>通常将堆写成完全二叉树的形式，$$r_{2i}$$ 是 $$r_i$$ 的左孩子，$$r_{2i+1}$$ 是 $$r_i$$ 的右孩子</p>
+<p>示例：</p>
+<p>大顶堆 {98, 81, 49, 73, 36, 27, 40, 55, 64, 12} 可以写成：</p>
+<img src="..\img\ep9\image-20230204144219110.png" srcset="/img/loading.gif" lazyload alt="image-20230204144219110" style="zoom:25%;" />
+
+<h5 id="算法描述-5"><a href="#算法描述-5" class="headerlink" title="算法描述"></a>算法描述</h5><p>堆排序利用堆的特性对序列进行排序</p>
+<p><strong>需要解决两个问题</strong>：</p>
+<ol>
+<li><p>如何在输出堆顶元素之后，调整剩余元素成为一个新的堆？</p>
+<p>在输出堆顶元素之后，以堆中最后一个元素替代之，此时，对应二叉树中根结点的左右子树均为堆，仅需对根结点自上至下进行调整，使剩余元素成为一个新的堆</p>
+<p>示例输出 98 后，将 12 提至堆顶，接着“对根结点自上至下进行调整”的过程如下：</p>
+<img src="..\img\ep9\image-20230204195659231.png" srcset="/img/loading.gif" lazyload alt="image-20230204195659231" style="zoom:25%;" />
+</li>
+<li><p>如何由一个无序序列建堆？</p>
+<p>对应二叉树中叶子结点均满足堆的定义，需从高度为 2 的非叶子结点到根结点，对以之为根的子树根据 1 中原则进行调整，使所有子树也均满足堆的定义</p>
+<p>由无序序列 {40, 55, 49, 73, 12, 27, 98, 81, 64, 36} 建立示例中的大顶堆的过程如下：</p>
+<img src="..\img\ep9\image-20230204211827144.png" srcset="/img/loading.gif" lazyload alt="image-20230204211827144" style="zoom: 50%;" /></li>
+</ol>
+<p><strong>具体过程与树形选择排序类似</strong>：</p>
+<ol>
+<li>按关键字建大顶堆，得到关键字最大的记录</li>
+<li><strong>将所得记录与此时堆中最后一个记录交换</strong>（无需辅助空间，降低空间复杂度），调整剩余记录成为一个新的堆，得到此时关键字最大的记录</li>
+<li>重复执行 n-1 次 2</li>
+</ol>
+<h5 id="实现-6"><a href="#实现-6" class="headerlink" title="实现"></a>实现</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span><br><br><span class="hljs-comment">// 已知&#123;L.R[s],...,L.R[m]&#125;中，记录的关键字除L.R[s]外均满足大顶堆的特性，HeapAdjust函数对L.R[s]自上至下进行调整，使&#123;L.R[s],...,L.R[m]&#125;成为一个大顶堆</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">HeapAdjust</span><span class="hljs-params">(SqList &amp;L,<span class="hljs-type">int</span> s,<span class="hljs-type">int</span> m)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">2</span>*s;j&lt;=m;j*=<span class="hljs-number">2</span>) &#123;<br>        <span class="hljs-keyword">if</span> (j&lt;m&amp;&amp;L.R[j].key&lt;L.R[j+<span class="hljs-number">1</span>].key)<br>            ++j;<br>        <span class="hljs-keyword">if</span> (L.R[s].key&gt;=L.R[j].key)<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-built_in">swap</span>(L.R[s],L.R[j]);<br>        s=j;<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">HeapSort</span><span class="hljs-params">(SqList &amp;L)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=L.length/<span class="hljs-number">2</span>;i&gt;<span class="hljs-number">0</span>;--i)<br>        <span class="hljs-built_in">HeapAdjust</span>(L,i,L.length);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=L.length;i&gt;<span class="hljs-number">1</span>;--i) &#123;<br>        <span class="hljs-built_in">swap</span>(L.R[<span class="hljs-number">1</span>],L.R[i]);<br>        <span class="hljs-built_in">HeapAdjust</span>(L,<span class="hljs-number">1</span>,i<span class="hljs-number">-1</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="算法评价-6"><a href="#算法评价-6" class="headerlink" title="算法评价"></a>算法评价</h5><ol>
+<li><p>时间性能</p>
+<ul>
+<li><p>建堆比较次数：结论为 $$O(n)$$</p>
+<p>调整比较次数：至多 $$2(⌊log_2(n-1)⌋+⌊log_2(n-2)⌋+…+⌊log_21⌋)&lt;2n⌊log_2n⌋$$</p>
+<p>（对深度为 h 的堆，HeapAdjust 比较次数至多 2(h-1)；具有 n 个结点的完全二叉树的深度为 $$⌊log_2n⌋+1$$）</p>
+<p>最好、最坏、平均时间复杂度：$$O(nlogn)$$（时间性能与记录序列实例无关）</p>
+</li>
+</ul>
+</li>
+<li><p>空间性能</p>
+<ul>
+<li>空间复杂度：$$O(1)$$</li>
+</ul>
+</li>
+</ol>
+<p>适用于在记录数量较大的序列中，求关键字最大或最小的几个记录</p>
+<p><strong>稳定性</strong>：不稳定</p>
+<h3 id="5-归并排序"><a href="#5-归并排序" class="headerlink" title="5 - 归并排序"></a>5 - 归并排序</h3><h5 id="算法描述-6"><a href="#算法描述-6" class="headerlink" title="算法描述"></a>算法描述</h5><p>基本思想：递归地将两个或两个以上有序子序列合并为一个有序序列，通常采用二路归并排序</p>
+<p>示例：</p>
+<p>待排序序列关键字：{25, 57, 48, 37, 12, 92, 86}</p>
+<ul>
+<li>第一趟结果：{[25, 57], [37, 48], [12, 92], [86]}</li>
+<li>第二趟结果：{[25, 37, 48, 57], [12, 86, 92]}</li>
+<li>第三趟结果：{[12, 25, 37, 48, 57, 86, 92]}</li>
+</ul>
+<h5 id="实现-7"><a href="#实现-7" class="headerlink" title="实现"></a>实现</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// source: https://github.com/imxtx/algorithms</span><br><br><span class="hljs-comment">// 将位置相邻的有序子序列arr[left...mid]和arr[mid+1...right]合并为一个有序序列tempArr[left...right]</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">merge</span><span class="hljs-params">(RcdType arr[],RcdType tempArr[],<span class="hljs-type">int</span> left,<span class="hljs-type">int</span> mid,<span class="hljs-type">int</span> right)</span> </span>&#123;<br>    <span class="hljs-comment">// 标记左半区第一个未排序的元素</span><br>    <span class="hljs-type">int</span> l_pos=left;<br>    <span class="hljs-comment">// 标记右半区第一个未排序的元素</span><br>    <span class="hljs-type">int</span> r_pos=mid+<span class="hljs-number">1</span>;<br>    <span class="hljs-comment">// 临时数组元素的下标</span><br>    <span class="hljs-type">int</span> pos=left;<br><br>    <span class="hljs-comment">// 合并</span><br>    <span class="hljs-keyword">while</span> (l_pos&lt;=mid&amp;&amp;r_pos&lt;=right) &#123;<br>        <span class="hljs-keyword">if</span> (arr[l_pos].key&lt;=arr[r_pos].key) <span class="hljs-comment">// 左半区第一个剩余元素更小</span><br>            tempArr[pos++]=arr[l_pos++];<br>        <span class="hljs-keyword">else</span> <span class="hljs-comment">// 右半区第一个剩余元素更小</span><br>            tempArr[pos++]=arr[r_pos++];<br>    &#125;<br><br>    <span class="hljs-comment">// 合并左半区剩余的元素</span><br>    <span class="hljs-keyword">while</span> (l_pos&lt;=mid)<br>        tempArr[pos++]=arr[l_pos++];<br>    <span class="hljs-comment">// 合并右半区剩余的元素</span><br>    <span class="hljs-keyword">while</span> (r_pos&lt;=right)<br>        tempArr[pos++]=arr[r_pos++];<br><br>    <span class="hljs-comment">// 把临时数组中合并后的元素复制回原来的数组</span><br>    <span class="hljs-keyword">while</span> (left&lt;=right) &#123;<br>        arr[left]=tempArr[left];<br>        ++left;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 归并排序</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">msort</span><span class="hljs-params">(RcdType arr[],RcdType tempArr[],<span class="hljs-type">int</span> left,<span class="hljs-type">int</span> right)</span> </span>&#123;<br>    <span class="hljs-comment">// 如果只有一个元素，那么不需要继续划分</span><br>    <span class="hljs-comment">// 只有一个元素的区域，本身就是有序的，只需要被合并即可</span><br>    <span class="hljs-keyword">if</span> (left&lt;right) &#123;<br>        <span class="hljs-comment">// 找中间点</span><br>        <span class="hljs-type">int</span> mid=(left+right)/<span class="hljs-number">2</span>;<br>        <span class="hljs-comment">// 递归划分左半区</span><br>        <span class="hljs-built_in">msort</span>(arr,tempArr,left,mid);<br>        <span class="hljs-comment">// 递归划分右半区</span><br>        <span class="hljs-built_in">msort</span>(arr,tempArr,mid+<span class="hljs-number">1</span>,right);<br>        <span class="hljs-comment">// 合并已经排序的部分</span><br>        <span class="hljs-built_in">merge</span>(arr,tempArr,left,mid,right);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 归并排序入口</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MergeSort</span><span class="hljs-params">(SqList &amp;L)</span> </span>&#123;<br>    <span class="hljs-comment">// 分配一个辅助数组</span><br>    RcdType tempArr[N];<br>    <span class="hljs-comment">// 调用实际的归并排序</span><br>    <span class="hljs-built_in">msort</span>(L.R,tempArr,<span class="hljs-number">1</span>,L.length);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="算法评价-7"><a href="#算法评价-7" class="headerlink" title="算法评价"></a>算法评价</h5><ol>
+<li><p>时间性能</p>
+<ul>
+<li><p>每一趟归并的时间复杂度为 $$O(n)$$，共进行 $$⌈log_2n⌉$$ 趟</p>
+<p>最好、最坏、平均时间复杂度：$$O(nlogn)$$（时间性能与记录序列实例无关）</p>
+</li>
+</ul>
+</li>
+<li><p>空间性能</p>
+<ul>
+<li>辅助数组：$$O(n)$$</li>
+<li>递归栈：$$O(logn)$$</li>
+<li>空间复杂度：$$O(n+logn)&#x3D;O(n)$$</li>
+</ul>
+</li>
+</ol>
+<p><strong>稳定性</strong>：稳定</p>
+<h3 id="6-基数排序"><a href="#6-基数排序" class="headerlink" title="6 - 基数排序"></a>6 - 基数排序</h3><h4 id="多关键字记录的排序"><a href="#多关键字记录的排序" class="headerlink" title="多关键字记录的排序"></a>多关键字记录的排序</h4><p>记录序列对多关键字有序是指：序列中任意两个记录都满足<strong>字典有序</strong></p>
+<h5 id="方法一：最高位优先（Most-Significant-Digit-first）"><a href="#方法一：最高位优先（Most-Significant-Digit-first）" class="headerlink" title="方法一：最高位优先（Most Significant Digit first）"></a>方法一：最高位优先（Most Significant Digit first）</h5><p><strong>具体示例</strong>：</p>
+<p>对打乱的扑克牌进行排序，排序后扑克牌对以下两个关键字有序：</p>
+<ul>
+<li>花色：♣ &lt; ♦ &lt; ♥ &lt; ♠</li>
+<li>面值：2 &lt; 3 &lt; … &lt; A</li>
+<li>花色地位高于面值</li>
+</ul>
+<p>方法：先对所有扑克牌按花色进行排序，再分别对每批花色相同的扑克牌按面值进行排序</p>
+<p><strong>抽象描述</strong>：</p>
+<ol>
+<li>先对所有记录，按地位最高的关键字进行排序</li>
+<li>再分别对每批地位最高关键字相同的记录，按地位次高的关键字进行排序</li>
+<li>再分别对每批地位最高关键字和地位次高关键字都相同的记录，按地位第三高的关键字进行排序</li>
+<li>以此类推，直至按地位最低的关键字排序完毕</li>
+</ol>
+<h5 id="方法二：最低位优先（Last-Significant-Digit-first）"><a href="#方法二：最低位优先（Last-Significant-Digit-first）" class="headerlink" title="方法二：最低位优先（Last Significant Digit first）"></a>方法二：最低位优先（Last Significant Digit first）</h5><p><strong>具体示例</strong>：</p>
+<p>对打乱的学生记录进行排序，排序后学生记录对以下三个关键字有序：</p>
+<ul>
+<li>系别：1 &lt; 2 &lt; 3 &lt; …</li>
+<li>班别：1 &lt; 2 &lt; 3 &lt; …</li>
+<li>学号：1 &lt; 2 &lt; 3 &lt; …</li>
+<li>系别地位高于班别，班别地位高于学号</li>
+</ul>
+<p>方法：先对所有学生记录按学号进行排序，再对所有学生记录按班别进行<strong>稳定</strong>的排序，再对所有学生记录按系别进行<strong>稳定</strong>的排序</p>
+<table>
+<thead>
+<tr>
+<th align="center">学生记录</th>
+<th align="center">3, 2, 30</th>
+<th align="center">1, 2, 15</th>
+<th align="center">3, 1, 20</th>
+<th align="center">2, 3, 18</th>
+<th align="center">2, 1, 20</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">按学号排序后的学生记录</td>
+<td align="center">1, 2, 15</td>
+<td align="center">2, 3, 18</td>
+<td align="center">3, 1, 20</td>
+<td align="center">2, 1, 20</td>
+<td align="center">3, 2, 30</td>
+</tr>
+<tr>
+<td align="center">按班别排序后的学生记录</td>
+<td align="center">3, 1, 20</td>
+<td align="center">2, 1, 20</td>
+<td align="center">1, 2, 15</td>
+<td align="center">3, 2, 30</td>
+<td align="center">2, 3, 18</td>
+</tr>
+<tr>
+<td align="center">按系别排序后的学生记录</td>
+<td align="center">1, 2, 15</td>
+<td align="center">2, 1, 20</td>
+<td align="center">2, 3, 18</td>
+<td align="center">3, 1, 20</td>
+<td align="center">3, 2, 30</td>
+</tr>
+</tbody></table>
+<p><strong>抽象描述</strong>：</p>
+<ol>
+<li>先对所有记录，按地位最低的关键字进行排序</li>
+<li>再对所有记录，按地位次低的关键字进行<strong>稳定</strong>的排序</li>
+<li>再对所有记录，按地位第三低的关键字进行<strong>稳定</strong>的排序</li>
+<li>以此类推，直至按地位最高的关键字排序完毕</li>
+</ol>
+<h4 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h4><h5 id="算法描述-7"><a href="#算法描述-7" class="headerlink" title="算法描述"></a>算法描述</h5><p>计数排序采用<strong>“桶”</strong>的思想，不需要比较关键字</p>
+<p>示例：</p>
+<p>待排序序列关键字：{2, 4, 1, 2, 5, 3, 4, 8, 7}</p>
+<p>预处理 1：遍历待排序序列，构建桶数组</p>
+<img src="..\img\ep9\image-20230226144250291.png" srcset="/img/loading.gif" lazyload alt="image-20230226144250291" style="zoom:25%;" />
+
+<p>预处理 2：从小到大遍历桶数组，计算累计值数组</p>
+<img src="..\img\ep9\image-20230226144348677.png" srcset="/img/loading.gif" lazyload alt="image-20230226144348677" style="zoom:25%;" />
+
+<p><strong>从大到小</strong>遍历待排序序列（保持稳定性），借助累计值数组将记录放到结果数组对应位置，过程如下：</p>
+<img src="..\img\ep9\image-20230227220224862.png" srcset="/img/loading.gif" lazyload alt="image-20230227220224862" style="zoom: 50%;" />
+
+<h5 id="算法评价-8"><a href="#算法评价-8" class="headerlink" title="算法评价"></a>算法评价</h5><p>设待排序序列记录数为 n，桶数为 m</p>
+<ol>
+<li>时间复杂度：$$O(n+m)$$</li>
+<li>空间复杂度：$$O(n+m)$$</li>
+</ol>
+<p>适用于关键字范围较小且已知的序列</p>
+<p><strong>稳定性</strong>：稳定</p>
+<h4 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h4><h5 id="算法描述-8"><a href="#算法描述-8" class="headerlink" title="算法描述"></a>算法描述</h5><p>基数排序是用<strong>“多关键字记录的排序”</strong>和<strong>“计数排序”</strong>的思想实现“单关键字记录排序”的排序算法：</p>
+<ul>
+<li>数字型或字符串型的单关键字可以看作由多个数位或多个字符构成的多关键字→可以采用“多关键字记录的排序”中最低位优先的方法</li>
+<li>其中每组关键字序列都范围较小且已知，且使用相同的桶数组（这些“桶”称为<strong>基数</strong>）→可以采用“计数排序”作为最低位优先方法中所需的稳定排序算法</li>
+</ul>
+<p>示例：</p>
+<p>待排序序列关键字：{477, 241, 467, 005, 363, 081, 005}</p>
+<p>设置基数为 0~9，先按关键字个位数进行计数排序，再按关键字十位数进行计数排序，最后按关键字百位数进行计数排序</p>
+<h5 id="算法改进（采用链式存储结构减少辅助空间）"><a href="#算法改进（采用链式存储结构减少辅助空间）" class="headerlink" title="算法改进（采用链式存储结构减少辅助空间）"></a>算法改进（采用链式存储结构减少辅助空间）</h5><ol>
+<li>待排序记录指针相连构成单链表</li>
+<li>分配：按当前“关键字位”的值，将记录分配到代表各基数的链队列中</li>
+<li>收集：按基数从小到大，将各队列首尾相连构成按当前“关键字位”有序的单链表</li>
+<li>按“关键字位”从低到高，重复 2 和 3</li>
+</ol>
+<p>示例：</p>
+<p>待排序序列关键字：{477, 241, 467, 005, 363, 081, <em><strong>005</strong></em>}</p>
+<ul>
+<li><p>个位：</p>
+<img src="..\img\ep9\image-20230228235742495.png" srcset="/img/loading.gif" lazyload alt="image-20230228235742495" style="zoom:25%;" />
+</li>
+<li><p>十位：</p>
+<img src="..\img\ep9\image-20230228235812314.png" srcset="/img/loading.gif" lazyload alt="image-20230228235812314" style="zoom:25%;" />
+</li>
+<li><p>百位：</p>
+<img src="..\img\ep9\image-20230228235833655.png" srcset="/img/loading.gif" lazyload alt="image-20230228235833655" style="zoom:25%;" /></li>
+</ul>
+<h5 id="算法评价（对改进的基数排序）"><a href="#算法评价（对改进的基数排序）" class="headerlink" title="算法评价（对改进的基数排序）"></a>算法评价（对改进的基数排序）</h5><p>设待排序序列记录数为 n，基数个数为 rd，分配收集趟数为 d</p>
+<ol>
+<li><p>时间复杂度：$$O(d(n+rd))$$（时间性能与记录序列实例无关）</p>
+<p>其中，分配为 $$O(n)$$，收集为 $$O(rd)$$</p>
+</li>
+<li><p>空间复杂度：$$O(rd)$$</p>
+</li>
+</ol>
+<p><strong>稳定性</strong>：稳定</p>
+<h3 id="7-五类排序算法比较"><a href="#7-五类排序算法比较" class="headerlink" title="7 - 五类排序算法比较"></a>7 - 五类排序算法比较</h3><p><img src="/..%5Cimg%5Cep9%5Cimage-20230301151810289.png" srcset="/img/loading.gif" lazyload alt="image-20230301151810289"></p>
+<h4 id="时间性能"><a href="#时间性能" class="headerlink" title="时间性能"></a>时间性能</h4><ol>
+<li>平均时间复杂度<ul>
+<li>$$O(nlogn)$$：快速排序、堆排序、归并排序</li>
+<li>$$O(n^2)$$：基于顺序查找的插入排序、冒泡排序、简单选择排序</li>
+<li>特殊：希尔排序 $$O(n^{1.3-2})$$、基数排序 $$O(d(n+rd))$$</li>
+</ul>
+</li>
+<li>时间性能与记录序列实例无关的排序算法：简单选择排序、堆排序、归并排序、基数排序</li>
+<li>当待排序序列按关键字有序时，基于顺序查找的插入排序和冒泡排序的时间复杂度能达到 $$O(n)$$，快速排序的时间复杂度退化为 $$O(n^2)$$</li>
+</ol>
+<h4 id="空间性能"><a href="#空间性能" class="headerlink" title="空间性能"></a>空间性能</h4><ol>
+<li>$$O(1)$$：基于顺序查找的插入排序、希尔排序、冒泡排序、简单选择排序、堆排序</li>
+<li>基数排序 $$O(rd)$$</li>
+<li>快速排序 $$O(logn)$$</li>
+<li>归并排序 $$O(n)$$（空间性能最差）</li>
+</ol>
+<h2 id="完结撒花ヾ-´∀-ˋ-ﾉ"><a href="#完结撒花ヾ-´∀-ˋ-ﾉ" class="headerlink" title="完结撒花ヾ(*´∀ ˋ*)ﾉ"></a>完结撒花ヾ(*´∀ ˋ*)ﾉ</h2>
                 
               </div>
             

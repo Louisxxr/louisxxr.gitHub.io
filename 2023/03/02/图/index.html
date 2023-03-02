@@ -23,11 +23,25 @@
 <meta property="og:site_name" content="Louisxxr">
 <meta property="og:description" content="数据结构课程笔记 ep7">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20221115214543044.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20230114191228105.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20230113183637017.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20230114202714985.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20230116232008436.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20230116232405378.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20230116232528809.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20230116232558608.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20230116232630516.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20230116232651353.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20230117122543014.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20230127151451896.png">
+<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20230127164013423.png">
 <meta property="article:published_time" content="2023-03-02T08:40:30.000Z">
-<meta property="article:modified_time" content="2023-03-02T08:50:32.856Z">
+<meta property="article:modified_time" content="2023-03-02T15:16:51.352Z">
 <meta property="article:author" content="Xianrui Xie">
 <meta property="article:tag" content="数据结构课程笔记">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://louisxxr.github.io/2023/03/02/img/ep7/image-20221115214543044.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -233,7 +247,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          11 字
+          17k 字
         
       </span>
     
@@ -244,7 +258,7 @@
         
         
         
-          1 分钟
+          95 分钟
         
       </span>
     
@@ -289,6 +303,953 @@
                 
                 <p>数据结构课程笔记 ep7</p>
 <span id="more"></span>
+
+
+
+<h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><h3 id="1-图的定义"><a href="#1-图的定义" class="headerlink" title="1 - 图的定义"></a>1 - 图的定义</h3><h4 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h4><ul>
+<li><strong>图（Graph）</strong>是由一个<strong>顶点（Vertex）</strong>集 V 和一个<strong>弧（Arc）</strong>集 VR 构成的数据结构</li>
+<li>弧是有方向的，因此图为<strong>有向图</strong></li>
+<li>若有某顶点到另一顶点的弧必有另一顶点到该顶点的弧，则两弧表示两顶点之间的一条边，此时图为<strong>无向图</strong>（以后弧或边统称为弧）</li>
+<li>假设图有 n 个顶点，e 条弧：<ul>
+<li><strong>完全有向图</strong>：$$e&#x3D;A_n^2&#x3D;n(n-1)$$</li>
+<li><strong>完全无向图</strong>：$$e&#x3D;C_n^2&#x3D;n(n-1)&#x2F;2$$</li>
+</ul>
+</li>
+<li>一个图的顶点集和弧集分别是另一个图的顶点集和弧集的子集，该图称为另一个图的<strong>子图</strong></li>
+<li>有向图：<strong>度</strong> &#x3D; 出度 + 入度；无向图：度</li>
+<li>有时图的弧具有与它相关的数，称为<strong>权</strong>，权可以表示从一个顶点到另一个顶点的距离或耗费，带权图称为<strong>网</strong></li>
+<li><strong>路径</strong>，<strong>回路</strong>，<strong>有向路径</strong></li>
+<li>在无向图中，若图中任意两个顶点之间都有路径相通，则称此图为<strong>连通图</strong>，否则称之为<strong>非连通图</strong>（在非连通图中定义<strong>连通分量</strong>）</li>
+<li>在有向图中，若图中任意两个顶点之间都有有向路径相通，则称此图为<strong>强连通图</strong></li>
+<li>假设连通图有 n 个顶点和 e 条边，其中 n-1 条边和 n 个顶点构成一个<strong>极小连通子图</strong>，称为此连通图的<strong>生成树</strong></li>
+</ul>
+<h4 id="抽象数据类型"><a href="#抽象数据类型" class="headerlink" title="抽象数据类型"></a>抽象数据类型</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">ADT Graph &#123;<br>	数据对象V：<br>		V是具有相同特性的数据元素的集合，称为顶点集。<br>	数据关系VR：<br>		VR=&#123;&lt;v,w&gt;<span class="hljs-pattern-match">|v,w∈<span class="hljs-constructor">V</span>且<span class="hljs-constructor">P(<span class="hljs-params">v</span>,<span class="hljs-params">w</span>)</span>&#125;</span><br><span class="hljs-pattern-match">		&lt;v,w&gt;表示从v到w的一条弧，谓词<span class="hljs-constructor">P(<span class="hljs-params">v</span>,<span class="hljs-params">w</span>)</span>定义了弧&lt;v,w&gt;的意义或信息。</span><br><span class="hljs-pattern-match">    基本操作：</span><br><span class="hljs-pattern-match">    	<span class="hljs-operator">/</span><span class="hljs-operator">/</span> 图的建立和销毁</span><br><span class="hljs-pattern-match">    	<span class="hljs-constructor">CreateGraph(&amp;G,V,VR)</span></span><br><span class="hljs-pattern-match">    	<span class="hljs-constructor">DestroyGraph(&amp;G)</span></span><br><span class="hljs-pattern-match">    	<span class="hljs-operator">/</span><span class="hljs-operator">/</span> 插入或删除顶点</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">InsertVex(&amp;G,<span class="hljs-params">v</span>)</span> <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 在图<span class="hljs-constructor">G</span>中插入顶点v</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">DeleteVex(&amp;G,<span class="hljs-params">v</span>)</span> <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 删除顶点v及其相关的弧</span><br><span class="hljs-pattern-match">		<span class="hljs-operator">/</span><span class="hljs-operator">/</span> 插入和删除弧</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">InsertArc(&amp;G,<span class="hljs-params">v</span>,<span class="hljs-params">w</span>)</span> <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 在图<span class="hljs-constructor">G</span>中增添弧&lt;v,w&gt;，若图<span class="hljs-constructor">G</span>是无向的，则还增添对称弧&lt;w,v&gt;</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">DeleteArc(&amp;G,<span class="hljs-params">v</span>,<span class="hljs-params">w</span>)</span> <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 在图<span class="hljs-constructor">G</span>中删除弧&lt;v,w&gt;，若图<span class="hljs-constructor">G</span>是无向的，则还删除对称弧&lt;w,v&gt;</span><br><span class="hljs-pattern-match">		<span class="hljs-operator">/</span><span class="hljs-operator">/</span> 对顶点的访问操作</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">LocateVex(G,<span class="hljs-params">v</span>)</span> <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 返回顶点位置信息</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">GetVex(G,<span class="hljs-params">v</span>)</span> <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 返回顶点值</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">PutVex(&amp;G,<span class="hljs-params">v</span>,<span class="hljs-params">value</span>)</span> <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 对顶点赋值</span><br><span class="hljs-pattern-match">		<span class="hljs-operator">/</span><span class="hljs-operator">/</span> 对邻接点的操作</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">FirstAdjVex(G,<span class="hljs-params">v</span>)</span> <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 返回顶点v的第一个邻接点，若顶点v没有邻接点，则返回空</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">NextAdjVex(G,<span class="hljs-params">v</span>,<span class="hljs-params">w</span>)</span> <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 返回顶点v相对于w的下一个邻接点，若w是v的最后一个邻接点，则返回空</span><br><span class="hljs-pattern-match">		<span class="hljs-operator">/</span><span class="hljs-operator">/</span> 遍历</span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">DFSTraverse(G,<span class="hljs-params">v</span>,<span class="hljs-params">visit</span>()</span>) <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 从顶点v起深度优先遍历图<span class="hljs-constructor">G</span></span><br><span class="hljs-pattern-match">		<span class="hljs-constructor">BFSTraverse(G,<span class="hljs-params">v</span>,<span class="hljs-params">visit</span>()</span>) <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 从顶点v起广度优先遍历图<span class="hljs-constructor">G</span></span><br><span class="hljs-pattern-match">&#125; <span class="hljs-constructor">ADT</span> <span class="hljs-constructor">Graph</span></span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-图的存储"><a href="#2-图的存储" class="headerlink" title="2 - 图的存储"></a>2 - 图的存储</h3><h4 id="邻接矩阵（Adjacent-matrix）"><a href="#邻接矩阵（Adjacent-matrix）" class="headerlink" title="邻接矩阵（Adjacent matrix）"></a>邻接矩阵（Adjacent matrix）</h4><p>用一个二维数组来表示顶点间的相邻关系</p>
+<h5 id="有向图的邻接矩阵"><a href="#有向图的邻接矩阵" class="headerlink" title="有向图的邻接矩阵"></a>有向图的邻接矩阵</h5><p>有 n(n≥1) 个顶点的有向图的邻接矩阵是具有如下性质的 n 阶方阵：</p>
+<ul>
+<li>A[i][j] &#x3D; 1，当 &lt;v_i, v_j&gt; ∈ VR</li>
+<li>A[i][j] &#x3D; 0，当 &lt;v_i, v_j&gt; ∉ VR</li>
+</ul>
+<p>有向图的邻接矩阵不一定是对称方阵，邻接矩阵第 i 行的元素之和为顶点 v_i 的出度，邻接矩阵第 i 列的元素之和为顶点 v_i 的入度</p>
+<h5 id="无向图的邻接矩阵"><a href="#无向图的邻接矩阵" class="headerlink" title="无向图的邻接矩阵"></a>无向图的邻接矩阵</h5><p>有 n(n≥1) 个顶点的无向图的邻接矩阵是具有如下性质的 n 阶方阵：</p>
+<ul>
+<li>A[i][j] &#x3D; A[j][i] &#x3D; 1，当 (v_i, v_j) ∈ VR</li>
+<li>A[i][j] &#x3D; A[j][i] &#x3D; 0，当 (v_i, v_j) ∉ VR</li>
+</ul>
+<p>无向图的邻接矩阵是对称方阵，邻接矩阵第 i 行（或第 i 列）的元素之和为顶点 v_i 的度</p>
+<h5 id="网的邻接矩阵"><a href="#网的邻接矩阵" class="headerlink" title="网的邻接矩阵"></a>网的邻接矩阵</h5><p>有 n(n≥1) 个顶点的有向网的邻接矩阵是具有如下性质的 n 阶方阵：</p>
+<ul>
+<li>A[i][j] &#x3D; w_ij，当 &lt;v_i, v_j&gt; ∈ VR</li>
+<li>A[i][j] &#x3D; ∞，当 &lt;v_i, v_j&gt; ∉ VR</li>
+</ul>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_VERTEX_NUM=<span class="hljs-number">20</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> INFINITY=<span class="hljs-number">0x3f3f3f3f</span>;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">enum</span>&#123;DG,DN,UDG,UDN&#125; GraphKind; <span class="hljs-comment">// &#123;有向图，有向网，无向图，无向网&#125;</span><br><br><span class="hljs-comment">// 弧的定义</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    <span class="hljs-type">int</span> adj; <span class="hljs-comment">// 对图，为1或0，表示是否相邻；对网，为权值</span><br>    InfoType* info; <span class="hljs-comment">// 该弧相关信息的指针</span><br>&#125; ArcCell,AdjMatrix[MAX_VERTEX_NUM][MAX_VERTEX_NUM];<br><br><span class="hljs-comment">// 图的定义</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    GraphKind kind;<br>    T vexs[MAX_VERTEX_NUM];<br>    AdjMatrix arcs;<br>    <span class="hljs-type">int</span> vexnum,arcnum;<br>&#125; MGraph;<br></code></pre></td></tr></table></figure>
+
+<h5 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h5><ul>
+<li>优点：省时间（容易判定任意两个顶点之间是否有弧相连或其权值，容易求得各个顶点的度）</li>
+<li>缺点：费空间（占用空间大小只与图中顶点个数有关，而与边的数目无关）</li>
+</ul>
+<h4 id="邻接表（Adjacent-list）"><a href="#邻接表（Adjacent-list）" class="headerlink" title="邻接表（Adjacent list）"></a>邻接表（Adjacent list）</h4><p>对图中每个顶点建立一个单链表，每个单链表的结点表示该顶点的所有邻接顶点（在头结点和第一个表结点之间插入新的表结点，在最后插入新的表结点容易出现“无效的指针赋值”的错误）</p>
+<img src="..\img\ep7\image-20221115214543044.png" srcset="/img/loading.gif" lazyload alt="image-20221115214543044" style="zoom:25%;" />
+
+<h5 id="有向图的邻接表"><a href="#有向图的邻接表" class="headerlink" title="有向图的邻接表"></a>有向图的邻接表</h5><p>在有向图的邻接表中，其中一个链表的表结点数是顶点的出度</p>
+<p>在有向图的逆邻接表中，其中一个链表的表结点数是顶点的入度</p>
+<h5 id="无向图的邻接表"><a href="#无向图的邻接表" class="headerlink" title="无向图的邻接表"></a>无向图的邻接表</h5><p>在无向图的邻接表中，其中一个链表的表结点数是顶点的度</p>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_VERTEX_NUM=<span class="hljs-number">20</span>;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">enum</span>&#123;DG,DN,UDG,UDN&#125; GraphKind; <span class="hljs-comment">// &#123;有向图，有向网，无向图，无向网&#125;</span><br><br><span class="hljs-comment">// 弧的结点结构（表结点）</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">ArcNode</span> &#123;<br>    <span class="hljs-type">int</span> adjvex;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">ArcNode</span>* nextarc;<br>    InfoType* info; <span class="hljs-comment">// 该弧相关信息的指针（如权值）</span><br>&#125; ArcNode;<br><br><span class="hljs-comment">// 顶点的结点结构（头结点）</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    T vex;<br>    ArcNode* firstarc;<br>&#125; VNode,AdjList[MAX_VERTEX_NUM];<br><br><span class="hljs-comment">// 图的定义</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    GraphKind kind;<br>    AdjList vexs;<br>    <span class="hljs-type">int</span> vexnum,arcnum;<br>&#125; LGraph;<br></code></pre></td></tr></table></figure>
+
+<h5 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h5><ul>
+<li>优点：省空间（占用空间大小取决于边的数目）</li>
+<li>缺点：费时间（要判定任意两个顶点之间是否有弧相连时，需扫描链表）</li>
+</ul>
+<h4 id="有向图的十字链表"><a href="#有向图的十字链表" class="headerlink" title="有向图的十字链表"></a>有向图的十字链表</h4><p>十字链表是将有向图的邻接表和逆邻接表结合起来得到的一种链表</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_VERTEX_NUM=<span class="hljs-number">20</span>;<br><br><span class="hljs-comment">// 弧的结点结构（表结点）</span><br><span class="hljs-comment">// |弧尾顶点位置|弧头顶点位置|指向下一个有相同弧尾的结点的指针|指向下一个有相同弧头的结点的指针|弧的相关信息|</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">ArcBox</span> &#123;<br>    <span class="hljs-type">int</span> tailvex,headvex;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">ArcBox</span> *tlink,*hlink;<br>	InfoType* info;<br>&#125; ArcBox;<br><br><span class="hljs-comment">// 顶点的结点结构（头结点）</span><br><span class="hljs-comment">// |顶点数据|指向该顶点的第一条入弧|指向该顶点的第一条出弧|</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    T data;<br>    ArcBox *firstin,*firstout;<br>&#125; VexNode;<br><br><span class="hljs-comment">// 图的定义</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    VexNode vexs[MAX_VERTEX_NUM];<br>    <span class="hljs-type">int</span> vexnum,arcnum;<br>&#125; OLGraph;<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-图的遍历"><a href="#3-图的遍历" class="headerlink" title="3 - 图的遍历"></a>3 - 图的遍历</h3><blockquote>
+<p>图的遍历要比树的遍历复杂得多，因为图中任一顶点都可能和其余顶点相邻接。为了避免同一顶点被多次访问，在遍历过程中，必须记下每个已访问过的顶点。为此，可设一个标志数组 <code>visited</code>，初始化为 0，一旦访问了顶点 $$v_i$$，便置 <code>visited[i]</code> 为 1 或被访问时的次序号。</p>
+</blockquote>
+<h4 id="深度优先搜索（Depth-First-Search）"><a href="#深度优先搜索（Depth-First-Search）" class="headerlink" title="深度优先搜索（Depth First Search）"></a>深度优先搜索（Depth First Search）</h4><p>连通图：从图中某个顶点 $$v_0$$ 出发，访问此顶点，然后依次从 $$v_0$$ 的各个未被访问的邻接点出发深度优先搜索遍历图，直至图中所有和 $$v_0$$ 有路径相通的顶点都被访问到</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 从顶点v出发，深度优先搜索遍历连通图G</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DFS</span><span class="hljs-params">(Graph G,<span class="hljs-type">int</span> v)</span> </span>&#123;<br>    <span class="hljs-built_in">visit</span>(v);<br>    visited[v]=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> w=<span class="hljs-built_in">FirstAdjVex</span>(G,v);w!=<span class="hljs-number">-1</span>;w=<span class="hljs-built_in">NextAdjVex</span>(G,v,w))<br>        <span class="hljs-keyword">if</span> (!visited[w])<br>            <span class="hljs-built_in">DFS</span>(G,w);<br>&#125;<br><br><span class="hljs-comment">// 从顶点v出发，深度优先搜索遍历连通图G（邻接矩阵存储）</span><br><span class="hljs-comment">// 时间复杂度：O(n^2)</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DFS</span><span class="hljs-params">(MGraph G,<span class="hljs-type">int</span> v)</span> </span>&#123;<br>    <span class="hljs-built_in">visit</span>(G.vexs[v]);<br>    visited[v]=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;G.vexnum;++j)<br>        <span class="hljs-keyword">if</span> (G.arcs[v][j]!=<span class="hljs-number">0</span>&amp;&amp;!visited[j])<br>            <span class="hljs-built_in">DFS</span>(G,j);<br>&#125;<br><br><span class="hljs-comment">// 从顶点v出发，深度优先搜索遍历连通图G（邻接表存储）</span><br><span class="hljs-comment">// 时间复杂度：O(n+e)，n为顶点数，e为弧数或两倍边数（通过遍历表结点查找所有顶点的邻接点所需时间为O(e)，访问顶点所需时间为O(n)）</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DFS</span><span class="hljs-params">(LGraph G,<span class="hljs-type">int</span> v)</span> </span>&#123;<br>    <span class="hljs-built_in">visit</span>(G.vexs[v].vex);<br>    visited[v]=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span> (ArcNode* p=G.vexs[v].firstarc;p;p=p-&gt;nextarc)<br>        <span class="hljs-keyword">if</span> (!visited[p-&gt;adjvex])<br>            <span class="hljs-built_in">DFS</span>(G,p-&gt;adjvex);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>非连通图：非连通图的遍历是一般情形，遍历非连通图就是多次遍历连通图</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DFSTraverse</span><span class="hljs-params">(Graph G)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> v=<span class="hljs-number">0</span>;v&lt;G.vexnum;++v)<br>        <span class="hljs-keyword">if</span> (!visited[v])<br>            <span class="hljs-built_in">DFS</span>(G,v);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="广度优先搜索（Breadth-First-Search）"><a href="#广度优先搜索（Breadth-First-Search）" class="headerlink" title="广度优先搜索（Breadth First Search）"></a>广度优先搜索（Breadth First Search）</h4><p>连通图：从图中的某个顶点 $$v_0$$ 出发，并在访问此顶点之后依次访问 $$v_0$$ 的所有未被访问过的邻接点，之后按这些顶点被访问的先后次序依次访问它们的邻接点，直至图中所有和 $$v0$$ 有路径相通的顶点都被访问到（使用<strong>队列</strong>）</p>
+<p>非连通图：若此时图中尚有顶点未被访问，则另选图中一个未曾被访问的顶点作起始点，重复上述过程，直至图中所有顶点都被访问到为止</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*</span><br><span class="hljs-comment">时间复杂度</span><br><span class="hljs-comment">邻接矩阵存储：O(n^2)</span><br><span class="hljs-comment">邻接表存储：O(n+e)</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BFSTraverse</span><span class="hljs-params">(Graph G)</span> </span>&#123;<br>    Queue Q;<br>    <span class="hljs-built_in">InitQueue</span>(Q);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> v=<span class="hljs-number">0</span>;v&lt;G.vexnum;++v)<br>        <span class="hljs-keyword">if</span> (!visited[v]) &#123;<br>            <span class="hljs-built_in">visit</span>(v);<br>            visited[v]=<span class="hljs-number">1</span>;<br>            <span class="hljs-built_in">EnQueue</span>(Q,v);<br>            <span class="hljs-keyword">while</span> (!<span class="hljs-built_in">QueueEmpty</span>(Q)) &#123;<br>                <span class="hljs-type">int</span> u=<span class="hljs-built_in">DeQueue</span>(Q);<br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> w=<span class="hljs-built_in">FirstAdjVex</span>(G,u);w!=<span class="hljs-number">-1</span>;w=<span class="hljs-built_in">NextAdjVex</span>(G,u,w))<br>                    <span class="hljs-keyword">if</span> (!visited[w]) &#123;<br>                        <span class="hljs-built_in">visit</span>(w);<br>                        visited[w]=<span class="hljs-number">1</span>;<br>                        <span class="hljs-built_in">EnQueue</span>(Q,w);<br>                    &#125;<br>            &#125;<br>        &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="遍历算法的应用举例"><a href="#遍历算法的应用举例" class="headerlink" title="遍历算法的应用举例"></a>遍历算法的应用举例</h4><h5 id="求一条从顶点-v-到顶点-s-的简单路径-x2F-判断两顶点是否连通"><a href="#求一条从顶点-v-到顶点-s-的简单路径-x2F-判断两顶点是否连通" class="headerlink" title="求一条从顶点 v 到顶点 s 的简单路径 &#x2F; 判断两顶点是否连通"></a>求一条从顶点 v 到顶点 s 的简单路径 &#x2F; 判断两顶点是否连通</h5><ul>
+<li>若存在从顶点 v 到顶点 s 的路径，则从顶点 v 出发进行 <strong>DFS</strong>，必能搜索到顶点 s</li>
+<li>遍历过程中搜索到的顶点不一定是路径上的顶点</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SearchPath</span><span class="hljs-params">(Graph G,<span class="hljs-type">int</span> v,<span class="hljs-type">int</span> s,<span class="hljs-type">char</span>* PATH)</span> </span>&#123;<br>    <span class="hljs-built_in">Append</span>(PATH,<span class="hljs-built_in">GetVex</span>(G,v));<br>    visited[v]=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> w=<span class="hljs-built_in">FirstAdjVex</span>(G,v);w!=<span class="hljs-number">-1</span>&amp;&amp;!found;w=<span class="hljs-built_in">NextAdjVex</span>(G,v,w))<br>        <span class="hljs-keyword">if</span> (w==s) &#123;<br>            found=<span class="hljs-number">1</span>;<br>            <span class="hljs-built_in">Append</span>(PATH,<span class="hljs-built_in">GetVex</span>(G,w));<br>        &#125;<br>    	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!visited[w])<br>            <span class="hljs-built_in">SearchPath</span>(G,w,s,PATH);<br>    <span class="hljs-keyword">if</span> (!found)<br>        <span class="hljs-built_in">Delete</span>(PATH); <span class="hljs-comment">// 删除路径上的点</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="最短路径问题"><a href="#最短路径问题" class="headerlink" title="最短路径问题"></a>最短路径问题</h5><ul>
+<li><p>只考虑<strong>不带权的图</strong>中两点之间的最短路径问题，即两顶点间所含弧的数目最少的路径就是最短路径（带权图中两点之间的最短路径问题见“5 - 最短路径”）</p>
+</li>
+<li><p><strong>BFS</strong> 按路径长度渐增的次序遍历图，适合求最短路径问题</p>
+</li>
+<li><p>使用链队列：</p>
+<ol>
+<li>给链队列结点设置 next 和 prior 两个指针</li>
+<li>修改入队操作：在队尾插入新结点，令其 prior 指针指向头结点</li>
+<li>修改出队操作：仅移动队头指针，而不将队头结点从链表中删除</li>
+</ol>
+</li>
+<li><p>例子：</p>
+<img src="..\img\ep7\image-20230114191228105.png" srcset="/img/loading.gif" lazyload alt="image-20230114191228105" style="zoom: 33%;" /></li>
+</ul>
+<h3 id="4-最小生成树"><a href="#4-最小生成树" class="headerlink" title="4 - 最小生成树"></a>4 - 最小生成树</h3><p>从无向连通图中任一顶点开始遍历，遍历图时走过的边和图中所有顶点一起构成该连通图的<strong>极小连通子图</strong>（含义是：任何具有 n 个顶点的连通图，至少有 n-1 条边），称为该连通图的<strong>生成树</strong>（含义是：所有具有 n-1 条边的连通图都是树）</p>
+<p>图的生成树不唯一，从不同顶点出发进行不同搜索，都可以得到不同的生成树</p>
+<p>若为连通图的各条边赋权，表示相应的代价，则从连通图中选择一棵总代价最小的树，即为<strong>最小代价生成树</strong></p>
+<ul>
+<li>经典算法：<strong>克鲁斯卡尔（Kruskal）算法</strong>和<strong>普里姆（Prim）算法</strong></li>
+<li>基本思想：贪心，按权值非递减次序构造最小代价生成树</li>
+</ul>
+<h4 id="Kruskal-算法"><a href="#Kruskal-算法" class="headerlink" title="Kruskal 算法"></a>Kruskal 算法</h4><h5 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h5><p>先分离图的顶点和边，再尝试将边连接回各顶点。规则是：从权值最小的边开始，若它的添加不使现在的图产生回路，则添加这条边，否则丢弃；如此重复，直至添加 n-1 条边为止。</p>
+<h5 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*</span><br><span class="hljs-comment">无向连通网的简单存储方法：</span><br><span class="hljs-comment">- 定义存储顶点数的变量vexnum和存储边数的变量arcnum</span><br><span class="hljs-comment">- 将图的顶点映射到0~vexnum-1</span><br><span class="hljs-comment">- 用Edge类型数组存储图的边（同一条边只存储一次）</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    <span class="hljs-type">int</span> vex1;<br>    <span class="hljs-type">int</span> vex2;<br>    <span class="hljs-type">int</span> w;<br>&#125; Edge;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    <span class="hljs-type">int</span> vexnum,arcnum;<br>    Edge edge[MAX_EDGE_NUM];<br>&#125; Graph;<br><br><span class="hljs-comment">// 用STL中的sort实现边数组元素按权值排序，以下为排序方式定义</span><br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">less_weight</span> &#123;<br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-type">const</span> Edge &amp;a1,<span class="hljs-type">const</span> Edge &amp;a2)</span><span class="hljs-type">const</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> a1.w&lt;a2.w;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">// 主算法</span><br><span class="hljs-function">Graph <span class="hljs-title">MiniSpanTree_K</span><span class="hljs-params">(Graph G)</span> </span>&#123;<br>    Graph res;<br>    res.vexnum=G.vexnum;<br>    res.arcnum=G.vexnum?G.vexnum<span class="hljs-number">-1</span>:<span class="hljs-number">0</span>;<br>    <br>    <span class="hljs-built_in">sort</span>(G.edge+<span class="hljs-number">0</span>,G.edge+G.arcnum,<span class="hljs-built_in">less_weight</span>());<br>    <br>    <span class="hljs-type">int</span> vset[MAX_VERTEX_NUM]; <span class="hljs-comment">// 辅助数组，用于判断回路（重要思路：集合的合并）</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;res.vexnum;++i)<br>        vset[i]=i;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>,j=<span class="hljs-number">0</span>;i&lt;G.arcnum;++i) &#123; <span class="hljs-comment">// i为G.edge下标，j为res.edge下标</span><br>        <span class="hljs-type">int</span> tmp1=vset[G.edge[i].vex1];<br>        <span class="hljs-type">int</span> tmp2=vset[G.edge[i].vex2];<br>        <span class="hljs-keyword">if</span> (tmp1!=tmp2) &#123;<br>            res.edge[j++]=G.edge[i];<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;res.vexnum;++k)<br>                <span class="hljs-keyword">if</span> (vset[k]==tmp2)<br>                    vset[k]=tmp1;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (j==res.arcnum)<br>            <span class="hljs-keyword">break</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> res;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>Kruskal 算法的时间复杂度就是将边数组元素按权值排序的时间复杂度，即 O(eloge)，其中 e 为边数。因此，Kruskal 算法更适用于稀疏图。</p>
+<h4 id="Prim-算法"><a href="#Prim-算法" class="headerlink" title="Prim 算法"></a>Prim 算法</h4><h5 id="算法描述-1"><a href="#算法描述-1" class="headerlink" title="算法描述"></a>算法描述</h5><p>取图中任意一个顶点 v 作为生成树的根，然后取图中与 v 直接连接且连接边权值最小的顶点 w 加入生成树；接着将生成树中已有的顶点看作整体，取图中与该整体直接连接且连接边权值最小的顶点加入生成树，循环上述过程直至生成树上含有 n 个顶点为止。设置两个集合分别表示生成树中已有的顶点和图中其他顶点。</p>
+<h5 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h5><p>实现过程示例：从顶点 a 出发构造最小生成树（结合代码理解）</p>
+<img src="..\img\ep7\image-20230113183637017.png" srcset="/img/loading.gif" lazyload alt="image-20230113183637017" style="zoom:25%;" />
+
+<ul>
+<li><p>初始化：</p>
+<table>
+<thead>
+<tr>
+<th align="center">G.vexs[i]</th>
+<th align="center">a (0)</th>
+<th align="center">b (1)</th>
+<th align="center">c (2)</th>
+<th align="center">d (3)</th>
+<th align="center">e (4)</th>
+<th align="center">f (5)</th>
+<th align="center">g (6)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">mst[i].adjvex</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">mst[i].lowcost</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+</tr>
+<tr>
+<td align="center">mst[i].flag</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>第一轮：</p>
+<table>
+<thead>
+<tr>
+<th align="center">G.vexs[i]</th>
+<th align="center">a (0)</th>
+<th align="center">b (1)</th>
+<th align="center">c (2)</th>
+<th align="center">d (3)</th>
+<th align="center">e (4)</th>
+<th align="center">f (5)</th>
+<th align="center">g (6)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">mst[i].adjvex</td>
+<td align="center"></td>
+<td align="center">a</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">a</td>
+<td align="center"></td>
+<td align="center">a</td>
+</tr>
+<tr>
+<td align="center">mst[i].lowcost</td>
+<td align="center">∞</td>
+<td align="center">19</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center"><em><strong>14</strong></em></td>
+<td align="center">∞</td>
+<td align="center">18</td>
+</tr>
+<tr>
+<td align="center">mst[i].flag</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0→1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>第二轮：</p>
+<table>
+<thead>
+<tr>
+<th align="center">G.vexs[i]</th>
+<th align="center">a (0)</th>
+<th align="center">b (1)</th>
+<th align="center">c (2)</th>
+<th align="center">d (3)</th>
+<th align="center">e (4)</th>
+<th align="center">f (5)</th>
+<th align="center">g (6)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">mst[i].adjvex</td>
+<td align="center"></td>
+<td align="center">e</td>
+<td align="center"></td>
+<td align="center">e</td>
+<td align="center">a</td>
+<td align="center"></td>
+<td align="center">e</td>
+</tr>
+<tr>
+<td align="center">mst[i].lowcost</td>
+<td align="center">∞</td>
+<td align="center">12</td>
+<td align="center">∞</td>
+<td align="center"><em><strong>8</strong></em></td>
+<td align="center">14</td>
+<td align="center">∞</td>
+<td align="center">16</td>
+</tr>
+<tr>
+<td align="center">mst[i].flag</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0→1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>第三轮：</p>
+<table>
+<thead>
+<tr>
+<th align="center">G.vexs[i]</th>
+<th align="center">a (0)</th>
+<th align="center">b (1)</th>
+<th align="center">c (2)</th>
+<th align="center">d (3)</th>
+<th align="center">e (4)</th>
+<th align="center">f (5)</th>
+<th align="center">g (6)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">mst[i].adjvex</td>
+<td align="center"></td>
+<td align="center">d</td>
+<td align="center">d</td>
+<td align="center">e</td>
+<td align="center">a</td>
+<td align="center">d</td>
+<td align="center">e</td>
+</tr>
+<tr>
+<td align="center">mst[i].lowcost</td>
+<td align="center">∞</td>
+<td align="center">7</td>
+<td align="center"><em><strong>3</strong></em></td>
+<td align="center">8</td>
+<td align="center">14</td>
+<td align="center">21</td>
+<td align="center">16</td>
+</tr>
+<tr>
+<td align="center">mst[i].flag</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0→1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>第四轮：</p>
+<table>
+<thead>
+<tr>
+<th align="center">G.vexs[i]</th>
+<th align="center">a (0)</th>
+<th align="center">b (1)</th>
+<th align="center">c (2)</th>
+<th align="center">d (3)</th>
+<th align="center">e (4)</th>
+<th align="center">f (5)</th>
+<th align="center">g (6)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">mst[i].adjvex</td>
+<td align="center"></td>
+<td align="center">c</td>
+<td align="center">d</td>
+<td align="center">e</td>
+<td align="center">a</td>
+<td align="center">d</td>
+<td align="center">e</td>
+</tr>
+<tr>
+<td align="center">mst[i].lowcost</td>
+<td align="center">∞</td>
+<td align="center"><em><strong>5</strong></em></td>
+<td align="center">3</td>
+<td align="center">8</td>
+<td align="center">14</td>
+<td align="center">21</td>
+<td align="center">16</td>
+</tr>
+<tr>
+<td align="center">mst[i].flag</td>
+<td align="center">1</td>
+<td align="center">0→1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>第五轮：</p>
+<table>
+<thead>
+<tr>
+<th align="center">G.vexs[i]</th>
+<th align="center">a (0)</th>
+<th align="center">b (1)</th>
+<th align="center">c (2)</th>
+<th align="center">d (3)</th>
+<th align="center">e (4)</th>
+<th align="center">f (5)</th>
+<th align="center">g (6)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">mst[i].adjvex</td>
+<td align="center"></td>
+<td align="center">c</td>
+<td align="center">d</td>
+<td align="center">e</td>
+<td align="center">a</td>
+<td align="center">d</td>
+<td align="center">e</td>
+</tr>
+<tr>
+<td align="center">mst[i].lowcost</td>
+<td align="center">∞</td>
+<td align="center">5</td>
+<td align="center">3</td>
+<td align="center">8</td>
+<td align="center">14</td>
+<td align="center">21</td>
+<td align="center"><em><strong>16</strong></em></td>
+</tr>
+<tr>
+<td align="center">mst[i].flag</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0→1</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>第六轮：</p>
+<table>
+<thead>
+<tr>
+<th align="center">G.vexs[i]</th>
+<th align="center">a (0)</th>
+<th align="center">b (1)</th>
+<th align="center">c (2)</th>
+<th align="center">d (3)</th>
+<th align="center">e (4)</th>
+<th align="center">f (5)</th>
+<th align="center">g (6)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">mst[i].adjvex</td>
+<td align="center"></td>
+<td align="center">c</td>
+<td align="center">d</td>
+<td align="center">e</td>
+<td align="center">a</td>
+<td align="center">d</td>
+<td align="center">e</td>
+</tr>
+<tr>
+<td align="center">mst[i].lowcost</td>
+<td align="center">∞</td>
+<td align="center">5</td>
+<td align="center">3</td>
+<td align="center">8</td>
+<td align="center">14</td>
+<td align="center"><em><strong>21</strong></em></td>
+<td align="center">16</td>
+</tr>
+<tr>
+<td align="center">mst[i].flag</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0→1</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-type">int</span> AdjMatrix[MAX_VERTEX_NUM][MAX_VERTEX_NUM];<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    T vexs[MAX_VERTEX_NUM];<br>    AdjMatrix arcs;<br>    <span class="hljs-type">int</span> vexnum,arcnum;<br>&#125; Graph;<br><br><span class="hljs-keyword">struct</span> &#123;<br>    <span class="hljs-type">int</span> adjvex; <span class="hljs-comment">// 将图的顶点映射到0~vexnum-1</span><br>    <span class="hljs-type">int</span> lowcost;<br>    <span class="hljs-type">bool</span> flag;<br>&#125; mst[MAX_VERTEX_NUM];<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MiniSpanTree_P</span><span class="hljs-params">(Graph G,T v)</span> </span>&#123; <span class="hljs-comment">// 从顶点v出发构造最小生成树</span><br>    <span class="hljs-comment">// 初始化mst数组</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;G.vexnum;++i) &#123;<br>        mst[i].lowcost=INFINITY;<br>        mst[i].flag=<span class="hljs-literal">false</span>;<br>    &#125;<br>    <span class="hljs-type">int</span> k=<span class="hljs-built_in">LocateVex</span>(G,v);<br>    mst[k].flag=<span class="hljs-literal">true</span>;<br>    <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> t=<span class="hljs-number">1</span>;t&lt;G.vexnum;++t) &#123; <span class="hljs-comment">// t记轮数</span><br>        <span class="hljs-type">int</span> min=INFINITY,minidx;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;G.vexnum;++i) &#123;<br>            <span class="hljs-keyword">if</span> (!mst[i].flag&amp;&amp;G.arcs[k][i]&lt;mst[i].lowcost) &#123;<br>                mst[i].adjvex=k;<br>                mst[i].lowcost=G.arcs[k][i];<br>            &#125;<br>            <span class="hljs-keyword">if</span> (!mst[i].flag&amp;&amp;mst[i].lowcost&lt;min) &#123;<br>                min=mst[i].lowcost;<br>                minidx=i;<br>            &#125;<br>        &#125;<br>        mst[minidx].flag=<span class="hljs-literal">true</span>;<br>        k=minidx;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h5><p>Prim 算法的时间复杂度是 O(n^2)，其中 n 为顶点数。因此，Prim 算法更适用于稠密图。</p>
+<h4 id="其他算法"><a href="#其他算法" class="headerlink" title="其他算法"></a>其他算法</h4><p>Kruskal 算法和 Prim 算法被称为避圈法，相应地，另一种破圈法的思路是：从大到小删除边并保证删除后仍是连通图，直至剩下 n-1 条边。</p>
+<h3 id="5-最短路径"><a href="#5-最短路径" class="headerlink" title="5 - 最短路径"></a>5 - 最短路径</h3><p>经典算法：</p>
+<ul>
+<li><strong>迪杰斯特拉（Dijkstra）算法</strong>：基于贪心思想，求从某顶点到其他各顶点的最短路径</li>
+<li><strong>弗洛伊德（Floyd）算法</strong>：基于动态规划，求每一对顶点之间的最短路径</li>
+</ul>
+<h4 id="Dijkstra-算法：求从某顶点到其他各顶点的最短路径"><a href="#Dijkstra-算法：求从某顶点到其他各顶点的最短路径" class="headerlink" title="Dijkstra 算法：求从某顶点到其他各顶点的最短路径"></a>Dijkstra 算法：求从某顶点到其他各顶点的最短路径</h4><h5 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h5><img src="..\img\ep7\image-20230114202714985.png" srcset="/img/loading.gif" lazyload alt="image-20230114202714985" style="zoom:25%;" />
+
+<p>上图所示带权有向图中从 v0 到其他各顶点的最短路径为：</p>
+<table>
+<thead>
+<tr>
+<th align="center">终点</th>
+<th align="center">最短路径</th>
+<th align="center">最短路径长度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">v1</td>
+<td align="center">无</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center">v2</td>
+<td align="center">(v0, v2)</td>
+<td align="center">10</td>
+</tr>
+<tr>
+<td align="center">v3</td>
+<td align="center">(v0, v4, v3)</td>
+<td align="center">50</td>
+</tr>
+<tr>
+<td align="center">v4</td>
+<td align="center">(v0, v4)</td>
+<td align="center">30</td>
+</tr>
+<tr>
+<td align="center">v5</td>
+<td align="center">(v0, v4, v3, v5)</td>
+<td align="center">60</td>
+</tr>
+</tbody></table>
+<p>从 v0 到其他各顶点的<strong>最短路径</strong>中的<strong>最短者</strong>为从 v0 到 v2 的最短路径</p>
+<h5 id="算法描述-2"><a href="#算法描述-2" class="headerlink" title="算法描述"></a>算法描述</h5><p>基本思想：按<strong>最短路径长度</strong>递增的次序产生最短路径</p>
+<ul>
+<li>最短路径中的最短者的特点：该路径上必定只有一条弧，且这条弧必定是从始点出发的弧中权值最小的，记作 (v0, vi)</li>
+<li>最短路径中的次短者的特点：（两种情况）或是直接从始点到该点，记作 (v0, vj)（从始点出发的弧中权值次小的弧）；或是从始点经过顶点 vi 再到该点，记作 (v0, vi, vj)（从始点出发的弧中权值最小的弧 + 从顶点 vi 出发的弧中权值最小的弧）</li>
+<li>最短路径中的第三短者的特点：（三种情况）或是直接从始点到该点，记作 (v0, vk)；或是从始点经过顶点 vi 再到该点，记作 (v0, vi, vk)；或是从始点经过顶点 vj 再到该点，记作 (v0, …, vj, vk)</li>
+<li>其余最短路径的特点：或是直接从始点到该点；或是从始点经过已求得最短路径的顶点，再到该点</li>
+</ul>
+<h5 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h5><p>实现过程示例（与 Prim 算法很类似）：求示例图中从 v0 到其他各顶点的最短路径（结合代码理解）</p>
+<ul>
+<li><p>初始化：</p>
+<table>
+<thead>
+<tr>
+<th align="center">G.vexs[i]</th>
+<th align="center">v0</th>
+<th align="center">v1</th>
+<th align="center">v2</th>
+<th align="center">v3</th>
+<th align="center">v4</th>
+<th align="center">v5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">path[i]</td>
+<td align="center">(v0)</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">pathdist[i]</td>
+<td align="center">0</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+</tr>
+<tr>
+<td align="center">flag[i]</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>第一轮：</p>
+<table>
+<thead>
+<tr>
+<th align="center">G.vexs[i]</th>
+<th align="center">v0</th>
+<th align="center">v1</th>
+<th align="center">v2</th>
+<th align="center">v3</th>
+<th align="center">v4</th>
+<th align="center">v5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">path[i]</td>
+<td align="center">(v0)</td>
+<td align="center"></td>
+<td align="center">(v0, v2)</td>
+<td align="center"></td>
+<td align="center">(v0, v4)</td>
+<td align="center">(v0, v5)</td>
+</tr>
+<tr>
+<td align="center">pathdist[i]</td>
+<td align="center">0</td>
+<td align="center">∞</td>
+<td align="center"><em><strong>10</strong></em></td>
+<td align="center">∞</td>
+<td align="center">30</td>
+<td align="center">100</td>
+</tr>
+<tr>
+<td align="center">flag[i]</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0→1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>第二轮：</p>
+<table>
+<thead>
+<tr>
+<th align="center">G.vexs[i]</th>
+<th align="center">v0</th>
+<th align="center">v1</th>
+<th align="center">v2</th>
+<th align="center">v3</th>
+<th align="center">v4</th>
+<th align="center">v5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">path[i]</td>
+<td align="center">(v0)</td>
+<td align="center"></td>
+<td align="center">(v0, v2)</td>
+<td align="center">(v0, v2, v3)</td>
+<td align="center">(v0, v4)</td>
+<td align="center">(v0, v5)</td>
+</tr>
+<tr>
+<td align="center">pathdist[i]</td>
+<td align="center">0</td>
+<td align="center">∞</td>
+<td align="center">10</td>
+<td align="center">60</td>
+<td align="center"><em><strong>30</strong></em></td>
+<td align="center">100</td>
+</tr>
+<tr>
+<td align="center">flag[i]</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0→1</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>第三轮：</p>
+<table>
+<thead>
+<tr>
+<th align="center">G.vexs[i]</th>
+<th align="center">v0</th>
+<th align="center">v1</th>
+<th align="center">v2</th>
+<th align="center">v3</th>
+<th align="center">v4</th>
+<th align="center">v5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">path[i]</td>
+<td align="center">(v0)</td>
+<td align="center"></td>
+<td align="center">(v0, v2)</td>
+<td align="center">(v0, v4, v3)</td>
+<td align="center">(v0, v4)</td>
+<td align="center">(v0, v4, v5)</td>
+</tr>
+<tr>
+<td align="center">pathdist[i]</td>
+<td align="center">0</td>
+<td align="center">∞</td>
+<td align="center">10</td>
+<td align="center"><em><strong>50</strong></em></td>
+<td align="center">30</td>
+<td align="center">90</td>
+</tr>
+<tr>
+<td align="center">flag[i]</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0→1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>第四轮：</p>
+<table>
+<thead>
+<tr>
+<th align="center">G.vexs[i]</th>
+<th align="center">v0</th>
+<th align="center">v1</th>
+<th align="center">v2</th>
+<th align="center">v3</th>
+<th align="center">v4</th>
+<th align="center">v5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">path[i]</td>
+<td align="center">(v0)</td>
+<td align="center"></td>
+<td align="center">(v0, v2)</td>
+<td align="center">(v0, v4, v3)</td>
+<td align="center">(v0, v4)</td>
+<td align="center">(v0, v4, v3, v5)</td>
+</tr>
+<tr>
+<td align="center">pathdist[i]</td>
+<td align="center">0</td>
+<td align="center">∞</td>
+<td align="center">10</td>
+<td align="center">50</td>
+<td align="center">30</td>
+<td align="center"><em><strong>60</strong></em></td>
+</tr>
+<tr>
+<td align="center">flag[i]</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0→1</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>第五轮：</p>
+<table>
+<thead>
+<tr>
+<th align="center">G.vexs[i]</th>
+<th align="center">v0</th>
+<th align="center">v1</th>
+<th align="center">v2</th>
+<th align="center">v3</th>
+<th align="center">v4</th>
+<th align="center">v5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">path[i]</td>
+<td align="center">(v0)</td>
+<td align="center"></td>
+<td align="center">(v0, v2)</td>
+<td align="center">(v0, v4, v3)</td>
+<td align="center">(v0, v4)</td>
+<td align="center">(v0, v4, v3, v5)</td>
+</tr>
+<tr>
+<td align="center">pathdist[i]</td>
+<td align="center">0</td>
+<td align="center"><em><strong>∞</strong></em></td>
+<td align="center">10</td>
+<td align="center">50</td>
+<td align="center">30</td>
+<td align="center">60</td>
+</tr>
+<tr>
+<td align="center">flag[i]</td>
+<td align="center">1</td>
+<td align="center">0→1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-type">int</span> AdjMatrix[MAX_VERTEX_NUM][MAX_VERTEX_NUM];<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    T vexs[MAX_VERTEX_NUM];<br>    AdjMatrix arcs;<br>    <span class="hljs-type">int</span> vexnum,arcnum;<br>&#125; Graph;<br><br><span class="hljs-type">int</span> path[MAX_VERTEX_NUM][MAX_VERTEX_NUM];<br><span class="hljs-type">int</span> pathdist[MAX_VERTEX_NUM];<br><span class="hljs-type">bool</span> flag[MAX_VERTEX_NUM];<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ShortestPath_D</span><span class="hljs-params">(Graph G,T v)</span> </span>&#123;<br>    <span class="hljs-comment">// 初始化</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;G.vexnum;++i) &#123;<br>        pathdist[i]=INFINITY;<br>        flag[i]=<span class="hljs-literal">false</span>;<br>    &#125;<br>    <span class="hljs-type">int</span> k=<span class="hljs-built_in">LocateVex</span>(G,v);<br>    path[k][<span class="hljs-number">0</span>]=k;<br>    pathdist[k]=<span class="hljs-number">0</span>;<br>    flag[k]=<span class="hljs-literal">true</span>;<br>    <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> t=<span class="hljs-number">1</span>;t&lt;G.vexnum;++t) &#123; <span class="hljs-comment">// t记轮数</span><br>        <span class="hljs-type">int</span> min=INFINITY,minidx;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;G.vexnum;++i) &#123;<br>            <span class="hljs-keyword">if</span> (!flag[i]&amp;&amp;pathdist[k]+G.arcs[k][i]&lt;pathdist[i]) &#123;<br>                <span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;<br>                <span class="hljs-keyword">do</span> &#123;<br>                    path[i][j]=path[k][j];<br>                    ++j;<br>                &#125;<br>                <span class="hljs-keyword">while</span> (path[k][j<span class="hljs-number">-1</span>]!=k);<br>                path[i][j]=i;<br>                pathdist[i]=pathdist[k]+G.arcs[k][i];<br>            &#125;<br>            <span class="hljs-keyword">if</span> (!flag[i]&amp;&amp;pathdist[i]&lt;min) &#123;<br>                min=pathdist[i];<br>                minidx=i;<br>            &#125;<br>        &#125;<br>        flag[minidx]=<span class="hljs-literal">true</span>;<br>        k=minidx;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="分析-2"><a href="#分析-2" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>时间复杂度：O(n^2)，其中 n 为顶点数</li>
+<li>局限：若图中含有负数权值，则无法保证按最短路径长度递增的次序产生最短路径，即 Dijkstra 算法很有可能失效；解决方法是：先将所有权值映射到正区间再使用 Dijkstra 算法，或采用改进的 Bellman-Ford 算法</li>
+</ul>
+<h4 id="Floyd-算法：求每一对顶点之间的最短路径"><a href="#Floyd-算法：求每一对顶点之间的最短路径" class="headerlink" title="Floyd 算法：求每一对顶点之间的最短路径"></a>Floyd 算法：求每一对顶点之间的最短路径</h4><p>求每一对顶点之间的最短路径，解决方法是：每次以一个顶点为始点执行 n 次 Dijkstra 算法，或采用 Floyd 算法</p>
+<h5 id="算法描述-3"><a href="#算法描述-3" class="headerlink" title="算法描述"></a>算法描述</h5><p>基本思想：在每一对顶点之间所有存在的路径中，选出一条长度最短的路径；关键是要确认两点间的所有路径都被比较过</p>
+<ul>
+<li>若从 vi 到 vj 的弧存在，则存在路径 (vi, vj)</li>
+<li>若路径 (vi, vk) 和 (vk, vj) 存在，则存在路径 (vi, vk, vj)</li>
+<li>若路径 (vi, …, vk) 和 (vk, …, vj) 存在，则存在路径 (vi, …, vk, …, vj)</li>
+<li>以此类推，从 vi 到 vj 的最短路径为上述这些路径中长度最短者</li>
+</ul>
+<h5 id="实现-3"><a href="#实现-3" class="headerlink" title="实现"></a>实现</h5><p>实现过程示例：求图中每一对顶点之间的最短路径，用数组 pathdist 存储，pathdist[i][j] 表示从 vi 到 vj 的已比较的路径中的最短者（结合代码理解）</p>
+<img src="..\img\ep7\image-20230116232008436.png" srcset="/img/loading.gif" lazyload alt="image-20230116232008436" style="zoom:25%;" />
+
+<ul>
+<li><p>初始化：</p>
+<img src="..\img\ep7\image-20230116232405378.png" srcset="/img/loading.gif" lazyload alt="image-20230116232405378" style="zoom:25%;" />
+</li>
+<li><p>pathdist[i][j] 与路径 (vi, …, v0, …, vj) 的比较：</p>
+<img src="..\img\ep7\image-20230116232528809.png" srcset="/img/loading.gif" lazyload alt="image-20230116232528809" style="zoom:25%;" />
+</li>
+<li><p>pathdist[i][j] 与路径 (vi, …, v1, …, vj) 的比较：</p>
+<img src="..\img\ep7\image-20230116232558608.png" srcset="/img/loading.gif" lazyload alt="image-20230116232558608" style="zoom:25%;" />
+</li>
+<li><p>pathdist[i][j] 与路径 (vi, …, v2, …, vj) 的比较：</p>
+<img src="..\img\ep7\image-20230116232630516.png" srcset="/img/loading.gif" lazyload alt="image-20230116232630516" style="zoom:25%;" />
+</li>
+<li><p>pathdist[i][j] 与路径 (vi, …, v3, …, vj) 的比较：</p>
+<img src="..\img\ep7\image-20230116232651353.png" srcset="/img/loading.gif" lazyload alt="image-20230116232651353" style="zoom:25%;" /></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-type">int</span> AdjMatrix[MAX_VERTEX_NUM][MAX_VERTEX_NUM];<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    T vexs[MAX_VERTEX_NUM];<br>    AdjMatrix arcs;<br>    <span class="hljs-type">int</span> vexnum,arcnum;<br>&#125; Graph;<br><br><span class="hljs-type">int</span> path[MAX_VERTEX_NUM][MAX_VERTEX_NUM][MAX_VERTEX_NUM];<br><span class="hljs-type">int</span> pathdist[MAX_VERTEX_NUM][MAX_VERTEX_NUM];<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ShortestPath_F</span><span class="hljs-params">(Graph G)</span> </span>&#123;<br>    <span class="hljs-comment">// 初始化</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;G.vexnum;++i)<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;G.vexnum;++j) &#123;<br>            path[i][j][<span class="hljs-number">0</span>]=i;<br>            path[i][j][<span class="hljs-number">1</span>]=j;<br>            <span class="hljs-keyword">if</span> (i==j)<br>                pathdist[i][j]=<span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">else</span><br>                pathdist[i][j]=G.arcs[i][j];<br>        &#125;<br>    <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;G.vexnum;++k)<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;G.vexnum;++i)<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;G.vexnum;++j) &#123;<br>                <span class="hljs-keyword">if</span> (pathdist[i][k]+pathdist[k][j]&lt;pathdist[i][j]) &#123;<br>                    pathdist[i][j]=pathdist[i][k]+pathdist[k][j];<br>                    <span class="hljs-type">int</span> t=<span class="hljs-number">0</span>;<br>                    <span class="hljs-keyword">do</span> &#123;<br>                        path[i][j][t]=path[i][k][t];<br>                        ++t;<br>                    &#125;<br>                    <span class="hljs-keyword">while</span> (path[i][k][t<span class="hljs-number">-1</span>]!=k);<br>                    <span class="hljs-type">int</span> tmp=t;<br>                    <span class="hljs-keyword">do</span> &#123;<br>                        path[i][j][t]=path[k][j][t-tmp+<span class="hljs-number">1</span>];<br>                        ++t;<br>                    &#125;<br>                    <span class="hljs-keyword">while</span> (path[k][j][t-tmp]!=j);<br>                &#125;<br>            &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="分析-3"><a href="#分析-3" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>时间复杂度：O(n^3)，其中 n 为顶点数</li>
+<li>允许有负数权值</li>
+</ul>
+<h3 id="6-拓扑排序"><a href="#6-拓扑排序" class="headerlink" title="6 - 拓扑排序"></a>6 - 拓扑排序</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><p>对于<strong>有向图</strong>，给出其顶点的线性序列 (v_0, v_1, …, v_n-1)，如果该线性序列满足：若图中从顶点 v_i 到顶点 v_j 有一条路径，则序列中顶点 v_i 必在顶点 v_j 之前，那么称该线性序列为<strong>拓扑序列</strong>；求有向图顶点的拓扑序列的过程，称作<strong>拓扑排序</strong></p>
+<h5 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h5><p>有向图可以表示工程的施工流程、产品的生产流程、学生的课程安排等：有向图的顶点表示一项子工程、一个子产品或一门课程，弧 &lt;v_i, v_j&gt; 表示子工程、子产品或课程 v_i 必须在 v_j 之前完成</p>
+<p>对有向图的顶点进行拓扑排序，对应于这些实际问题就是为各项子工程、各个子产品或各门课程排出一个线性的顺序关系</p>
+<p>若受条件限制这些工作必须串行，则应该按照拓扑序列安排执行的先后顺序</p>
+<h5 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h5><p>某项工程的施工流程为：</p>
+<ul>
+<li>子工程 1：无条件</li>
+<li>子工程 2：在子工程 1, 3 之后</li>
+<li>子工程 3：在子工程 1 之后</li>
+<li>子工程 4：在子工程 1, 6 之后</li>
+<li>子工程 5：在子工程 3, 4, 6 之后</li>
+<li>子工程 6：无条件</li>
+</ul>
+<p>要求为各项子工程排出一个线性的顺序关系</p>
+<ol>
+<li><p>该工程的施工流程对应的有向图为：（唯一）</p>
+<img src="..\img\ep7\image-20230117122543014.png" srcset="/img/loading.gif" lazyload alt="image-20230117122543014" style="zoom:25%;" />
+</li>
+<li><p>对有向图的顶点进行拓扑排序，得到的拓扑序列为：（不唯一且不一定存在）</p>
+<ul>
+<li>1, 3, 2, 6, 4, 5</li>
+<li>6, 1, 4, 3, 2, 5</li>
+<li>……</li>
+</ul>
+</li>
+</ol>
+<h5 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h5><p>用顶点表示活动，用弧表示活动间优先关系的<strong>有向无环图</strong>称为 <strong>AOV-网（Activity On Vertex network）</strong></p>
+<p><strong>在 AOV-网中，要求不能出现有向环</strong>；因为有向环表示某项活动应以自己为先决条件，而显然这是荒谬的（死循环，拓扑序列不存在）</p>
+<h4 id="拓扑排序算法"><a href="#拓扑排序算法" class="headerlink" title="拓扑排序算法"></a>拓扑排序算法</h4><h5 id="算法描述-4"><a href="#算法描述-4" class="headerlink" title="算法描述"></a>算法描述</h5><ol>
+<li>从图中选择一个入度为零的顶点加入序列</li>
+<li>从图中删除此顶点及由它发出的弧</li>
+<li>重复执行 1, 2，直至所有顶点加入序列（完成拓扑排序）或图中再也没有入度为零的顶点（图中存在有向环，拓扑序列不存在）</li>
+</ol>
+<p>在<strong>邻接矩阵</strong>上实现的具体算法：</p>
+<p>设置 flag 数组（flag[i] &#x3D; 0 表示顶点 vexs[i] 存在；flag[i] &#x3D; 1 表示顶点 vexs[i] 被删除）</p>
+<ul>
+<li>选择一个入度为零的顶点：找全零的一列（还需根据 flag 数组判断顶点存在）</li>
+<li>删除此顶点及由它发出的弧：flag 数组对应元素置为 1；对应行置为全零</li>
+</ul>
+<p>在<strong>邻接表</strong>上实现的具体算法：</p>
+<p>在头结点增加一个域，存放顶点入度；设置一个栈，存放入度为零的顶点</p>
+<ol>
+<li>建立邻接表存储图</li>
+<li>查找头结点向量中入度为零的顶点，将其压入栈</li>
+<li>重复执行以下操作，直至栈空：<ul>
+<li>栈顶元素 v 出栈，将其加入序列</li>
+<li>在头结点向量中查找 v 的所有邻接点，将其入度减 1，若其入度变成零，则将其压入栈</li>
+</ul>
+</li>
+<li>栈空时，若所有顶点都已加入序列，则完成拓扑排序，否则说明图中存在有向环，拓扑序列不存在</li>
+</ol>
+<h5 id="在邻接表上的实现"><a href="#在邻接表上的实现" class="headerlink" title="在邻接表上的实现"></a>在邻接表上的实现</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">ArcNode</span> &#123;<br>    <span class="hljs-type">int</span> adjvex;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">ArcNode</span>* nextarc;<br>&#125; ArcNode;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    T vex;<br>    <span class="hljs-type">int</span> indegree;<br>    ArcNode* firstarc;<br>&#125; VNode,AdjList[MAX_VERTEX_NUM];<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    AdjList vexs;<br>    <span class="hljs-type">int</span> vexnum,arcnum;<br>&#125; Graph;<br><br><span class="hljs-comment">// 若成功完成拓扑排序，则返回true；若图中存在有向环，拓扑序列不存在，则返回false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">TopologicalSort</span><span class="hljs-params">(Graph G,T TopoSeq[])</span> </span>&#123;<br>    Stack S;<br>    <span class="hljs-built_in">InitStack</span>(S);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;G.vexnum;++i)<br>        <span class="hljs-keyword">if</span> (G.vexs[i].indegree==<span class="hljs-number">0</span>)<br>            <span class="hljs-built_in">Push</span>(S,G.vexs[i].vex);<br>    <span class="hljs-type">int</span> cnt=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span> (!<span class="hljs-built_in">StackEmpty</span>(S)) &#123;<br>        T v=<span class="hljs-built_in">Pop</span>(S);<br>        TopoSeq[cnt++]=v;<br>        <span class="hljs-type">int</span> k=<span class="hljs-built_in">LocateVex</span>(G,v);<br>        <span class="hljs-keyword">for</span> (ArcNode* p=G.vexs[k].firstarc;p;p=p-&gt;nextarc) &#123;<br>            --G.vexs[p-&gt;adjvex].indegree;<br>            <span class="hljs-keyword">if</span> (G.vexs[p-&gt;adjvex].indegree==<span class="hljs-number">0</span>)<br>                <span class="hljs-built_in">Push</span>(S,G.vexs[p-&gt;adjvex].vex);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (cnt&lt;G.vexnum)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="7-关键路径"><a href="#7-关键路径" class="headerlink" title="7 - 关键路径"></a>7 - 关键路径</h3><h4 id="背景-1"><a href="#背景-1" class="headerlink" title="背景"></a>背景</h4><h5 id="AOE-网"><a href="#AOE-网" class="headerlink" title="AOE-网"></a>AOE-网</h5><p>用顶点表示事件，用弧表示活动，用弧上权值表示活动持续时间的<strong>带权有向无环图</strong>称为 <strong>AOE-网（Activity On Edge network）</strong>；AOE-网可以用来估算工程完成时间</p>
+<h5 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h5><p>某项工程的进度图如下：</p>
+<img src="..\img\ep7\image-20230127151451896.png" srcset="/img/loading.gif" lazyload alt="image-20230127151451896" style="zoom:25%;" />
+
+<p>入度为零的顶点称为<strong>源点</strong>，可以看作工程的开始点；出度为零的顶点称为<strong>汇点</strong>，可以看作工程的完成点；AOE-网通常只有一个源点和一个汇点</p>
+<p>分析过程如下：</p>
+<ol>
+<li><p>求<strong>拓扑序列</strong>：1, 3, 2, 4, 5, 6</p>
+<p>求<strong>逆拓扑序列</strong>：6, 5, 4, 2, 3, 1（两种求法：依次将出度为零的顶点加入序列；反写拓扑序列）</p>
+<p>拓扑序列中第一个顶点为源点，最后一个顶点为汇点</p>
+</li>
+<li><p>按照拓扑序列的顺序，计算各顶点所表示<strong>事件的最早发生时间 Ve</strong>（求法：木桶原理，约定源点的最早发生时间为 0，求所有指向某一事件的活动中，弧尾事件的最早发生时间与该活动持续时间之和的最大值）</p>
+<p>按照逆拓扑序列的顺序，计算各顶点所表示<strong>事件的最晚发生时间 Vl</strong>（求法：想象赶 DDL，约定汇点的最晚发生时间等于其最早发生时间，求所有指离某一事件的活动中，弧头事件的最晚发生时间与该活动持续时间之差的最小值）</p>
+<p>列下表：</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Ve</td>
+<td align="center">0</td>
+<td align="center">19</td>
+<td align="center">15</td>
+<td align="center">29</td>
+<td align="center">38</td>
+<td align="center">43</td>
+</tr>
+<tr>
+<td align="center">Vl</td>
+<td align="center">0</td>
+<td align="center">19</td>
+<td align="center">15</td>
+<td align="center">37</td>
+<td align="center">38</td>
+<td align="center">43</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>计算各弧所表示<strong>活动的最早开始时间 e</strong>（弧尾事件的最早发生时间）</p>
+<p>计算各弧所表示<strong>活动的最晚开始时间 l</strong>（弧头事件的最晚发生时间与该活动持续时间之差）</p>
+<p>列下表：</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">&lt;1, 2&gt;</th>
+<th align="center">&lt;1, 3&gt;</th>
+<th align="center">&lt;2, 4&gt;</th>
+<th align="center">&lt;2, 5&gt;</th>
+<th align="center">&lt;3, 2&gt;</th>
+<th align="center">&lt;3, 5&gt;</th>
+<th align="center">&lt;4, 6&gt;</th>
+<th align="center">&lt;5, 6&gt;</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">e</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">19</td>
+<td align="center">19</td>
+<td align="center">15</td>
+<td align="center">15</td>
+<td align="center">29</td>
+<td align="center">38</td>
+</tr>
+<tr>
+<td align="center">l</td>
+<td align="center">17</td>
+<td align="center">0</td>
+<td align="center">27</td>
+<td align="center">19</td>
+<td align="center">15</td>
+<td align="center">27</td>
+<td align="center">37</td>
+<td align="center">38</td>
+</tr>
+<tr>
+<td align="center">l-e</td>
+<td align="center">17</td>
+<td align="center"><strong>0</strong></td>
+<td align="center">8</td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center">12</td>
+<td align="center">8</td>
+<td align="center"><strong>0</strong></td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h5 id="示例引出的重要概念"><a href="#示例引出的重要概念" class="headerlink" title="示例引出的重要概念"></a>示例引出的重要概念</h5><ul>
+<li><p><strong>关键活动</strong>：l-e &#x3D; 0 的活动</p>
+</li>
+<li><p><strong>关键路径</strong>：由关键活动组成的路径，关键路径长度等于汇点的发生时间，即完成工程的最短时间，如下图：</p>
+<img src="..\img\ep7\image-20230127164013423.png" srcset="/img/loading.gif" lazyload alt="image-20230127164013423" style="zoom:25%;" /></li>
+</ul>
+<p>注意：</p>
+<ol>
+<li>增加某一关键活动持续时间将增加关键路径长度，延长工期；因此，如果工期固定，那么关键活动的开始时间不能耽误</li>
+<li>一定程度上，减少某一关键活动持续时间将减少关键路径长度，缩短工期；但减少某一关键活动持续时间可能改变关键路径，继续减少该活动持续时间将无法缩短工期</li>
+<li>若有多条关键路径，则只使一条关键路径的长度减少将无法缩短工期，需使所有关键路径的长度同时减少</li>
+</ol>
+<h4 id="求关键路径算法"><a href="#求关键路径算法" class="headerlink" title="求关键路径算法"></a>求关键路径算法</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">ArcNode</span> &#123;<br>    <span class="hljs-type">int</span> adjvex;<br>    <span class="hljs-type">int</span> weight;<br>    <span class="hljs-type">int</span> e;<br>    <span class="hljs-type">int</span> l;<br>    <span class="hljs-type">int</span> tag; <span class="hljs-comment">// tag为1，该弧表示关键活动；tag为0，该弧表示非关键活动</span><br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">ArcNode</span>* nextarc;<br>&#125; ArcNode;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    T vex;<br>    <span class="hljs-type">int</span> indegree;<br>    ArcNode* firstarc;<br>&#125; VNode,AdjList[MAX_VERTEX_NUM];<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    AdjList vexs;<br>    <span class="hljs-type">int</span> vexnum,arcnum;<br>&#125; Graph;<br><br><span class="hljs-type">int</span> Ve[MAX_VERTEX_NUM],Vl[MAX_VERTEX_NUM];<br><br><span class="hljs-comment">// 拓扑排序过程中完成各顶点Ve的计算，若成功完成拓扑排序，则返回true；若图中存在有向环，拓扑序列不存在，则返回false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">TopologicalSort</span><span class="hljs-params">(Graph G,T TopoSeq[])</span> </span>&#123;<br>    Stack S;<br>    <span class="hljs-built_in">InitStack</span>(S);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;G.vexnum;++i)<br>        <span class="hljs-keyword">if</span> (G.vexs[i].indegree==<span class="hljs-number">0</span>)<br>            <span class="hljs-built_in">Push</span>(S,G.vexs[i].vex);<br>    <span class="hljs-type">int</span> cnt=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span> (!<span class="hljs-built_in">StackEmpty</span>(S)) &#123;<br>        T v=<span class="hljs-built_in">Pop</span>(S);<br>        TopoSeq[cnt++]=v;<br>        <span class="hljs-type">int</span> k=<span class="hljs-built_in">LocateVex</span>(G,v);<br>        <span class="hljs-keyword">for</span> (ArcNode* p=G.vexs[k].firstarc;p;p=p-&gt;nextarc) &#123;<br>            --G.vexs[p-&gt;adjvex].indegree;<br>            <span class="hljs-keyword">if</span> (G.vexs[p-&gt;adjvex].indegree==<span class="hljs-number">0</span>)<br>                <span class="hljs-built_in">Push</span>(S,G.vexs[p-&gt;adjvex].vex);<br>            <span class="hljs-comment">// *****增加的代码：各顶点Ve的计算*****</span><br>            <span class="hljs-keyword">if</span> (Ve[k]+p-&gt;weight&gt;Ve[p-&gt;adjvex])<br>                Ve[p-&gt;adjvex]=Ve[k]+p-&gt;weight;<br>            <span class="hljs-comment">// ********************************</span><br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (cnt&lt;G.vexnum)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-comment">// 若成功完成拓扑排序，则返回true；若图中存在有向环，拓扑序列不存在，则返回false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">CriticalPath</span><span class="hljs-params">(Graph G)</span> </span>&#123;<br>    T TopoSeq[MAX_VERTEX_NUM];<br>    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">TopologicalSort</span>(G,TopoSeq))<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    <br>    <span class="hljs-comment">// 初始化各顶点Vl</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;G.vexnum;++i)<br>        Vl[i]=Ve[G.vexnum<span class="hljs-number">-1</span>];<br>    <br>    <span class="hljs-comment">// 各顶点Vl的计算</span><br>    <span class="hljs-type">int</span> cnt=G.vexnum<span class="hljs-number">-1</span>;<br>    <span class="hljs-keyword">while</span> (cnt) &#123;<br>        <span class="hljs-type">int</span> k=<span class="hljs-built_in">LocateVex</span>(G,TopoSeq[--cnt]);<br>        <span class="hljs-keyword">for</span> (ArcNode* p=G.vexs[k].firstarc;p;p=p-&gt;nextarc)<br>            <span class="hljs-keyword">if</span> (Vl[p-&gt;adjvex]-p-&gt;weight&lt;Vl[k])<br>                Vl[k]=Vl[p-&gt;adjvex]-p-&gt;weight;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 各弧e和l的计算，标识关键活动</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;G.vexnum;++i)<br>        <span class="hljs-keyword">for</span> (ArcNode* p=G.vexs[i].firstarc;p;p=p-&gt;nextarc) &#123;<br>            p-&gt;e=Ve[i];<br>            p-&gt;l=Vl[p-&gt;adjvex]-p-&gt;weight;<br>            <span class="hljs-keyword">if</span> (p-&gt;e==p-&gt;l)<br>                p-&gt;tag=<span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">else</span><br>                p-&gt;tag=<span class="hljs-number">0</span>;<br>        &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
