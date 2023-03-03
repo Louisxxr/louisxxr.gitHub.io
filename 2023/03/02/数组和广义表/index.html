@@ -23,26 +23,26 @@
 <meta property="og:site_name" content="Louisxxr">
 <meta property="og:description" content="数据结构课程笔记 ep5">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20221124141647348.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20221124153241399.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111134959493.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111174224504.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111182729865.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111182803189.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111182836511.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111182909880.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111205131819.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111211428323.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111211641331.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111211732220.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111211802537.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20230111211825606.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20221124141647348.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20221124153241399.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20230111134959493.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20230111174224504.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20230111182729865.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20230111182803189.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20230111182836511.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20230111182909880.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20230111205131819.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20230111211428323.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20230111211641331.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20230111211732220.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20230111211802537.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep5/image-20230111211825606.png">
 <meta property="article:published_time" content="2023-03-02T08:38:27.000Z">
-<meta property="article:modified_time" content="2023-03-02T14:59:33.759Z">
+<meta property="article:modified_time" content="2023-03-03T08:48:41.770Z">
 <meta property="article:author" content="Xianrui Xie">
 <meta property="article:tag" content="数据结构课程笔记">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://louisxxr.github.io/2023/03/02/img/ep5/image-20221124141647348.png">
+<meta name="twitter:image" content="https://louisxxr.github.io/img/ep5/image-20221124141647348.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -315,7 +315,7 @@
 </ol>
 <h5 id="两种次序约定"><a href="#两种次序约定" class="headerlink" title="两种次序约定"></a>两种次序约定</h5><ol>
 <li><p>以行序为主序（低下标优先），C 语言采用该次序约定</p>
-<img src="..\img\ep5\image-20221124141647348.png" srcset="/img/loading.gif" lazyload alt="image-20221124141647348" style="zoom:25%;" />
+<img src="/img/ep5/image-20221124141647348.png" srcset="/img/loading.gif" lazyload alt="image-20221124141647348" style="zoom:25%;" />
 
 <ul>
 <li><p>二维数组 a[b1][b2] 中任一元素 a[i][j] 的存储位置 LOC(i, j) &#x3D; LOC(0, 0) + (b2 * i + j) * L</p>
@@ -340,7 +340,7 @@
 <li><p>方法：对每一对对称元素只分配一个存储空间，将 $$n^2$$ 个元素压缩存储到 $$n*(n+1)&#x2F;2$$ 个元素的空间中</p>
 </li>
 <li><p>图示：</p>
-<img src="..\img\ep5\image-20221124153241399.png" srcset="/img/loading.gif" lazyload alt="image-20221124153241399" style="zoom:25%;" />
+<img src="/img/ep5/image-20221124153241399.png" srcset="/img/loading.gif" lazyload alt="image-20221124153241399" style="zoom:25%;" />
 </li>
 <li><p>公式：</p>
 <p>存下三角：LOC(i, j) &#x3D; LOC(0, 0) + [i * (i + 1) &#x2F; 2 + j] * L</p>
@@ -420,7 +420,7 @@
 <p>类似地，也可以用带列指针向量的单链表表示</p>
 </li>
 <li><p><strong>用带行指针向量和列指针向量的十字链表表示</strong>：结合了带行指针向量的单链表表示法和带列指针向量的单链表表示法，表中结点可以包括五个域：行下标、列下标、值、行指针和列指针</p>
-<img src="..\img\ep5\image-20230111134959493.png" srcset="/img/loading.gif" lazyload alt="image-20230111134959493" style="zoom: 33%;" /></li>
+<img src="/img/ep5/image-20230111134959493.png" srcset="/img/loading.gif" lazyload alt="image-20230111134959493" style="zoom: 33%;" /></li>
 </ol>
 <h3 id="2-广义表"><a href="#2-广义表" class="headerlink" title="2 - 广义表"></a>2 - 广义表</h3><h4 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h4><ol>
 <li><strong>广义表（Generalized list）</strong>是 n 个单元素（或称<strong>原子</strong>）或<strong>子广义表</strong> α1, α2, …, αn 的有限序列，记作 LS &#x3D; (α1, α2, …, αn)，约定用小写字母表示原子、用大写字母表示广义表</li>
@@ -458,7 +458,7 @@
 <p><strong>原子结点</strong>包括三个域：结点类型标记 tag（为 0）和值 value</p>
 </li>
 <li><p>除空表的表指针为空外，表指针均指向一个表结点，该结点的 hp 域指示该表表头、tp 域指示该表表尾（除非表尾为空，否则必为表结点）</p>
-<img src="..\img\ep5\image-20230111174224504.png" srcset="/img/loading.gif" lazyload alt="image-20230111174224504" style="zoom:25%;" />
+<img src="/img/ep5/image-20230111174224504.png" srcset="/img/loading.gif" lazyload alt="image-20230111174224504" style="zoom:25%;" />
 </li>
 <li><p><strong>例子</strong>：</p>
 <ul>
@@ -467,19 +467,19 @@
 </li>
 <li><p>B &#x3D; (a, b, c, d)</p>
 <p>表示为：</p>
-<img src="..\img\ep5\image-20230111182729865.png" srcset="/img/loading.gif" lazyload alt="image-20230111182729865" style="zoom:25%;" />
+<img src="/img/ep5/image-20230111182729865.png" srcset="/img/loading.gif" lazyload alt="image-20230111182729865" style="zoom:25%;" />
 </li>
 <li><p>C &#x3D; (a, (b, c, d))</p>
 <p>表示为：</p>
-<img src="..\img\ep5\image-20230111182803189.png" srcset="/img/loading.gif" lazyload alt="image-20230111182803189" style="zoom:25%;" />
+<img src="/img/ep5/image-20230111182803189.png" srcset="/img/loading.gif" lazyload alt="image-20230111182803189" style="zoom:25%;" />
 </li>
 <li><p>D &#x3D; (A, B, C) &#x3D; ((), (a, b, c, d), (a, (b, c, d)))</p>
 <p>表示为：</p>
-<img src="..\img\ep5\image-20230111182836511.png" srcset="/img/loading.gif" lazyload alt="image-20230111182836511" style="zoom:25%;" />
+<img src="/img/ep5/image-20230111182836511.png" srcset="/img/loading.gif" lazyload alt="image-20230111182836511" style="zoom:25%;" />
 </li>
 <li><p>E &#x3D; (a, E)</p>
 <p>表示为：</p>
-<img src="..\img\ep5\image-20230111182909880.png" srcset="/img/loading.gif" lazyload alt="image-20230111182909880" style="zoom:25%;" /></li>
+<img src="/img/ep5/image-20230111182909880.png" srcset="/img/loading.gif" lazyload alt="image-20230111182909880" style="zoom:25%;" /></li>
 </ul>
 </li>
 <li><p><strong>优点</strong>：容易分清层次；广义表的长度为最高层中表结点的个数，深度为最大层次数减 1；因此，对于求长度、求深度、求表头、求表尾等相关操作很方便</p>
@@ -491,29 +491,29 @@
 <p><strong>原子结点</strong>包括三个域：结点类型标记 tag（为 0）、值 value 和指向下一个元素的指针 next</p>
 </li>
 <li><p>一个表结点对应一个括号</p>
-<img src="..\img\ep5\image-20230111205131819.png" srcset="/img/loading.gif" lazyload alt="image-20230111205131819" style="zoom:25%;" />
+<img src="/img/ep5/image-20230111205131819.png" srcset="/img/loading.gif" lazyload alt="image-20230111205131819" style="zoom:25%;" />
 </li>
 <li><p><strong>例子</strong>：</p>
 <ul>
 <li><p>A &#x3D; ()</p>
 <p>表示为：</p>
-<img src="..\img\ep5\image-20230111211428323.png" srcset="/img/loading.gif" lazyload alt="image-20230111211428323" style="zoom:25%;" />
+<img src="/img/ep5/image-20230111211428323.png" srcset="/img/loading.gif" lazyload alt="image-20230111211428323" style="zoom:25%;" />
 </li>
 <li><p>B &#x3D; (a, b, c, d)</p>
 <p>表示为：</p>
-<img src="..\img\ep5\image-20230111211641331.png" srcset="/img/loading.gif" lazyload alt="image-20230111211641331" style="zoom:25%;" />
+<img src="/img/ep5/image-20230111211641331.png" srcset="/img/loading.gif" lazyload alt="image-20230111211641331" style="zoom:25%;" />
 </li>
 <li><p>C &#x3D; (a, (b, c, d))</p>
 <p>表示为：</p>
-<img src="..\img\ep5\image-20230111211732220.png" srcset="/img/loading.gif" lazyload alt="image-20230111211732220" style="zoom:25%;" />
+<img src="/img/ep5/image-20230111211732220.png" srcset="/img/loading.gif" lazyload alt="image-20230111211732220" style="zoom:25%;" />
 </li>
 <li><p>D &#x3D; (A, B, C) &#x3D; ((), (a, b, c, d), (a, (b, c, d)))</p>
 <p>表示为：</p>
-<img src="..\img\ep5\image-20230111211802537.png" srcset="/img/loading.gif" lazyload alt="image-20230111211802537" style="zoom:25%;" />
+<img src="/img/ep5/image-20230111211802537.png" srcset="/img/loading.gif" lazyload alt="image-20230111211802537" style="zoom:25%;" />
 </li>
 <li><p>E &#x3D; (a, E)</p>
 <p>表示为：</p>
-<img src="..\img\ep5\image-20230111211825606.png" srcset="/img/loading.gif" lazyload alt="image-20230111211825606" style="zoom:25%;" /></li>
+<img src="/img/ep5/image-20230111211825606.png" srcset="/img/loading.gif" lazyload alt="image-20230111211825606" style="zoom:25%;" /></li>
 </ul>
 </li>
 <li><p><strong>优点</strong>：表结点个数少；表结点个数和括号对数一致</p>

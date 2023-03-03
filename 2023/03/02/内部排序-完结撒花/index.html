@@ -24,19 +24,19 @@
 <meta property="og:description" content="数据结构课程笔记 ep9">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-8fa032e195365f77fb6b980a4ed71958_1440w.webp">
-<meta property="og:image" content="https://louisxxr.github.io/..%5Cimg%5Cep9%5Cimage-20230203202943465.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230204144219110.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230204195659231.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230204211827144.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230226144250291.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230226144348677.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230227220224862.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230228235742495.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230228235812314.png">
-<meta property="og:image" content="https://louisxxr.github.io/2023/03/02/img/ep9/image-20230228235833655.png">
-<meta property="og:image" content="https://louisxxr.github.io/..%5Cimg%5Cep9%5Cimage-20230301151810289.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep9/image-20230203202943465.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep9/image-20230204144219110.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep9/image-20230204195659231.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep9/image-20230204211827144.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep9/image-20230226144250291.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep9/image-20230226144348677.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep9/image-20230227220224862.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep9/image-20230228235742495.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep9/image-20230228235812314.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep9/image-20230228235833655.png">
+<meta property="og:image" content="https://louisxxr.github.io/img/ep9/image-20230301151810289.png">
 <meta property="article:published_time" content="2023-03-02T08:41:51.000Z">
-<meta property="article:modified_time" content="2023-03-02T15:33:43.574Z">
+<meta property="article:modified_time" content="2023-03-03T08:50:00.816Z">
 <meta property="article:author" content="Xianrui Xie">
 <meta property="article:tag" content="数据结构课程笔记">
 <meta name="twitter:card" content="summary_large_image">
@@ -543,7 +543,7 @@
 </ol>
 <p>示例：</p>
 <p>待排序序列关键字：{49, 38, 65, 97, 76, 13, 27, 49}</p>
-<p><img src="/..%5Cimg%5Cep9%5Cimage-20230203202943465.png" srcset="/img/loading.gif" lazyload alt="image-20230203202943465"></p>
+<p><img src="/img/ep9/image-20230203202943465.png" srcset="/img/loading.gif" lazyload alt="image-20230203202943465"></p>
 <h5 id="算法评价-5"><a href="#算法评价-5" class="headerlink" title="算法评价"></a>算法评价</h5><ol>
 <li>平均时间复杂度：$$O(nlogn)$$（除关键字最小的记录外，每得到一个记录需进行 $$⌈log_2n⌉$$ 次比较）</li>
 <li>空间复杂度：$$O(n)$$</li>
@@ -558,7 +558,7 @@
 <p>通常将堆写成完全二叉树的形式，$$r_{2i}$$ 是 $$r_i$$ 的左孩子，$$r_{2i+1}$$ 是 $$r_i$$ 的右孩子</p>
 <p>示例：</p>
 <p>大顶堆 {98, 81, 49, 73, 36, 27, 40, 55, 64, 12} 可以写成：</p>
-<img src="..\img\ep9\image-20230204144219110.png" srcset="/img/loading.gif" lazyload alt="image-20230204144219110" style="zoom:25%;" />
+<img src="/img/ep9/image-20230204144219110.png" srcset="/img/loading.gif" lazyload alt="image-20230204144219110" style="zoom:25%;" />
 
 <h5 id="算法描述-5"><a href="#算法描述-5" class="headerlink" title="算法描述"></a>算法描述</h5><p>堆排序利用堆的特性对序列进行排序</p>
 <p><strong>需要解决两个问题</strong>：</p>
@@ -566,12 +566,12 @@
 <li><p>如何在输出堆顶元素之后，调整剩余元素成为一个新的堆？</p>
 <p>在输出堆顶元素之后，以堆中最后一个元素替代之，此时，对应二叉树中根结点的左右子树均为堆，仅需对根结点自上至下进行调整，使剩余元素成为一个新的堆</p>
 <p>示例输出 98 后，将 12 提至堆顶，接着“对根结点自上至下进行调整”的过程如下：</p>
-<img src="..\img\ep9\image-20230204195659231.png" srcset="/img/loading.gif" lazyload alt="image-20230204195659231" style="zoom:25%;" />
+<img src="/img/ep9/image-20230204195659231.png" srcset="/img/loading.gif" lazyload alt="image-20230204195659231" style="zoom:25%;" />
 </li>
 <li><p>如何由一个无序序列建堆？</p>
 <p>对应二叉树中叶子结点均满足堆的定义，需从高度为 2 的非叶子结点到根结点，对以之为根的子树根据 1 中原则进行调整，使所有子树也均满足堆的定义</p>
 <p>由无序序列 {40, 55, 49, 73, 12, 27, 98, 81, 64, 36} 建立示例中的大顶堆的过程如下：</p>
-<img src="..\img\ep9\image-20230204211827144.png" srcset="/img/loading.gif" lazyload alt="image-20230204211827144" style="zoom: 50%;" /></li>
+<img src="/img/ep9/image-20230204211827144.png" srcset="/img/loading.gif" lazyload alt="image-20230204211827144" style="zoom: 50%;" /></li>
 </ol>
 <p><strong>具体过程与树形选择排序类似</strong>：</p>
 <ol>
@@ -698,13 +698,13 @@
 <p>示例：</p>
 <p>待排序序列关键字：{2, 4, 1, 2, 5, 3, 4, 8, 7}</p>
 <p>预处理 1：遍历待排序序列，构建桶数组</p>
-<img src="..\img\ep9\image-20230226144250291.png" srcset="/img/loading.gif" lazyload alt="image-20230226144250291" style="zoom:25%;" />
+<img src="/img/ep9/image-20230226144250291.png" srcset="/img/loading.gif" lazyload alt="image-20230226144250291" style="zoom:25%;" />
 
 <p>预处理 2：从小到大遍历桶数组，计算累计值数组</p>
-<img src="..\img\ep9\image-20230226144348677.png" srcset="/img/loading.gif" lazyload alt="image-20230226144348677" style="zoom:25%;" />
+<img src="/img/ep9/image-20230226144348677.png" srcset="/img/loading.gif" lazyload alt="image-20230226144348677" style="zoom:25%;" />
 
 <p><strong>从大到小</strong>遍历待排序序列（保持稳定性），借助累计值数组将记录放到结果数组对应位置，过程如下：</p>
-<img src="..\img\ep9\image-20230227220224862.png" srcset="/img/loading.gif" lazyload alt="image-20230227220224862" style="zoom: 50%;" />
+<img src="/img/ep9/image-20230227220224862.png" srcset="/img/loading.gif" lazyload alt="image-20230227220224862" style="zoom: 50%;" />
 
 <h5 id="算法评价-8"><a href="#算法评价-8" class="headerlink" title="算法评价"></a>算法评价</h5><p>设待排序序列记录数为 n，桶数为 m</p>
 <ol>
@@ -731,13 +731,13 @@
 <p>待排序序列关键字：{477, 241, 467, 005, 363, 081, <em><strong>005</strong></em>}</p>
 <ul>
 <li><p>个位：</p>
-<img src="..\img\ep9\image-20230228235742495.png" srcset="/img/loading.gif" lazyload alt="image-20230228235742495" style="zoom:25%;" />
+<img src="/img/ep9/image-20230228235742495.png" srcset="/img/loading.gif" lazyload alt="image-20230228235742495" style="zoom:25%;" />
 </li>
 <li><p>十位：</p>
-<img src="..\img\ep9\image-20230228235812314.png" srcset="/img/loading.gif" lazyload alt="image-20230228235812314" style="zoom:25%;" />
+<img src="/img/ep9/image-20230228235812314.png" srcset="/img/loading.gif" lazyload alt="image-20230228235812314" style="zoom:25%;" />
 </li>
 <li><p>百位：</p>
-<img src="..\img\ep9\image-20230228235833655.png" srcset="/img/loading.gif" lazyload alt="image-20230228235833655" style="zoom:25%;" /></li>
+<img src="/img/ep9/image-20230228235833655.png" srcset="/img/loading.gif" lazyload alt="image-20230228235833655" style="zoom:25%;" /></li>
 </ul>
 <h5 id="算法评价（对改进的基数排序）"><a href="#算法评价（对改进的基数排序）" class="headerlink" title="算法评价（对改进的基数排序）"></a>算法评价（对改进的基数排序）</h5><p>设待排序序列记录数为 n，基数个数为 rd，分配收集趟数为 d</p>
 <ol>
@@ -748,7 +748,7 @@
 </li>
 </ol>
 <p><strong>稳定性</strong>：稳定</p>
-<h3 id="7-五类排序算法比较"><a href="#7-五类排序算法比较" class="headerlink" title="7 - 五类排序算法比较"></a>7 - 五类排序算法比较</h3><p><img src="/..%5Cimg%5Cep9%5Cimage-20230301151810289.png" srcset="/img/loading.gif" lazyload alt="image-20230301151810289"></p>
+<h3 id="7-五类排序算法比较"><a href="#7-五类排序算法比较" class="headerlink" title="7 - 五类排序算法比较"></a>7 - 五类排序算法比较</h3><p><img src="/img/ep9/image-20230301151810289.png" srcset="/img/loading.gif" lazyload alt="image-20230301151810289"></p>
 <h4 id="时间性能"><a href="#时间性能" class="headerlink" title="时间性能"></a>时间性能</h4><ol>
 <li>平均时间复杂度<ul>
 <li>$$O(nlogn)$$：快速排序、堆排序、归并排序</li>
